@@ -60,7 +60,6 @@ def get_day(game, id):
     r = requests.post(game.game_host, headers=headers, json=payload)
 
     text = json.loads(r.text)
-    print_json(text)
     if not check_response(text):
         get_day(game, id)
     else:
@@ -89,7 +88,7 @@ def get_results(id):
     if game is None:
         game = get_game(id)
 
-    for day_index in range(0, get_day(game, id)):
+    for day_index in range(game.last_day(), get_day(game, id)):
         day_index += 1
 
         print("day: " + str(day_index))
@@ -278,6 +277,6 @@ def check_response(response):
     return True
 
 
-get_relations(id)
+get_results(id)
 
 print("\ndone!")

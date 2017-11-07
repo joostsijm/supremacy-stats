@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 
 from .base import Base
+from .day import Day
 
 
 class Game(Base):
@@ -30,7 +31,7 @@ class Game(Base):
 
     players = relationship("Player", back_populates="game", lazy="dynamic")
 
-    days = relationship("Day", back_populates="game")
+    days = relationship("Day", back_populates="game", lazy="dynamic")
 
     relations = relationship("Relation", back_populates="game", lazy="dynamic")
 
@@ -44,6 +45,13 @@ class Game(Base):
     def day(self):
         delta = datetime.today() - self.start_at
         return delta.days + 1
+
+    @hybrid_method
+    def last_day(self):
+        day = self.days.order_by(Day.day.desc()).first()
+        if day is None:
+            return 0
+        return day.day
 
     #
     # Representation
