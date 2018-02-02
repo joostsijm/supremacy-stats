@@ -106,8 +106,13 @@ def get_results(game_id):
         result.pop(0)
 
         player_id = 1
+        if game.players.first() is None:
+            get_players(game_id)
+            return get_results(game_id)
+
         for score in result:
             player = game.players.filter(Player.player_id == player_id).first()
+
             day = player.days.filter(Day.day == day_index).first()
 
             if day is None:
@@ -121,6 +126,8 @@ def get_results(game_id):
             player_id += 1
 
         SESSION.commit()
+
+    return None
 
 
 def get_game(game_id):
