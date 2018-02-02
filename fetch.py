@@ -21,16 +21,16 @@ from app.models.base import Relation
 
 
 HEADERS = {
-    "Host": "xgs15.c.bytro.com",
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:56.0) Firefox/56.0",
+    "Host": "xgs8.c.bytro.com",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0",
     "Accept": "text/plain, */*; q=0.01",
     "Accept-Language": "en-US,en;q=0.5",
-    "Accept-Encoding": "gzip, deflate, br",
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "Content-Length": "387",
-    "Origin": "https://www.supremacy1914.com",
+    "Origin": "https://www.supremacy1914.nl",
     "DNT": "1",
     "Connection": "keep-alive",
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache"
     }
 
 PAYLOAD_SAMPLE = {
@@ -41,7 +41,7 @@ PAYLOAD_SAMPLE = {
     }
 
 # temp place for variables
-URL = 'https://xgs3.c.bytro.com/'
+URL = 'https://xgs8.c.bytro.com/'
 ENGINE = create_engine("postgresql://supindex@localhost/supindex")
 SESSION = sessionmaker(bind=ENGINE, autoflush=False)
 SESSION = SESSION()
@@ -68,7 +68,6 @@ def get_day(game, game_id):
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
     text = json.loads(request.text)
-    print_json(text)
     if not check_response(game_id, text):
         return get_day(game, game_id)
 
@@ -80,7 +79,7 @@ def get_day(game, game_id):
 def get_score(game, day):
     """get score from players on a day"""
     payload = PAYLOAD_SAMPLE
-    payload["gameID"] = game.id
+    payload["gameID"] = game.game_id
     payload["stateType"] = 2
     payload["option"] = day
 
@@ -125,7 +124,7 @@ def get_results(game_id):
 
 
 def get_game(game_id):
-    """Ger results from game"""
+    """Get results from game"""
     payload = PAYLOAD_SAMPLE
     payload["gameID"] = game_id
     payload["stateType"] = 12
@@ -308,9 +307,18 @@ def save_foreign_relation(game, player_relations, player, foreign_id):
 def check_response(game_id, response):
     """Check for correct response"""
     if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
+        print_json(response["result"])
         game = SESSION.query(Game).filter(Game.game_id == game_id).first()
         game.game_host = "http://" + response["result"]["newHostName"]
-        SESSION.commit()
+
+        # not needed for debug
+        if "newHostName" in response["result"]:
+            game.game_host = "http://" + response["result"]["newHostName"]
+            SESSION.commit()
+        else:
+            print("Problem checking response:")
+            print_json(response["result"])
+            exit()
         return False
     return True
 
@@ -325,5 +333,5 @@ if __name__ == "__main__":
     # random game
     GAME_ID = 2190957
 
-    get_game(GAME_ID)
+    get_results(GAME_ID)
     print("\ndone!")
