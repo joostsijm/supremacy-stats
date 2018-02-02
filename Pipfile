@@ -11,6 +11,8 @@ sqlalchemy = "*"
 requests = "*"
 "psycopg2" = "*"
 alembic = "*"
+flask = "*"
+flask-sqlalchemy = "*"
 
 
 [dev-packages]
