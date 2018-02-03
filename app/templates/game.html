@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>The HTML5 Herald</title>
+	<meta name="description" content="The HTML5 Herald">
+	<meta name="author" content="SitePoint">
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+	<!--[if lt IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<h1>{{ game.game_id if game else 'geen game' }}</h1>
+
+	{% if game %}
+	<ul>
+    {% for player in game.players %}
+        <li style="background: {{ player.primary_color }}">{{ player.name }} - {{ player.nation_name }}</li>
+    {% endfor %}
+	</ul>
+	{% endif %}
+
+	<div id="myfirstchart" style="height: 250px;"></div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+	<script>
+new Morris.Line({
+	// ID of the element in which to draw the chart.
+	element: 'myfirstchart',
+	// Chart data records -- each entry in this array corresponds to a point on
+	// the chart.
+	data: [
+		{ year: '2008', value1: 20, value2: 30 },
+		{ year: '2009', value1: 10, value2: 13 },
+		{ year: '2010', value1: 5, value2: 33 },
+		{ year: '2011', value1: 5, value2: 10 },
+		{ year: '2012', value1: 20, value2: 33 },
+	],
+	// The name of the data record attribute that contains x-values.
+	xkey: 'year',
+	// A list of names of data record attributes that contain y-values.
+	ykeys: ['value1', 'value2'],
+	// Labels for the ykeys -- will be displayed when you hover over the
+	// chart.
+	labels: ['Value', 'Value2']
+});
+	</script>
+</body>
+</html>
+~
