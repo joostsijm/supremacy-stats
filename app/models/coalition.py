@@ -1,29 +1,27 @@
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from .base import Base
+from app.app import db
 
 
-class Coalition(Base):
+class Coalition(db.Model):
     # Table name
     __tablename__ = 'sp_coalitions'
 
     #
-    # Columns
+    # db.Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    coaliton_id = Column(Integer)
-    name = Column(String)
-    description = Column(String)
+    id = db.Column(db.Integer, primary_key=True)
+    coaliton_id = db.Column(db.Integer)
+    name = db.Column(db.String)
+    description = db.Column(db.String)
 
     #
     # Relationships
     # -------------
 
-    days = relationship("Day", back_populates="coalition")
+    days = db.relationship("Day", back_populates="coalition")
 
-    game_id = Column(Integer, ForeignKey('sp_games.id'))
-    game = relationship("Game", back_populates="coalitions")
+    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
+    game = db.relationship("Game", back_populates="coalitions")
 
     #
     # Representation

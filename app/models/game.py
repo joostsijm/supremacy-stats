@@ -1,14 +1,15 @@
+
+"""
+Game model module
+"""
+
 from datetime import datetime
-
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
-
-from .base import Base
-from .day import Day
+from sqlalchemy.ext.hybrid import hybrid_method
+from app.app import db
 
 
-class Game(Base):
+class Game(db.Model):
+    """Model for game"""
     # Table name
     __tablename__ = 'sp_games'
 
@@ -16,26 +17,26 @@ class Game(Base):
     # Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    game_id = Column(Integer)
-    game_host = Column(String)
-    start_at = Column(DateTime)
-    end_at = Column(DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer)
+    game_host = db.Column(db.String)
+    start_at = db.Column(db.DateTime)
+    end_at = db.Column(db.DateTime)
 
     #
     # Relationships
     # -------------
 
-    map_id = Column(Integer, ForeignKey('sp_maps.id'))
-    map = relationship("Map", back_populates="games")
+    map_id = db.Column(db.Integer, db.ForeignKey('sp_maps.id'))
+    map = db.relationship("Map", back_populates="games")
 
-    players = relationship("Player", back_populates="game", lazy="dynamic")
+    players = db.relationship("Player", back_populates="game", lazy="dynamic")
 
-    days = relationship("Day", back_populates="game", lazy="dynamic")
+    days = db.relationship("Day", back_populates="game", lazy="dynamic")
 
-    relations = relationship("Relation", back_populates="game", lazy="dynamic")
+    relations = db.relationship("Relation", back_populates="game", lazy="dynamic")
 
-    coalitions = relationship("Coalition", back_populates="game")
+    coalitions = db.relationship("Coalition", back_populates="game")
 
     #
     # Attributes

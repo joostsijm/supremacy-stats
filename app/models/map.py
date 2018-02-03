@@ -1,9 +1,14 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from .base import Base
+
+"""
+model module
+"""
+
+from app.app import db
 
 
-class Map(Base):
+class Map(db.Model):
+    """Model for a map"""
+
     # Table name
     __tablename__ = 'sp_maps'
 
@@ -11,17 +16,17 @@ class Map(Base):
     # Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    map_id = Column(Integer)
-    name = Column(String)
-    image = Column(String)
-    slots = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    map_id = db.Column(db.Integer)
+    name = db.Column(db.String)
+    image = db.Column(db.String)
+    slots = db.Column(db.Integer)
 
     #
     # Relationships
     # -------------
 
-    games = relationship("Game", back_populates="map")
+    games = db.relationship("Game", back_populates="map")
 
     #
     # Representation

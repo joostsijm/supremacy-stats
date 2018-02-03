@@ -1,32 +1,30 @@
-from sqlalchemy import Table, Column, Integer, Boolean, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from .base import Base
+from app.app import db
 
 
-class Relation(Base):
+class Relation(db.Model):
     # Table name
     __tablename__ = 'sp_relations'
 
     #
-    # Columns
+    # db.Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    start_day = Column(Integer)
-    status = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    start_day = db.Column(db.Integer)
+    status = db.Column(db.Integer)
 
     #
     # Relationships
     # -------------
 
-    game_id = Column(Integer, ForeignKey('sp_games.id'))
-    game = relationship("Game", back_populates="relations")
+    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
+    game = db.relationship("Game", back_populates="relations")
 
-    player_native_id = Column(Integer, ForeignKey('sp_players.id'))
-    player_native = relationship("Player", foreign_keys="Relation.player_native_id", back_populates="native_relations")
+    player_native_id = db.Column(db.Integer, db.ForeignKey('sp_players.id'))
+    player_native = db.relationship("Player", foreign_keys="Relation.player_native_id", back_populates="native_relations")
 
-    player_foreign_id = Column(Integer, ForeignKey('sp_players.id'))
-    player_foreign = relationship("Player", foreign_keys="Relation.player_foreign_id", back_populates="foreign_relations")
+    player_foreign_id = db.Column(db.Integer, db.ForeignKey('sp_players.id'))
+    player_foreign = db.relationship("Player", foreign_keys="Relation.player_foreign_id", back_populates="foreign_relations")
 
     #
     # Representation

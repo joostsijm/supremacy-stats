@@ -1,9 +1,7 @@
-from sqlalchemy import Table, Column, Integer, Boolean, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from .base import Base
+from app.app import db
 
 
-class Day(Base):
+class Day(db.Model):
     # Table name
     __tablename__ = 'sp_days'
 
@@ -11,22 +9,22 @@ class Day(Base):
     # Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    day = Column(Integer)
-    points = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    day = db.Column(db.Integer)
+    points = db.Column(db.Integer)
 
     #
     # Relationships
     # -------------
 
-    player_id = Column(Integer, ForeignKey('sp_players.id'))
-    player = relationship("Player", back_populates="days")
+    player_id = db.Column(db.Integer, db.ForeignKey('sp_players.id'))
+    player = db.relationship("Player", back_populates="days")
 
-    game_id = Column(Integer, ForeignKey('sp_games.id'))
-    game = relationship("Game", back_populates="days")
+    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
+    game = db.relationship("Game", back_populates="days")
 
-    coalition_id = Column(Integer, ForeignKey('sp_coalitions.id'))
-    coalition = relationship("Coalition", back_populates="days")
+    coalition_id = db.Column(db.Integer, db.ForeignKey('sp_coalitions.id'))
+    coalition = db.relationship("Coalition", back_populates="days")
 
     #
     # Representation

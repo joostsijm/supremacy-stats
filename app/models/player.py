@@ -1,45 +1,42 @@
-from sqlalchemy import Table, Column, Integer, Boolean, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-from .base import Base
+from app.app import db
 
-
-class Player(Base):
+class Player(db.Model):
     # Table name
     __tablename__ = 'sp_players'
 
     #
-    # Columns
+    # db.Columns
     # -------------
 
-    id = Column(Integer, primary_key=True)
-    player_id = Column(Integer)
-    start_day = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.Integer)
+    start_day = db.Column(db.Integer)
 
-    title = Column(String, nullable=True)
-    name = Column(String, nullable=False)
-    nation_name = Column(String, nullable=False)
+    title = db.Column(db.String, nullable=True)
+    name = db.Column(db.String, nullable=False)
+    nation_name = db.Column(db.String, nullable=False)
 
-    primary_color = Column(String)
-    secondary_color = Column(String)
+    primary_color = db.Column(db.String)
+    secondary_color = db.Column(db.String)
 
-    defeated = Column(Boolean, default=False)
-    last_login = Column(DateTime)
+    defeated = db.Column(db.Boolean, default=False)
+    last_login = db.Column(db.DateTime)
 
     #
     # Relationships
     # -------------
 
-    user_id = Column(Integer, ForeignKey('sp_users.id'))
-    user = relationship("User", back_populates="players")
+    user_id = db.Column(db.Integer, db.ForeignKey('sp_users.id'))
+    user = db.relationship("User", back_populates="players")
 
-    game_id = Column(Integer, ForeignKey('sp_games.id'))
-    game = relationship("Game", back_populates="players")
+    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
+    game = db.relationship("Game", back_populates="players")
 
-    days = relationship("Day", back_populates="player", lazy="dynamic")
+    days = db.relationship("Day", back_populates="player", lazy="dynamic")
 
-    native_relations = relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native")
+    native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native")
 
-    foreign_relations = relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign")
+    foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign")
 
     #
     # Representation
