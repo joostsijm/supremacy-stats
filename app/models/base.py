@@ -3,9 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-from app.models.day import Day
-from app.models.player import Player
-from app.models.coalition import Coalition
-from app.models.relation import Relation
-from app.models.map import Map
-from app.models.user import User
+from models.day import Day
+from models.player import Player
+from models.coalition import Coalition
+from models.relation import Relation
+from models.map import Map
+from models.user import User

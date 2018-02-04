@@ -3,7 +3,7 @@
 model module
 """
 
-from app.app import db
+from app import db
 
 
 class Map(db.Model):

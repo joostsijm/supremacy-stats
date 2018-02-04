@@ -8,16 +8,16 @@ import time
 import json
 from datetime import datetime
 import requests
+from sqlalchemy.sql import and_
 
-from sqlalchemy import create_engine, and_
-from sqlalchemy.orm import sessionmaker
-
-from app.models.base import Game
-from app.models.base import Map
-from app.models.base import Player
-from app.models.base import User
-from app.models.base import Day
-from app.models.base import Relation
+from app import db
+from app.models.day import Day
+from app.models.coalition import Coalition
+from app.models.game import Game
+from app.models.map import Map
+from app.models.player import Player
+from app.models.user import User
+from app.models.relation import Relation
 
 
 HEADERS = {
@@ -42,16 +42,6 @@ PAYLOAD_SAMPLE = {
 
 # temp place for variables
 URL = 'https://xgs8.c.bytro.com/'
-ENGINE = create_engine("postgresql://supindex@localhost/supindex")
-SESSION = sessionmaker(bind=ENGINE, autoflush=False)
-SESSION = SESSION()
-
-# to check database we will execute query
-try:
-    SESSION.execute('SELECT 1')
-except Exception:
-    print("Database not working")
-    exit()
 
 
 def print_json(json_text):
@@ -94,7 +84,7 @@ def get_score(game, day):
 
 def get_results(game_id):
     """Return result from game"""
-    game = SESSION.query(Game).filter(Game.game_id == game_id).first()
+    game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
         game = get_game(game_id)
 
@@ -121,11 +111,11 @@ def get_results(game_id):
                 day.points = score
                 day.game_id = game.id
                 day.player_id = player.id
-                SESSION.add(day)
+                db.add(day)
 
             player_id += 1
 
-        SESSION.commit()
+        db.commit()
 
     return None
 
@@ -136,14 +126,14 @@ def get_game(game_id):
     payload["gameID"] = game_id
     payload["stateType"] = 12
 
-    game = SESSION.query(Game).filter(Game.game_id == game_id).first()
+    game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
         game = Game()
         game.game_id = game_id
         game.game_host = URL
 
-        SESSION.add(game)
-        SESSION.commit()
+        db.add(game)
+        db.commit()
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
@@ -155,16 +145,16 @@ def get_game(game_id):
 
     game.start_at = datetime.fromtimestamp(result["startOfGame"])
 
-    game_map = SESSION.query(Map).filter(Map.map_id == result["mapID"]).first()
+    game_map = Map.query.filter(Map.map_id == result["mapID"]).first()
     if game_map is None:
         game_map = Map()
         game_map.map_id = result["mapID"]
         game_map.slots = result["openSlots"] + result["numberOfPlayers"]
-        SESSION.add(game_map)
-        SESSION.commit()
+        db.add(game_map)
+        db.commit()
 
     game.map_id = game_map.id
-    SESSION.commit()
+    db.commit()
 
     return game
 
@@ -175,7 +165,7 @@ def get_players(game_id):
     payload["gameID"] = game_id
     payload["stateType"] = 1
 
-    game = SESSION.query(Game).filter(Game.game_id == game_id).first()
+    game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
         get_game(game_id)
 
@@ -198,10 +188,10 @@ def save_player(game, player_data):
         if player_id > 0:
             print("player_id: " + str(player_id))
 
-            player = SESSION.query(Player).filter(and_(
+            player = Player.query.filter(and_(
                 Player.game_id == game.id,
                 Player.player_id == player_id)
-                                                 ).first()
+                                        ).first()
 
             if player is None:
                 player = Player()
@@ -215,7 +205,7 @@ def save_player(game, player_data):
                 player.secondary_color = player_data["secondaryColor"]
 
                 if "userName" in player_data:
-                    user = SESSION.query(User).filter(
+                    user = User.query.filter(
                         User.name == player_data["userName"]
                     ).first()
 
@@ -225,12 +215,12 @@ def save_player(game, player_data):
                         user.site_id = player_data["siteUserID"]
                         user.name = player_data["userName"]
 
-                        SESSION.add(user)
-                        SESSION.commit()
+                        db.add(user)
+                        db.commit()
 
                     player.user_id = user.id
 
-                SESSION.add(player)
+                db.add(player)
 
             player.title = player_data["title"]
             player.name = player_data["name"]
@@ -245,7 +235,7 @@ def save_player(game, player_data):
                     player_data["lastLogin"] / 1000
                 )
 
-            SESSION.commit()
+            db.commit()
 
 
 def get_relations(game_id):
@@ -254,7 +244,7 @@ def get_relations(game_id):
     payload["gameID"] = game_id
     payload["stateType"] = 5
 
-    game = SESSION.query(Game).filter(Game.game_id == game_id).first()
+    game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
         get_game(game_id)
 
@@ -275,14 +265,14 @@ def get_relations(game_id):
                 get_players(game_id)
             else:
                 for foreign_id in player_relations:
-                    SESSION.add(save_foreign_relation(
+                    db.add(save_foreign_relation(
                         game,
                         player_relations,
                         player,
                         foreign_id
                     ))
 
-        SESSION.commit()
+        db.commit()
 
 
 def save_foreign_relation(game, player_relations, player, foreign_id):
@@ -308,20 +298,20 @@ def save_foreign_relation(game, player_relations, player, foreign_id):
             relation.start_day = game.day()
             relation.status = relation_status
 
-            SESSION.add(relation)
+            db.add(relation)
 
 
 def check_response(game_id, response):
     """Check for correct response"""
     if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
         print_json(response["result"])
-        game = SESSION.query(Game).filter(Game.game_id == game_id).first()
+        game = Game.query.filter(Game.game_id == game_id).first()
         game.game_host = "http://" + response["result"]["newHostName"]
 
         # not needed for debug
         if "newHostName" in response["result"]:
             game.game_host = "http://" + response["result"]["newHostName"]
-            SESSION.commit()
+            db.commit()
         else:
             print("Problem checking response:")
             print_json(response["result"])

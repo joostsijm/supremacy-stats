@@ -5,7 +5,14 @@ Game model module
 
 from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_method
-from app.app import db
+from app import db
+
+from app.models.day import Day
+from app.models.map import Map
+from app.models.user import User
+from app.models.player import Player
+from app.models.relation import Relation
+from app.models.coalition import Coalition
 
 
 class Game(db.Model):
