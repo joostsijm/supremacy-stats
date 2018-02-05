@@ -28,9 +28,9 @@ def game(game_id=None):
     return render_template('game.html', game=game)
 
 
-@app.route('/api/game/<game_id>')
-def api_game(game_id):
-    """Return results for game statics"""
+@app.route('/api/game/<game_id>/score')
+def api_game_score(game_id):
+    """Returns list days with players"""
 
     try:
         game_id = int(game_id)
@@ -38,4 +38,19 @@ def api_game(game_id):
         game_id = None
 
     game = Game.query.filter(Game.game_id == game_id).first()
-    return jsonify(game)
+
+    day_dict = {}
+
+    for day in game.days:
+        if day.day not in day_dict:
+            day_dict[day.day] = {}
+            day_dict[day.day]["day"] = day.day
+
+        day_dict[day.day][day.player.name] = day.points
+
+    day_list = []
+
+    for day in day_dict:
+        day_list.append(day_dict[day])
+
+    return jsonify(day_list)
