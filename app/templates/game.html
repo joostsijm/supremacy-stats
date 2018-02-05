@@ -16,7 +16,8 @@
 
 <body>
 	<a href="{{ url_for('index') }}">Supremacy-stats</a>
-	<h1>{{ game.game_id if game else 'geen game' }}</h1>
+	<h1>{{ game.game_id }}</h1>
+	<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 
 	<div id="game_index" style="height: 1000px;"></div>
 

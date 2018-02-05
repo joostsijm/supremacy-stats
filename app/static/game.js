@@ -1,4 +1,6 @@
-$.getJSON("/api/game/2190957/score", function(game_data) {
+game_id = $("input[name='game_id']").val()
+
+$.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 	player_data = []
 	for (var item in game_data[0]) {
 		if (item != "day") {
@@ -13,5 +15,7 @@ $.getJSON("/api/game/2190957/score", function(game_data) {
 		ykeys: player_data,
 		labels: player_data,
 		parseTime: false,
+		postUnits: " points",
+		goals: [1000],
 	});
 });
