@@ -19,12 +19,13 @@ Breadcrumbs(app=app)
 def index():
     """Show homepage"""
 
-    return render_template('site/index.html', Game=Game)
+    games = Game.query.all()
+    return render_template('site/index.html', games=games)
 
 
 @app.route('/games')
-@register_menu(app, '.', 'games')
-@register_breadcrumb(app, '.game', 'Games')
+@register_menu(app, 'games', 'Games')
+@register_breadcrumb(app, 'games', 'Games')
 def game_index():
     """Return game index"""
 
@@ -33,7 +34,7 @@ def game_index():
 
 
 @app.route('/game/<game_id>')
-@register_menu(app, '.', 'game')
+#@register_breadcrumb(app, 'game.id', '', dynamic_list_constructor=game_index)
 def game_overview(game_id):
     """Show game overview"""
 

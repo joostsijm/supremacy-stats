@@ -1,0 +1,45 @@
+{
+    "title": "Supremacy-stats",
+    "name": "Supremacy 1914 statics",
+    "version": "1.0.0",
+    "description": "App for displaying Supremacy1914 game statics.",
+    "keywords": [
+        "sass",
+        "html",
+        "responsive",
+		"statics",
+        "app"
+    ],
+    "homepage": "https://sup.craftbroec.nl/",
+    "bugs": {
+        "url": "https://github.com/joostsijm/supremacy-stats/issues",
+        "email": "bergjnl@gmail.com"
+    },
+    "license": "MIT",
+    "author": "Joost Sijm",
+    "contributors": [
+        "Joost Sijm (https:/joostsijm.nl/)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:joostsijm/supremacy-stats.git"
+    },
+    "dependencies": {
+        "bootstrap": "4.0.0",
+        "chart.js": "2.7.1",
+        "datatables.net-bs4": "1.10.16",
+        "font-awesome": "4.7.0",
+        "jquery": "3.3.1",
+        "jquery.easing": "^1.4.1"
+    },
+    "devDependencies": {
+        "browser-sync": "2.23.6",
+        "gulp": "^3.9.1",
+        "gulp-clean-css": "3.9.2",
+        "gulp-header": "2.0.1",
+        "gulp-html-beautify": "^1.0.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^3.1.0",
+        "gulp-uglify": "3.0.0"
+    }
+}

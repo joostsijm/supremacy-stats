@@ -2,7 +2,7 @@
 {% block title %}Supremacy1914 Statics{% endblock %}
 {% block content %}
 	<ul>
-    {% for game in Game.query.all() %}
+    {% for game in games %}
 		<li>
 			<a href="{{ url_for('game_index', game_id=game.game_id) }}">{{ game.game_id }}</a>
 		</li>

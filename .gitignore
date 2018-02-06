@@ -1,3 +1,7 @@
 *.pyc
 *.swp
+*.min.js
+*.min.css
+node_modules
+vendor
 __pycache__/

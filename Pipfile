@@ -13,6 +13,8 @@ requests = "*"
 alembic = "*"
 flask = "*"
 flask-sqlalchemy = "*"
+flask-breadcrumbs = "*"
+flask-menu = "*"
 
 
 [dev-packages]
