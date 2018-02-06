@@ -111,11 +111,11 @@ def get_results(game_id):
                 day.points = score
                 day.game_id = game.id
                 day.player_id = player.id
-                db.add(day)
+                db.session.add(day)
 
             player_id += 1
 
-        db.commit()
+        db.session.commit()
 
     return None
 
@@ -132,8 +132,8 @@ def get_game(game_id):
         game.game_id = game_id
         game.game_host = URL
 
-        db.add(game)
-        db.commit()
+        db.session.add(game)
+        db.session.commit()
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
@@ -150,11 +150,11 @@ def get_game(game_id):
         game_map = Map()
         game_map.map_id = result["mapID"]
         game_map.slots = result["openSlots"] + result["numberOfPlayers"]
-        db.add(game_map)
-        db.commit()
+        db.session.add(game_map)
+        db.session.commit()
 
     game.map_id = game_map.id
-    db.commit()
+    db.session.commit()
 
     return game
 
@@ -191,7 +191,7 @@ def save_player(game, player_data):
             player = Player.query.filter(and_(
                 Player.game_id == game.id,
                 Player.player_id == player_id)
-                                        ).first()
+            ).first()
 
             if player is None:
                 player = Player()
@@ -215,12 +215,12 @@ def save_player(game, player_data):
                         user.site_id = player_data["siteUserID"]
                         user.name = player_data["userName"]
 
-                        db.add(user)
-                        db.commit()
+                        db.session.add(user)
+                        db.session.commit()
 
                     player.user_id = user.id
 
-                db.add(player)
+                db.session.add(player)
 
             player.title = player_data["title"]
             player.name = player_data["name"]
@@ -235,7 +235,7 @@ def save_player(game, player_data):
                     player_data["lastLogin"] / 1000
                 )
 
-            db.commit()
+            db.session.commit()
 
 
 def get_relations(game_id):
@@ -265,14 +265,14 @@ def get_relations(game_id):
                 get_players(game_id)
             else:
                 for foreign_id in player_relations:
-                    db.add(save_foreign_relation(
+                    db.session.add(save_foreign_relation(
                         game,
                         player_relations,
                         player,
                         foreign_id
                     ))
 
-        db.commit()
+        db.session.commit()
 
 
 def save_foreign_relation(game, player_relations, player, foreign_id):
@@ -298,20 +298,19 @@ def save_foreign_relation(game, player_relations, player, foreign_id):
             relation.start_day = game.day()
             relation.status = relation_status
 
-            db.add(relation)
+            db.session.add(relation)
 
 
 def check_response(game_id, response):
     """Check for correct response"""
     if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
-        print_json(response["result"])
         game = Game.query.filter(Game.game_id == game_id).first()
         game.game_host = "http://" + response["result"]["newHostName"]
 
         # not needed for debug
         if "newHostName" in response["result"]:
             game.game_host = "http://" + response["result"]["newHostName"]
-            db.commit()
+            db.session.commit()
         else:
             print("Problem checking response:")
             print_json(response["result"])
