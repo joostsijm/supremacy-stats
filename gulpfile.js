@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
-var rename = require("gulp-rename");
+var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var beautify = require('gulp-html-beautify');
 var pkg = require('./package.json');
@@ -113,8 +113,8 @@ gulp.task('default', ['css', 'js', 'vendor']);
 // Configure the browserSync task
 gulp.task('browserSync', function() {
     browserSync.init({
-        notify: true,
-        proxy: "127.0.0.1:5000"
+        notify: false,
+        proxy: '127.0.0.1:5000',
     });
 });
 
@@ -125,7 +125,10 @@ gulp.task('runserver', function() {
 
 // Dev task
 gulp.task('dev', ['runserver', 'css', 'js', 'browserSync'], function() {
-    gulp.watch('./app/templates/*/*.html', browserSync.reload);
+    gulp.watch([
+        './app/templates/*/*.html',
+        './app/*.py',
+    ], browserSync.reload);
     gulp.watch('./app/static/scss/**/*.scss', ['css']);
     gulp.watch('./app/static/js/*.js', ['js']);
 });
