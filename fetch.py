@@ -95,25 +95,26 @@ def get_results(game_id):
         result = get_score(game, day_index)
         result.pop(0)
 
-        player_id = 1
+        player_id = 0
         if game.players.first() is None:
             get_players(game_id)
             return get_results(game_id)
 
         for score in result:
-            player = game.players.filter(Player.player_id == player_id).first()
-
-            day = player.days.filter(Day.day == day_index).first()
-
-            if day is None:
-                day = Day()
-                day.day = day_index
-                day.points = score
-                day.game_id = game.id
-                day.player_id = player.id
-                db.session.add(day)
-
             player_id += 1
+            if score > 0:
+                player = game.players.filter(
+                    Player.player_id == player_id
+                ).first()
+                day = player.days.filter(Day.day == day_index).first()
+
+                if day is None:
+                    day = Day()
+                    day.day = day_index
+                    day.points = score
+                    day.game_id = game.id
+                    day.player_id = player.id
+                    db.session.add(day)
 
         db.session.commit()
 
@@ -186,8 +187,6 @@ def save_player(game, player_data):
         player_id = int(player_data["playerID"])
 
         if player_id > 0:
-            print("player_id: " + str(player_id))
-
             player = Player.query.filter(and_(
                 Player.game_id == game.id,
                 Player.player_id == player_id)
@@ -224,8 +223,6 @@ def save_player(game, player_data):
 
             player.title = player_data["title"]
             player.name = player_data["name"]
-
-            print(player.name)
 
             player.defeated = player_data["defeated"]
             if player_data["lastLogin"] == 0:
@@ -328,6 +325,7 @@ if __name__ == "__main__":
 
     # random game
     GAME_ID = 2190957
+    GAME_ID = 2159288
 
     get_results(GAME_ID)
     print("\ndone!")
