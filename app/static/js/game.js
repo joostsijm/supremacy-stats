@@ -17,5 +17,6 @@ $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 		parseTime: false,
 		postUnits: " points",
 		goals: [1000],
+		ymax: 1000,
 	});
 });
