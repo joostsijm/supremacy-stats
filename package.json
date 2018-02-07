@@ -1,13 +1,13 @@
 {
     "title": "Supremacy-stats",
-    "name": "Supremacy 1914 statics",
+    "name": "supremacy-1914-statics",
     "version": "1.0.0",
     "description": "App for displaying Supremacy1914 game statics.",
     "keywords": [
         "sass",
         "html",
         "responsive",
-		"statics",
+        "statics",
         "app"
     ],
     "homepage": "https://sup.craftbroec.nl/",
