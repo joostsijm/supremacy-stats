@@ -160,7 +160,7 @@
 				{% block head_content %}{% endblock %}
 				<h1>{{ self.title() }}</h1>
 				{% block content %}{% endblock %}
-				</div>
+				t </div>
 			</div>
 			<!-- /.container-fluid-->
 			<!-- /.content-wrapper-->
@@ -196,8 +196,8 @@
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+			<script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin-2.js') }}"></script>
 			{% block javascript %}{% endblock %}
 		</div>
 	</body>
-
 </html>
