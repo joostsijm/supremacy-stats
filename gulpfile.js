@@ -67,9 +67,9 @@ gulp.task('vendor', function() {
         .pipe(gulp.dest('./app/static/vendor/jquery-easing'));
 });
 
-// Compile SCSS
+// Compile SASS 
 gulp.task('css:compile', function() {
-    return gulp.src('./app/static/scss/**/*.scss')
+    return gulp.src('./app/static/sass/**/*.sass')
         .pipe(sass.sync({
             outputStyle: 'expanded'
         }).on('error', sass.logError))
@@ -129,6 +129,6 @@ gulp.task('dev', ['runserver', 'css', 'js', 'vendor', 'browserSync'], function()
         './app/templates/*/*.html',
         './app/*.py',
     ], browserSync.reload);
-    gulp.watch('./app/static/scss/**/*.scss', ['css']);
+    gulp.watch('./app/static/sass/*.sass', ['css']);
     gulp.watch('./app/static/js/*.js', ['js']);
 });

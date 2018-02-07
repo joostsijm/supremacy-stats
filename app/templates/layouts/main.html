@@ -13,7 +13,8 @@
 		<!-- Custom fonts for this template-->
 		<link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 		<!-- Custom styles for this template-->
-		<link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/sb-admin.min.css') }}" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/custom.min.css') }}" rel="stylesheet">
 	</head>
 
 	<body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -160,7 +161,7 @@
 				{% block head_content %}{% endblock %}
 				<h1>{{ self.title() }}</h1>
 				{% block content %}{% endblock %}
-				t </div>
+				</div>
 			</div>
 			<!-- /.container-fluid-->
 			<!-- /.content-wrapper-->
@@ -196,7 +197,7 @@
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-			<script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin-2.js') }}"></script>
+			<script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin.min.js') }}"></script>
 			{% block javascript %}{% endblock %}
 		</div>
 	</body>
