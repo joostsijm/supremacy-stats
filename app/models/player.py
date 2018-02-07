@@ -57,14 +57,16 @@ class Player(db.Model):
 
     @hybrid_method
     def today(self):
-        return self.days.query.filter(func.max(Day.day)).first()
+        return self.days.first()
 
     @hybrid_method
     def last_day_percentage(self):
         today = self.today()
-        yesterday = self.days.query.filter(Day.day == today.day - 1).first()
-        percentage = 100 * (today.points - yesterday.points) / today.points
-        return percentage
+        yesterday = self.days.filter(Day.day == today.day - 1).first()
+        if yesterday is not None:
+            return 100 * (today.points - yesterday.points) / today.points
+        else:
+            return 0
 
     #
     # Representation
