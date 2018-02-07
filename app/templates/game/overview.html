@@ -40,9 +40,9 @@
 				<tbody>
 					{% for player in game.players %}
 					<tr>
-						<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.user.site_id }}</a></td>
+						<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.id }}</a></td>
 						<td>{{ player.name }}</td>
-						<td>{{ player.country }}</td>
+						<td>{{ player.nation_name }}</td>
 						<td>{{ player.points() }}</td>
 						<td>{{ player.last_day_percentage() }}</td>
 					</tr>
