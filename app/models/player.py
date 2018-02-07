@@ -1,4 +1,13 @@
+
+"""
+Player model module
+"""
+
+from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.sql.expression import func
+
 from app import db
+from app.models.day import Day
 
 class Player(db.Model):
     # Table name
@@ -37,6 +46,25 @@ class Player(db.Model):
     native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native")
 
     foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign")
+
+    #
+    # Attributes
+    # -------------
+
+    @hybrid_method
+    def points(self):
+        return self.today().points
+
+    @hybrid_method
+    def today(self):
+        return self.days.query.filter(func.max(Day.day)).first()
+
+    @hybrid_method
+    def last_day_percentage(self):
+        today = self.today()
+        yesterday = self.days.query.filter(Day.day == today.day - 1).first()
+        percentage = 100 * (today.points - yesterday.points) / today.points
+        return percentage
 
     #
     # Representation

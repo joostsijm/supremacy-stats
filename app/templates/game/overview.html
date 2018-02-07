@@ -5,7 +5,6 @@
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
-
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-area-chart"></i> Game {{ game.game_id }}</div>
@@ -14,8 +13,52 @@
 	</div>
 	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>
-<script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<div class="card mb-3">
+	<div class="card-header">
+		<i class="fa fa-user"></i> Players</div>
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered dataTable" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Country</th>
+						<th>Points</th>
+						<th>Percent</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Country</th>
+						<th>Points</th>
+						<th>Percentage</th>
+					</tr>
+				</tfoot>
+				<tbody>
+					{% for player in game.players %}
+					<tr>
+						<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.user.site_id }}</a></td>
+						<td>{{ player.name }}</td>
+						<td>{{ player.country }}</td>
+						<td>{{ player.points() }}</td>
+						<td>{{ player.last_day_percentage() }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+{% endblock %}
+{% block javascript %}
 <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael.js"></script>
 <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin-datatables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/game.js') }}"></script>
 {% endblock %}
