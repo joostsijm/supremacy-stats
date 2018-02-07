@@ -124,7 +124,7 @@ gulp.task('runserver', function() {
 });
 
 // Dev task
-gulp.task('dev', ['runserver', 'css', 'js', 'browserSync'], function() {
+gulp.task('dev', ['runserver', 'css', 'js', 'vendor', 'browserSync'], function() {
     gulp.watch([
         './app/templates/*/*.html',
         './app/*.py',

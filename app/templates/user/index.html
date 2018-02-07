@@ -13,28 +13,31 @@
 			<table class="table table-bordered dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr>
-						<th>Game ID</th>
-						<th>Start Date</th>
-						<th>Map</th>
-						<th>Players</th>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Military Score</th>
+						<th>Economic Score</th>
+						<th>Games</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<th>Game ID</th>
-						<th>Start Date</th>
-						<th>Map</th>
-						<th>Players</th>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Military Score</th>
+						<th>Economic Score</th>
+						<th>Games</th>
 					</tr>
 				</tfoot>
 				<tbody>
-					{% for game in games %}
+					{% for user in users %}
 					<tr>
 
-						<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
-						<td>{{ game.start_at }}</td>
-						<td>{{ game.map.name }}</td>
-						<td>{{ game.players.count() }}</td>
+						<td><a href="{{ url_for('user_overview', site_id=user.site_id) }}">{{ user.site_id }}</a></td>
+						<td>{{ user.name }}</td>
+						<td>{{ user.score_military }}</td>
+						<td>{{ user.score_economic }}</td>
+						<td>{{ user.players.count() }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

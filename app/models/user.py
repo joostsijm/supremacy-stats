@@ -19,7 +19,7 @@ class User(db.Model):
     # Relationships
     # -------------
 
-    players = db.relationship("Player", back_populates="user")
+    players = db.relationship("Player", back_populates="user", lazy="dynamic")
 
     #
     # Representation

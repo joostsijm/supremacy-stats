@@ -8,6 +8,7 @@ from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
 from app import app
 from app.models.game import Game
+from app.models.user import User
 
 Menu(app=app)
 Breadcrumbs(app=app)
@@ -34,7 +35,7 @@ def game_index():
 
 
 @app.route('/game/<game_id>')
-#@register_breadcrumb(app, 'game.id', '', dynamic_list_constructor=game_index)
+# @register_breadcrumb(app, 'game.id', '', dynamic_list_constructor=game_index)
 def game_overview(game_id):
     """Show game overview"""
 
@@ -73,3 +74,27 @@ def api_game_score(game_id):
         day_list.append(day_dict[day])
 
     return jsonify(day_list)
+
+
+@app.route('/users')
+@register_menu(app, 'users', 'Users')
+@register_breadcrumb(app, 'users', 'Users')
+def user_index():
+    """Return user index"""
+
+    users = User.query.all()
+    return render_template('user/index.html', users=users)
+
+
+@app.route('/user/<site_id>')
+# @register_breadcrumb(app, 'user.id', '', dynamic_list_constructor=user_index)
+def user_overview(site_id):
+    """Show user overview"""
+
+    try:
+        site_id = int(site_id)
+    except ValueError:
+        site_id = None
+
+    user = User.query.filter(User.site_id == site_id).first()
+    return render_template('user/overview.html', user=user)
