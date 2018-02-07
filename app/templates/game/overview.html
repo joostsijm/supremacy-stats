@@ -1,5 +1,8 @@
 {% extends "layouts/main.html" %}
 {% block title %}Game {{ game.game_id }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+{% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 
