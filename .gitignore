@@ -4,4 +4,5 @@
 *.min.css
 node_modules
 vendor
+nohup.out
 __pycache__/
