@@ -1,0 +1,160 @@
+{
+    "@c": "ultshared.UltGameInfoState",
+    "aiLevel": 0,
+    "allianceA": 0,
+    "allianceB": 0,
+    "allianceGame": 0,
+    "countrySelection": 0,
+    "dayOfGame": 32,
+    "demoGame": false,
+    "ecoBoostScore": 0,
+    "ecoScore": 0,
+    "endOfGame": false,
+    "endOfGameTimerStartTime": 0,
+    "gameFeatures": {
+        "@c": "ultshared.gamefeatures.UltGameFeatures",
+        "idFeatures": {
+            "1": {
+                "@class": "ultshared.gamefeatures.UltTestGameFeature",
+                "description": "A closed beta or alpha game with new features for Frontline Pioneers.",
+                "enabled": false,
+                "featureID": 1,
+                "name": "Pioneer Test Game",
+                "published": false,
+                "testLevel": 0,
+                "value": 0,
+                "valueName": "Not Enabled"
+            },
+            "12": {
+                "@class": "ultshared.gamefeatures.UltUnitPackGameFeature",
+                "description": "Specifies which extra units and buildings are available in this round.",
+                "enabled": true,
+                "featureID": 12,
+                "name": "Unit pack",
+                "published": false,
+                "unitPack": 2,
+                "value": 2,
+                "valueName": "Extra Naval Units"
+            },
+            "15": {
+                "@class": "ultshared.gamefeatures.UltProvinceConquerQuestsFeature",
+                "description": "Quests to conquer provinces will spawn in this game.",
+                "enabled": false,
+                "featureID": 15,
+                "name": "Quest Round",
+                "published": false,
+                "value": 0,
+                "valueName": "No"
+            },
+            "2": {
+                "@class": "ultshared.gamefeatures.UltPeacePeriodRule",
+                "description": "Specifies a minimum time in days at the beginning of a game in which other players can not be attacked.",
+                "enabled": false,
+                "featureID": 2,
+                "name": "Peace Period",
+                "published": true,
+                "value": 0,
+                "valueName": "No peace period"
+            },
+            "3": {
+                "@class": "ultshared.gamefeatures.UltPeacePeriodAiRule",
+                "description": "Specifies a minimum time in days at the beginning of a game in which computer controlled countries can not be attacked.",
+                "enabled": false,
+                "featureID": 3,
+                "name": "NPC Peace Period",
+                "published": true,
+                "value": 0,
+                "valueName": "No peace period"
+            },
+            "4": {
+                "@class": "ultshared.gamefeatures.UltHonorPeriodRule",
+                "description": "Specifies a minimum time between a declaration of war and the first battles.",
+                "enabled": false,
+                "featureID": 4,
+                "name": "Honor Period",
+                "published": true,
+                "value": 0,
+                "valueName": "none"
+            },
+            "5": {
+                "@class": "ultshared.gamefeatures.UltMinActivityRule",
+                "description": "Specifies the time after which a player is taken over by the AI and can be replaced by the game admin.",
+                "enabled": true,
+                "featureID": 5,
+                "name": "Minimum activity period",
+                "published": true,
+                "value": 259200,
+                "valueName": "3 days"
+            },
+            "6": {
+                "@class": "ultshared.gamefeatures.UltAnonymousGameFeature",
+                "description": "An anonymous round does not show user names.",
+                "enabled": false,
+                "featureID": 6,
+                "name": "Anonymous Round",
+                "published": true,
+                "value": 0,
+                "valueName": "No"
+            },
+            "7": {
+                "@class": "ultshared.gamefeatures.UltGoldmarkLimitGameFeature",
+                "description": "A game with limited Goldmark usage (tournament mode).",
+                "enabled": false,
+                "featureID": 7,
+                "limitLevel": 0,
+                "name": "Goldmark Limitation",
+                "published": false,
+                "value": 0,
+                "valueName": "Unlimited"
+            },
+            "8": {
+                "@class": "ultshared.gamefeatures.UltTournamentGameFeature",
+                "description": "A tournament game is part of a tournament referenced by an ID.",
+                "enabled": false,
+                "featureID": 8,
+                "name": "Tournament Game",
+                "published": false,
+                "tournamentID": 0,
+                "value": 0,
+                "valueName": "No"
+            },
+            "9": {
+                "@class": "ultshared.gamefeatures.UltStartLevelGameFeature",
+                "description": "The start level specifies the amount of start resources, techs and units.",
+                "enabled": false,
+                "featureID": 9,
+                "name": "Start Level",
+                "published": false,
+                "startLevel": 0,
+                "value": 0,
+                "valueName": "Normal"
+            },
+            "@c": "java.util.HashMap"
+        }
+    },
+    "gameImagePath": "games/sup/2117/045",
+    "goldRound": false,
+    "mapID": 4310,
+    "milBoostScore": 0,
+    "milScore": 0,
+    "nextDayTime": 1508972425000,
+    "numberOfLogins": 0,
+    "numberOfPlayers": 40,
+    "numberOfTeams": 0,
+    "openSlots": 0,
+    "password": "",
+    "ranked": 1,
+    "researchDaysOffset": 0,
+    "researchTimeScale": 1.0,
+    "scenarioID": 4311,
+    "startOfGame": 1506240085,
+    "stateID": "4607183927772701790",
+    "stateType": 12,
+    "teamSettings": 0,
+    "timeScale": 1.0,
+    "timeStamp": "1508951591070",
+    "victoryPoints": 2000,
+    "victoryPointsMod": 2000
+}
+
+done!

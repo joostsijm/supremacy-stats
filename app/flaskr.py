@@ -73,7 +73,20 @@ def api_game_score(game_id):
     for day in day_dict:
         day_list.append(day_dict[day])
 
-    return jsonify(day_list)
+    player_list = []
+
+    for player in game.players:
+        player_list.append({
+            "title": player.name,
+            "valueField": player.name,
+        })
+
+    score = {
+        "days": day_list,
+        "players": player_list,
+    }
+
+    return jsonify(score)
 
 
 @app.route('/users')

@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
@@ -55,10 +55,12 @@
 </div>
 {% endblock %}
 {% block javascript %}
-<script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael.js"></script>
-<script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin-datatables.min.js') }}"></script>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/game.js') }}"></script>
 {% endblock %}

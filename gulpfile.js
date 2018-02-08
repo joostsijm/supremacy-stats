@@ -35,6 +35,12 @@ gulp.task('vendor', function() {
     ])
         .pipe(gulp.dest('./app/static/vendor/chart.js'));
 
+    // amcharts3
+    gulp.src([
+        './node_modules/amcharts3/amcharts/*.js'
+    ])
+		.pipe(gulp.dest('./app/static/vendor/amcharts3/'));
+
     // DataTables
     gulp.src([
         './node_modules/datatables.net/js/*.js',

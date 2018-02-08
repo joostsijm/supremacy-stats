@@ -15,6 +15,7 @@
 					<tr>
 						<th>Game ID</th>
 						<th>Start Date</th>
+						<th>Current Day</th>
 						<th>Map</th>
 						<th>Players</th>
 					</tr>
@@ -23,6 +24,7 @@
 					<tr>
 						<th>Game ID</th>
 						<th>Start Date</th>
+						<th>Current Day</th>
 						<th>Map</th>
 						<th>Players</th>
 					</tr>
@@ -30,9 +32,9 @@
 				<tbody>
 					{% for game in games %}
 					<tr>
-
 						<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
 						<td>{{ game.start_at }}</td>
+						<td>{{ game.last_day() }}
 						<td>{{ game.map.name }}</td>
 						<td>{{ game.players.count() }}</td>
 					</tr>
