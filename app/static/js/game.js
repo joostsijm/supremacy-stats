@@ -4,7 +4,6 @@ $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 	player_data = []
 
 	for (var player in game_data["players"]) {
-		game_data["players"][player]["test"] = "hi"
 		game_data["players"][player]["bullet"] = "round"
 		game_data["players"][player]["bulletBorderAlpha"] = 1
 		game_data["players"][player]["bulletColor"] = "#FFFFFF"
@@ -15,38 +14,33 @@ $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 		game_data["players"][player]["balloonText"] = "[[title]]: [[value]]"
 	}
 
-	console.log(game_data["days"])
-	console.log(game_data["players"])
-
 	var chart = AmCharts.makeChart("game_index", {
 		"type": "serial",
 		"dataProvider": game_data["days"],
 		"graphs": game_data["players"],
-		"chartCursor": {
-			"categoryBalloonEnabled": false,
-			"zoomable": true
-		},
 		"categoryField": "day",
 		"categoryAxis": {
 			"gridPosition": "start",
-			"gridAlpha": 0
 		},
+		"valueAxes": [{
+			"minimum": 20,
+			"maximum": 1000,
+		}],
 		"chartScrollbar": {
-			"graph": "g1",
 			"oppositeAxis":false,
 			"offset":30,
-			"scrollbarHeight": 80,
-			"backgroundAlpha": 0,
-			"selectedBackgroundAlpha": 0.1,
-			"selectedBackgroundColor": "#888888",
-			"graphFillAlpha": 0,
-			"graphLineAlpha": 0.5,
-			"selectedGraphFillAlpha": 0,
-			"selectedGraphLineAlpha": 1,
-			"autoGridCount":true,
-			"color":"#AAAAAA"
 		},
-
+		"valueScrollbar":{
+			"oppositeAxis":false,
+			"offset":50,
+			"scrollbarHeight":10
+		},
+		"theme": "light",
+		"addClassNames": true,
+		"legend": {
+			"horizontalGap": 10,
+			"position": "bottom",
+		},
 	});
 
 	/*

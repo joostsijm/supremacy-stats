@@ -77,7 +77,7 @@ def api_game_score(game_id):
 
     for player in game.players:
         player_list.append({
-            "title": player.name,
+            "title": player.nation_name,
             "valueField": player.name,
         })
 
