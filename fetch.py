@@ -21,24 +21,25 @@ from app.models.relation import Relation
 
 
 HEADERS = {
-    "Host": "xgs8.c.bytro.com",
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0",
-    "Accept": "text/plain, */*; q=0.01",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "Origin": "https://www.supremacy1914.nl",
-    "DNT": "1",
-    "Connection": "keep-alive",
-    "Pragma": "no-cache",
-    "Cache-Control": "no-cache"
-    }
+        "Host": "xgs8.c.bytro.com",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) " +
+        "Gecko/20100101 Firefox/57.0",
+        "Accept": "text/plain, */*; q=0.01",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Origin": "https://www.supremacy1914.nl",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache"
+        }
 
 PAYLOAD_SAMPLE = {
-    "@c": "ultshared.action.UltUpdateGameStateAction",
-    "playerID": 0,
-    "userAuth": "787925a25d0c072c3eaff5c1eff52829475fd506",
-    "tstamp": int(time.time())
-    }
+        "@c": "ultshared.action.UltUpdateGameStateAction",
+        "playerID": 0,
+        "userAuth": "787925a25d0c072c3eaff5c1eff52829475fd506",
+        "tstamp": int(time.time())
+        }
 
 # temp place for variables
 URL = 'https://xgs8.c.bytro.com/'
@@ -68,6 +69,7 @@ def get_day(game, game_id):
 
 def get_score(game, day):
     """get score from players on a day"""
+    print("day: " + str(day))
     payload = PAYLOAD_SAMPLE
     payload["gameID"] = game.game_id
     payload["stateType"] = 2
@@ -88,24 +90,23 @@ def get_results(game_id):
     if game is None:
         game = get_game(game_id)
 
+    get_players(game_id)
+    # get_relations(game_id)
+
     for day_index in range(game.last_day(), get_day(game, game_id)):
         day_index += 1
 
-        print("day: " + str(day_index))
         result = get_score(game, day_index)
         result.pop(0)
 
         player_id = 0
-        if game.players.first() is None:
-            get_players(game_id)
-            return get_results(game_id)
 
         for score in result:
             player_id += 1
-            if score > 0:
+            if score >= 20:
                 player = game.players.filter(
-                    Player.player_id == player_id
-                ).first()
+                        Player.player_id == player_id
+                        ).first()
                 day = player.days.filter(Day.day == day_index).first()
 
                 if day is None:
@@ -162,6 +163,8 @@ def get_game(game_id):
 
 def get_players(game_id):
     """Get a player"""
+    print("Get players")
+
     payload = PAYLOAD_SAMPLE
     payload["gameID"] = game_id
     payload["stateType"] = 1
@@ -190,7 +193,7 @@ def save_player(game, player_data):
             player = Player.query.filter(and_(
                 Player.game_id == game.id,
                 Player.player_id == player_id)
-            ).first()
+                ).first()
 
             if player is None:
                 player = Player()
@@ -205,8 +208,8 @@ def save_player(game, player_data):
 
                 if "userName" in player_data:
                     user = User.query.filter(
-                        User.name == player_data["userName"]
-                    ).first()
+                            User.name == player_data["userName"]
+                            ).first()
 
                     if user is None:
                         user = User()
@@ -229,14 +232,16 @@ def save_player(game, player_data):
                 player.last_login = None
             else:
                 player.last_login = datetime.fromtimestamp(
-                    player_data["lastLogin"] / 1000
-                )
+                        player_data["lastLogin"] / 1000
+                        )
 
-            db.session.commit()
+                db.session.commit()
 
 
 def get_relations(game_id):
     """Get the relation"""
+    print("Get players")
+
     payload = PAYLOAD_SAMPLE
     payload["gameID"] = game_id
     payload["stateType"] = 5
@@ -255,54 +260,49 @@ def get_relations(game_id):
         for player_id in result:
             player_relations = result[player_id]
             player = game.players.filter(
-                Player.player_id == player_id
-            ).first()
+                    Player.player_id == player_id
+                    ).first()
 
-            if player is None:
-                get_players(game_id)
-            else:
-                for foreign_id in player_relations:
-                    db.session.add(save_foreign_relation(
-                        game,
-                        player_relations,
-                        player,
-                        foreign_id
+            for foreign_id in player_relations:
+                db.session.add(save_foreign_relation(
+                    game,
+                    player_relations,
+                    player,
+                    foreign_id
                     ))
 
-        db.session.commit()
+                db.session.commit()
 
 
 def save_foreign_relation(game, player_relations, player, foreign_id):
     """Save foreign relation"""
     relation_status = player_relations[foreign_id]
     foreign_player = game.players.filter(
-        Player.player_id == foreign_id
-    ).first()
+            Player.player_id == foreign_id
+            ).first()
 
-    if foreign_player is not None:
-        relation = game.relations.filter(and_(
-            Relation.player_native_id == player.id,
-            Relation.player_foreign_id == foreign_player.id
+    relation = game.relations.filter(and_(
+        Relation.player_native_id == player.id,
+        Relation.player_foreign_id == foreign_player.id
         )).order_by(Relation.start_day.desc()).first()
 
-        if relation is None or relation_status != relation.status:
-            relation = Relation()
+    if relation is None or relation_status != relation.status:
+        relation = Relation()
 
-            relation.game_id = game.id
-            relation.player_native_id = player.id
-            relation.player_foreign_id = foreign_player.id
+        relation.game_id = game.id
+        relation.player_native_id = player.id
+        relation.player_foreign_id = foreign_player.id
 
-            relation.start_day = game.day()
-            relation.status = relation_status
+        relation.start_day = game.day()
+        relation.status = relation_status
 
-            db.session.add(relation)
+        db.session.add(relation)
 
 
 def check_response(game_id, response):
     """Check for correct response"""
     if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
         game = Game.query.filter(Game.game_id == game_id).first()
-        game.game_host = "http://" + response["result"]["newHostName"]
 
         # not needed for debug
         if "newHostName" in response["result"]:
@@ -324,8 +324,7 @@ if __name__ == "__main__":
     # GAME_ID = 2117045
 
     # random game
-    GAME_ID = 2190957
-    GAME_ID = 2159288
+    GAME_ID = 2113345
 
     get_results(GAME_ID)
     print("\ndone!")
