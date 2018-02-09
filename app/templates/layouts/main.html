@@ -28,18 +28,9 @@
 				<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 					{%- for item in current_menu.children recursive -%}
 					<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ item.text }}">
-						{%- if not item.children -%}
 						<a class="nav-link" href="{{ item.url}}">
 							<span class="nav-link-text">{{ item.text }}</span>
 						</a>
-						{%- else -%}
-						<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#" data-parent="#exampleAccordion">
-							<span class="nav-link-text">{{ item.text }}</span>
-						</a>
-						<ul class="sidenav-second-level collapse">
-							{{ loop(item.children) }}
-						</ul>
-						{%- endif -%}
 					</li>
 					{%- endfor -%}
 				</ul>

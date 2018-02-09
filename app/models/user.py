@@ -1,3 +1,10 @@
+
+"""
+User model module
+"""
+
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from flask import url_for
 from app import db
 
 
@@ -20,6 +27,14 @@ class User(db.Model):
     # -------------
 
     players = db.relationship("Player", back_populates="user", lazy="dynamic")
+
+    #
+    # Attributes
+    # -------------
+
+    @hybrid_property
+    def url(self):
+        return url_for('user_overview', site_id=self.site_id)
 
     #
     # Representation
