@@ -89,6 +89,13 @@ def api_game_score(game_id):
     return jsonify(score)
 
 
+@app.route('/api/game/new')
+def api_new_game():
+    """Returns list days with players"""
+
+    return True
+
+
 @app.route('/users')
 @register_menu(app, 'users', 'Users')
 @register_breadcrumb(app, '.users', 'Users')
