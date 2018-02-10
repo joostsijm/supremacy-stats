@@ -309,7 +309,7 @@ def check_response(game_id, response):
             game.game_host = "http://" + response["result"]["newHostName"]
             db.session.commit()
         else:
-            print("Problem checking response:")
+            print("Game does not exist")
             print_json(response["result"])
             exit()
         return False
