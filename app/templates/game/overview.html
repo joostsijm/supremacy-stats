@@ -8,6 +8,17 @@
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 <div class="card mb-3">
 	<div class="card-header">
+		<i class="fa fa-gamepad"></i> {{ game.game_id}}
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-4">Website ID</div>
+			<div class="col-8"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
+		</div>
+	</div>
+</div>
+<div class="card mb-3">
+	<div class="card-header">
 		<i class="fa fa-area-chart"></i> Game {{ game.game_id }}</div>
 	<div class="card-body">
 		<div id="game_index" style="height: 1500px;"></div>

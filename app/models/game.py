@@ -66,6 +66,10 @@ class Game(db.Model):
     def url(self):
         return url_for('game_overview', game_id=self.game_id)
 
+    @hybrid_property
+    def supremacy_url(self):
+        return "https://www.supremacy1914.com/play.php?mode=guest&uid=2345621&gameID=" + str(self.game_id)
+
     #
     # Representation
     # -------------

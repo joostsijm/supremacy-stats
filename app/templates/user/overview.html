@@ -6,7 +6,8 @@
 {% block content %}
 <div class="card mb-3">
 	<div class="card-header">
-		<i class="fa fa-user"></i> {{ user.name }}</div>
+		<i class="fa fa-user"></i> {{ user.name }}
+	</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-4">Name</div>
@@ -14,7 +15,7 @@
 		</div>
 		<div class="row">
 			<div class="col-4">Website ID</div>
-			<div class="col-8"><a href="{{ user.supremacy_url }}">{{ user.site_id }}</a></div>
+			<div class="col-8"><a href="{{ user.supremacy_url }}" target="_blank">{{ user.site_id }}</a></div>
 		</div>
 		<div class="row">
 			<div class="col-4">Milittary score</div>
