@@ -1,3 +1,7 @@
+$('.table.countrys').DataTable({
+	"order": [[ 2, "desc" ]]
+});
+
 game_id = $("input[name='game_id']").val()
 
 $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
