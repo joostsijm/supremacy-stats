@@ -3,7 +3,7 @@
 User model module
 """
 
-from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from sqlalchemy.ext.hybrid import hybrid_property
 from flask import url_for
 from app import db
 

@@ -3,7 +3,7 @@
 Player model module
 """
 
-from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.sql.expression import func
 
 from app import db
@@ -88,6 +88,11 @@ class Player(db.Model):
 
         percentage = 100 * (today.points - last_week.points) / today.points
         return round(percentage, 2)
+
+    @hybrid_property
+    def fullname(self):
+        return "%s %s" % (self.title, self.name)
+
     #
     # Representation
     # -------------
