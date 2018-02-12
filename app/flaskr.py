@@ -15,8 +15,8 @@ Breadcrumbs(app=app)
 
 
 @app.route('/')
-@register_breadcrumb(app, '.', 'Home')
 @register_menu(app, '.', 'Home')
+@register_breadcrumb(app, '.', 'Home')
 def index():
     """Show homepage"""
 

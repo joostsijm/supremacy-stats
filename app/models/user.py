@@ -36,6 +36,10 @@ class User(db.Model):
     def url(self):
         return url_for('user_overview', site_id=self.site_id)
 
+    @hybrid_property
+    def supremacy_url(self):
+        return "https://www.supremacy1914.com/index.php?id=59&tx_supgames_piUserPage[uid]=" + str(self.site_id)
+
     #
     # Representation
     # -------------
