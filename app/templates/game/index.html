@@ -4,37 +4,53 @@
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-<table class="table table-bordered dataTable" cellspacing="0">
-	<thead>
-		<tr>
-			<th>Game ID</th>
-			<th>Start Date</th>
-			<th>Current Day</th>
-			<th>Map</th>
-			<th>Players</th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<th>Game ID</th>
-			<th>Start Date</th>
-			<th>Current Day</th>
-			<th>Map</th>
-			<th>Players</th>
-		</tr>
-	</tfoot>
-	<tbody>
-		{% for game in games %}
-		<tr>
-			<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
-			<td>{{ game.start_at }}</td>
-			<td>{{ game.last_day() }}</td>
-			<td>{{ game.map.name }}</td>
-			<td>{{ game.players.count() }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+<div class="mb-3">
+	<table class="table table-bordered dataTable" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Game ID</th>
+				<th>Start Date</th>
+				<th>Current Day</th>
+				<th>Map</th>
+				<th>Players</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>Game ID</th>
+				<th>Start Date</th>
+				<th>Current Day</th>
+				<th>Map</th>
+				<th>Players</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for game in games %}
+			<tr>
+				<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
+				<td>{{ game.start_at }}</td>
+				<td>{{ game.last_day() }}</td>
+				<td>{{ game.map.name }}</td>
+				<td>{{ game.players.count() }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<div class="card mb-3">
+	<div class="card-header">
+		<i class="fa fa-gamepad"></i> Add game
+	</div>
+	<div class="card-body">
+		<form action="{{ url_for('api_new_game') }}">
+			<div class="form-group">
+				<label for="game_id">Game ID</label>
+				<input type="text" class="form-control" id="game_id" placeholder="Game ID">
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<form>
+	</div>
+</div>
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
