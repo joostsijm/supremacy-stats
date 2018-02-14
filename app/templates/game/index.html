@@ -42,13 +42,13 @@
 		<i class="fa fa-gamepad"></i> Add game
 	</div>
 	<div class="card-body">
-		<form action="{{ url_for('api_new_game') }}">
+		<form action="{{ url_for('api_new_game') }}" method="post">
 			<div class="form-group">
 				<label for="game_id">Game ID</label>
-				<input type="text" class="form-control" id="game_id" placeholder="Game ID">
+				<input type="text" class="form-control" name="game_id" id="game_id" placeholder="Game ID">
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
-			<form>
+		</form>
 	</div>
 </div>
 {% endblock %}
