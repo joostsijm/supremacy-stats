@@ -4,7 +4,8 @@ Game model module
 """
 
 from datetime import datetime
-from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from flask import url_for
 from app import db
 
 from app.models.day import Day
@@ -60,6 +61,14 @@ class Game(db.Model):
         if day is None:
             return 0
         return day.day
+
+    @hybrid_property
+    def url(self):
+        return url_for('game_overview', game_id=self.game_id)
+
+    @hybrid_property
+    def supremacy_url(self):
+        return "https://www.supremacy1914.com/play.php?mode=guest&uid=2345621&gameID=" + str(self.game_id)
 
     #
     # Representation

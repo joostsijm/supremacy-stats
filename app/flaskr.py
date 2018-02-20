@@ -3,20 +3,21 @@
 Simple flask thing
 """
 
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request, redirect
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
 from app import app
 from app.models.game import Game
 from app.models.user import User
+import fetch
 
 Menu(app=app)
 Breadcrumbs(app=app)
 
 
 @app.route('/')
-@register_breadcrumb(app, '.', 'Home')
 @register_menu(app, '.', 'Home')
+@register_breadcrumb(app, '.', 'Home')
 def index():
     """Show homepage"""
 
@@ -26,7 +27,7 @@ def index():
 
 @app.route('/games')
 @register_menu(app, 'games', 'Games')
-@register_breadcrumb(app, 'games', 'Games')
+@register_breadcrumb(app, '.games', 'Games')
 def game_index():
     """Return game index"""
 
@@ -34,29 +35,29 @@ def game_index():
     return render_template('game/index.html', games=games)
 
 
-@app.route('/game/<game_id>')
-# @register_breadcrumb(app, 'game.id', '', dynamic_list_constructor=game_index)
+def game_overview_dlc(*args, **kwargs):
+    """Generate dynamic_list for games"""
+    game_id = request.view_args['game_id']
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return [{'text': game.game_id, 'url': game.url}]
+
+
+@app.route('/game/<int:game_id>')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
 def game_overview(game_id):
     """Show game overview"""
 
-    try:
-        game_id = int(game_id)
-    except ValueError:
-        game_id = None
-
+    game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
     return render_template('game/overview.html', game=game)
 
 
-@app.route('/api/game/<game_id>/score')
+@app.route('/api/game/<int:game_id>/score')
 def api_game_score(game_id):
     """Returns list days with players"""
 
-    try:
-        game_id = int(game_id)
-    except ValueError:
-        game_id = None
-
+    game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
 
     day_dict = {}
@@ -73,12 +74,35 @@ def api_game_score(game_id):
     for day in day_dict:
         day_list.append(day_dict[day])
 
-    return jsonify(day_list)
+    player_list = []
+
+    for player in game.players:
+        player_list.append({
+            "title": player.nation_name,
+            "valueField": player.name,
+        })
+
+    score = {
+        "days": day_list,
+        "players": player_list,
+    }
+
+    return jsonify(score)
+
+
+@app.route('/api/game/new', methods=['POST'])
+def api_new_game():
+    """Returns list days with players"""
+
+    game_id = request.form.get('game_id')
+    game = fetch.get_results(game_id)
+
+    return redirect(game.url, code=302)
 
 
 @app.route('/users')
 @register_menu(app, 'users', 'Users')
-@register_breadcrumb(app, 'users', 'Users')
+@register_breadcrumb(app, '.users', 'Users')
 def user_index():
     """Return user index"""
 
@@ -86,15 +110,19 @@ def user_index():
     return render_template('user/index.html', users=users)
 
 
-@app.route('/user/<site_id>')
-# @register_breadcrumb(app, 'user.id', '', dynamic_list_constructor=user_index)
+def user_overview_dlc(*args, **kwargs):
+    """Generate dynamic_list for user"""
+    site_id = request.view_args['site_id']
+    user = User.query.filter(User.site_id == site_id).first()
+    return [{'text': user.name, 'url': user.url}]
+
+
+@app.route('/user/<int:site_id>')
+@register_breadcrumb(app, '.users.site_id', '',
+                     dynamic_list_constructor=user_overview_dlc)
 def user_overview(site_id):
     """Show user overview"""
 
-    try:
-        site_id = int(site_id)
-    except ValueError:
-        site_id = None
-
+    site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)

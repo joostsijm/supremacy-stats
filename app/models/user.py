@@ -1,3 +1,10 @@
+
+"""
+User model module
+"""
+
+from sqlalchemy.ext.hybrid import hybrid_property
+from flask import url_for
 from app import db
 
 
@@ -20,6 +27,18 @@ class User(db.Model):
     # -------------
 
     players = db.relationship("Player", back_populates="user", lazy="dynamic")
+
+    #
+    # Attributes
+    # -------------
+
+    @hybrid_property
+    def url(self):
+        return url_for('user_overview', site_id=self.site_id)
+
+    @hybrid_property
+    def supremacy_url(self):
+        return "https://www.supremacy1914.com/index.php?id=59&tx_supgames_piUserPage[uid]=" + str(self.site_id)
 
     #
     # Representation
