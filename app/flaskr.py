@@ -3,20 +3,21 @@
 Simple flask thing
 """
 
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, redirect
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
 from app import app
 from app.models.game import Game
 from app.models.user import User
+import fetch
 
 Menu(app=app)
 Breadcrumbs(app=app)
 
 
 @app.route('/')
-@register_breadcrumb(app, '.', 'Home')
 @register_menu(app, '.', 'Home')
+@register_breadcrumb(app, '.', 'Home')
 def index():
     """Show homepage"""
 
@@ -89,11 +90,14 @@ def api_game_score(game_id):
     return jsonify(score)
 
 
-@app.route('/api/game/new')
+@app.route('/api/game/new', methods=['POST'])
 def api_new_game():
     """Returns list days with players"""
 
-    return True
+    game_id = request.form.get('game_id')
+    game = fetch.get_results(game_id)
+
+    return redirect(game.url, code=302)
 
 
 @app.route('/users')

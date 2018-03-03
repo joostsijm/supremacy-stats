@@ -119,7 +119,7 @@ def get_results(game_id):
 
         db.session.commit()
 
-    return None
+    return game
 
 
 def get_game(game_id):
@@ -311,17 +311,11 @@ def check_response(game_id, response):
         else:
             print("Game does not exist")
             print_json(response["result"])
-            exit()
         return False
     return True
 
 
 if __name__ == "__main__":
-
-    # internal game
-    # GAME_ID = 2100245
-    # domination
-    # GAME_ID = 2117045
 
     # random game
     GAME_ID = 2113345

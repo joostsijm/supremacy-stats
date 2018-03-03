@@ -8,6 +8,17 @@
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 <div class="card mb-3">
 	<div class="card-header">
+		<i class="fa fa-gamepad"></i> {{ game.game_id}}
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-4">Website ID</div>
+			<div class="col-8"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
+		</div>
+	</div>
+</div>
+<div class="card mb-3">
+	<div class="card-header">
 		<i class="fa fa-area-chart"></i> Game {{ game.game_id }}</div>
 	<div class="card-body">
 		<div id="game_index" style="height: 1500px;"></div>
@@ -53,10 +64,10 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/sb-admin-datatables.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/site/sb-admin-datatables.min.js') }}"></script>
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
 {% endblock %}
