@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.15.4-1-ARCH",
+            "platform_release": "4.15.6-1-ARCH",
             "platform_system": "Linux",
-            "platform_version": "#1 SMP PREEMPT Sat Feb 17 16:01:38 UTC 2018",
+            "platform_version": "#1 SMP PREEMPT Sun Feb 25 12:53:23 UTC 2018",
             "python_full_version": "3.6.4",
             "python_version": "3.6",
             "sys_platform": "linux"
@@ -196,9 +196,9 @@
         },
         "sqlalchemy": {
             "hashes": [
-                "sha256:9e9ec143e2e246f385cfb2de8daa89d2fa466279addcb7be9e102988fdf33d24"
+                "sha256:6997507af46b10630e13b605ac278b78885fd683d038896dbee0e7ec41d809d2"
             ],
-            "version": "==1.2.3"
+            "version": "==1.2.4"
         },
         "tzlocal": {
             "hashes": [
