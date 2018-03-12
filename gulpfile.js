@@ -29,18 +29,6 @@ gulp.task('vendor', function() {
 	])
 		.pipe(gulp.dest('./app/static/vendor/bootstrap'));
 
-	// ChartJS
-	gulp.src([
-		'./node_modules/chart.js/dist/*.js'
-	])
-		.pipe(gulp.dest('./app/static/vendor/chart.js'));
-
-	// amcharts3
-	gulp.src([
-		'./node_modules/amcharts3/amcharts/*.js'
-	])
-		.pipe(gulp.dest('./app/static/vendor/amcharts3/'));
-
 	// DataTables
 	gulp.src([
 		'./node_modules/datatables.net/js/*.js',
@@ -48,6 +36,12 @@ gulp.task('vendor', function() {
 		'./node_modules/datatables.net-bs4/css/*.css'
 	])
 		.pipe(gulp.dest('./app/static/vendor/datatables/'));
+
+	// Amchart
+	gulp.src([
+		'./node_modules/amcharts3/amcharts/**/*',
+	])
+		.pipe(gulp.dest('./app/static/vendor/amcharts3/'));
 
 	// Font Awesome
 	gulp.src([
