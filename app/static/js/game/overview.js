@@ -27,8 +27,7 @@ $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 			"gridPosition": "start",
 		},
 		"valueAxes": [{
-			"minimum": 20,
-			"maximum": 1000,
+			"minimum": 20
 		}],
 		"chartScrollbar": {
 			"oppositeAxis":false,
