@@ -54,8 +54,8 @@
 			<td>{{ player.name }}</td>
 			{% endif %}
 			<td class="text-right">{{ player.points() }}</td>
-			<td class="text-right text-{{ 'success' if player.last_week_percentage() >= 0 else 'danger' }}">{{ player.last_week_percentage() }}%</td>
 			<td class="text-right text-{{ 'success' if player.last_day_percentage() >= 0 else 'danger' }}">{{ player.last_day_percentage() }}%</td>
+			<td class="text-right text-{{ 'success' if player.last_week_percentage() >= 0 else 'danger' }}">{{ player.last_week_percentage() }}%</td>
 		</tr>
 		{% endfor %}
 	</tbody>
