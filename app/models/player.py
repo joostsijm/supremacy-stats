@@ -4,7 +4,6 @@ Player model module
 """
 
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
-from sqlalchemy.sql.expression import func
 
 from app import db
 from app.models.day import Day
@@ -74,7 +73,8 @@ class Player(db.Model):
         if yesterday is None:
             return 0
 
-        return round(100 * (today.points - yesterday.points) / today.points, 2)
+        percentage = (today.points - yesterday.points) / yesterday.points * 100
+        return round(percentage, 2)
 
     @hybrid_method
     def last_week_percentage(self):
@@ -86,7 +86,7 @@ class Player(db.Model):
         if last_week is None:
             return 0
 
-        percentage = 100 * (today.points - last_week.points) / today.points
+        percentage = (today.points - last_week.points) / last_week.points * 100
         return round(percentage, 2)
 
     @hybrid_property
