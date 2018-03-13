@@ -9,7 +9,7 @@ name = "pypi"
 
 sqlalchemy = "*"
 requests = "*"
-"psycopg2" = "*"
+"psycopg2-binary" = "*"
 alembic = "*"
 flask = "*"
 flask-sqlalchemy = "*"
