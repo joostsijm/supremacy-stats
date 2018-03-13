@@ -96,8 +96,8 @@ gulp.task('css', ['css:compile', 'css:minify']);
 // Minify JavaScript
 gulp.task('js', function() {
 	return gulp.src([
-		'./app/static/js/*.js',
-		'!./app/static/js/*.min.js'
+		'./app/static/js/**/*.js',
+		'!./app/static/js/**/*.min.js'
 	])
 		.pipe(uglify())
 		.pipe(rename({
@@ -135,7 +135,7 @@ gulp.task('dev', ['runserver', 'css', 'js', 'vendor', 'browserSync'], function()
 		'!./app/static/css/*.min.css',
 	], ['css']);
 	gulp.watch([
-		'./app/static/js/*.js',
-		'!./app/static/js/*.min.js'
+		'./app/static/js/**/*.js',
+		'!./app/static/js/**/*.min.js'
 	],['js']);
 });
