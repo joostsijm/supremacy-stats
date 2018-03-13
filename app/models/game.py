@@ -7,6 +7,7 @@ from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from flask import url_for
 from app import db
+import humanize
 
 from app.models.day import Day
 from app.models.map import Map
@@ -70,6 +71,26 @@ class Game(db.Model):
     @hybrid_property
     def supremacy_url(self):
         return "https://www.supremacy1914.com/play.php?mode=guest&uid=2345621&gameID=" + str(self.game_id)
+
+    @hybrid_property
+    def last_fetch(self):
+        return humanize.naturaltime(datetime.now() - self.fetch_at)
+
+    @hybrid_property
+    def start_at_formatted(self):
+        return humanize.naturaldate(self.start_at)
+
+    @hybrid_property
+    def fetch_at_formatted(self):
+        return humanize.naturaltime(self.fetch_at)
+
+    @hybrid_property
+    def active_players(self):
+        return self.players.filter_by(Game.user_id >= 8).get()
+
+    @hybrid_property
+    def active_players_count(self):
+        return self.players.filter(Player.user_id != None).count()
 
     #
     # Representation

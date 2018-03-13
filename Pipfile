@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 flask-breadcrumbs = "*"
 flask-menu = "*"
 apscheduler = "*"
+humanize = "*"
 
 
 [dev-packages]
