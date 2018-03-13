@@ -21,8 +21,9 @@ Breadcrumbs(app=app)
 def index():
     """Show homepage"""
 
-    games = Game.query.all()
-    return render_template('site/index.html', games=games)
+    games = Game.query.count()
+    users = User.query.count()
+    return render_template('site/index.html', games=games, users=users)
 
 
 @app.route('/games')
