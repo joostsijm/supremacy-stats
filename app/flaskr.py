@@ -91,9 +91,9 @@ def api_game_score(game_id):
     return jsonify(score)
 
 
-@app.route('/api/game/new', methods=['POST'])
-def api_new_game():
-    """Returns list days with players"""
+@app.route('/api/game/fetch', methods=['POST'])
+def api_fetch_game():
+    """Update game in the database"""
 
     game_id = request.form.get('game_id')
     game = fetch.get_results(game_id)
