@@ -29,6 +29,7 @@ class Game(db.Model):
     game_id = db.Column(db.Integer)
     game_host = db.Column(db.String)
     start_at = db.Column(db.DateTime)
+    fetch_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
 
     #

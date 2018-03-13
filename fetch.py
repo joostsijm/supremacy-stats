@@ -12,7 +12,7 @@ from sqlalchemy.sql import and_
 
 from app import db
 from app.models.day import Day
-from app.models.coalition import Coalition
+# from app.models.coalition import Coalition
 from app.models.game import Game
 from app.models.map import Map
 from app.models.player import Player
@@ -21,25 +21,25 @@ from app.models.relation import Relation
 
 
 HEADERS = {
-        "Host": "xgs8.c.bytro.com",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) " +
-        "Gecko/20100101 Firefox/57.0",
-        "Accept": "text/plain, */*; q=0.01",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Origin": "https://www.supremacy1914.nl",
-        "DNT": "1",
-        "Connection": "keep-alive",
-        "Pragma": "no-cache",
-        "Cache-Control": "no-cache"
-        }
+    "Host": "xgs8.c.bytro.com",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) " +
+                  "Gecko/20100101 Firefox/57.0",
+    "Accept": "text/plain, */*; q=0.01",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "Origin": "https://www.supremacy1914.nl",
+    "DNT": "1",
+    "Connection": "keep-alive",
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache"
+    }
 
 PAYLOAD_SAMPLE = {
-        "@c": "ultshared.action.UltUpdateGameStateAction",
-        "playerID": 0,
-        "userAuth": "787925a25d0c072c3eaff5c1eff52829475fd506",
-        "tstamp": int(time.time())
-        }
+    "@c": "ultshared.action.UltUpdateGameStateAction",
+    "playerID": 0,
+    "userAuth": "787925a25d0c072c3eaff5c1eff52829475fd506",
+    "tstamp": int(time.time())
+    }
 
 # temp place for variables
 URL = 'https://xgs8.c.bytro.com/'
@@ -90,6 +90,8 @@ def get_results(game_id):
     if game is None:
         game = get_game(game_id)
 
+    game.fetch_at = datetime.now()
+
     get_players(game_id)
     # get_relations(game_id)
 
@@ -105,8 +107,8 @@ def get_results(game_id):
             player_id += 1
             if score >= 20:
                 player = game.players.filter(
-                        Player.player_id == player_id
-                        ).first()
+                    Player.player_id == player_id
+                    ).first()
                 day = player.days.filter(Day.day == day_index).first()
 
                 if day is None:
@@ -117,8 +119,9 @@ def get_results(game_id):
                     day.player_id = player.id
                     db.session.add(day)
 
-        db.session.commit()
+    db.session.commit()
 
+    print("return game")
     return game
 
 
@@ -193,36 +196,39 @@ def save_player(game, player_data):
             player = Player.query.filter(and_(
                 Player.game_id == game.id,
                 Player.player_id == player_id)
-                ).first()
+                                        ).first()
 
             if player is None:
                 player = Player()
 
-                player.game_id = game.id
-                player.player_id = player_id
-
                 player.nation_name = player_data["nationName"]
-
                 player.primary_color = player_data["primaryColor"]
                 player.secondary_color = player_data["secondaryColor"]
 
-                if "userName" in player_data:
-                    user = User.query.filter(
-                            User.name == player_data["userName"]
-                            ).first()
+            player.game_id = game.id
+            player.player_id = player_id
 
-                    if user is None:
-                        user = User()
+            if "userName" in player_data:
+                print(player_data["userName"])
 
-                        user.site_id = player_data["siteUserID"]
-                        user.name = player_data["userName"]
+            if not player.user_id:
+                print(player.user_id)
 
-                        db.session.add(user)
-                        db.session.commit()
+            if "userName" in player_data and not player.user_id:
+                user = User.query.filter(
+                    User.name == player_data["userName"]
+                ).first()
 
-                    player.user_id = user.id
+                if user is None:
+                    user = User()
 
-                db.session.add(player)
+                    user.site_id = player_data["siteUserID"]
+                    user.name = player_data["userName"]
+
+                    db.session.add(user)
+                    db.session.commit()
+
+                player.user_id = user.id
 
             player.title = player_data["title"]
             player.name = player_data["name"]
@@ -232,15 +238,16 @@ def save_player(game, player_data):
                 player.last_login = None
             else:
                 player.last_login = datetime.fromtimestamp(
-                        player_data["lastLogin"] / 1000
-                        )
+                    player_data["lastLogin"] / 1000
+                )
 
-                db.session.commit()
+            db.session.add(player)
+            db.session.commit()
 
 
 def get_relations(game_id):
-    """Get the relation"""
-    print("Get players")
+    """Get the relations"""
+    print("Get relations")
 
     payload = PAYLOAD_SAMPLE
     payload["gameID"] = game_id
@@ -260,8 +267,8 @@ def get_relations(game_id):
         for player_id in result:
             player_relations = result[player_id]
             player = game.players.filter(
-                    Player.player_id == player_id
-                    ).first()
+                Player.player_id == player_id
+            ).first()
 
             for foreign_id in player_relations:
                 db.session.add(save_foreign_relation(
@@ -269,7 +276,7 @@ def get_relations(game_id):
                     player_relations,
                     player,
                     foreign_id
-                    ))
+                ))
 
                 db.session.commit()
 
@@ -278,8 +285,8 @@ def save_foreign_relation(game, player_relations, player, foreign_id):
     """Save foreign relation"""
     relation_status = player_relations[foreign_id]
     foreign_player = game.players.filter(
-            Player.player_id == foreign_id
-            ).first()
+        Player.player_id == foreign_id
+    ).first()
 
     relation = game.relations.filter(and_(
         Relation.player_native_id == player.id,
@@ -304,21 +311,22 @@ def check_response(game_id, response):
     if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
         game = Game.query.filter(Game.game_id == game_id).first()
 
-        # not needed for debug
         if "newHostName" in response["result"]:
+            print("new host: " + response["result"]["newHostName"])
             game.game_host = "http://" + response["result"]["newHostName"]
             db.session.commit()
         else:
             print("Game does not exist")
             print_json(response["result"])
         return False
+
     return True
 
 
 if __name__ == "__main__":
 
     # random game
-    GAME_ID = 2113345
+    GAME_ID = 2272846
 
     get_results(GAME_ID)
     print("\ndone!")
