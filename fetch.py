@@ -201,18 +201,13 @@ def save_player(game, player_data):
             if player is None:
                 player = Player()
 
+                player.start_day = game.last_day()
                 player.nation_name = player_data["nationName"]
                 player.primary_color = player_data["primaryColor"]
                 player.secondary_color = player_data["secondaryColor"]
 
             player.game_id = game.id
             player.player_id = player_id
-
-            if "userName" in player_data:
-                print(player_data["userName"])
-
-            if not player.user_id:
-                print(player.user_id)
 
             if "userName" in player_data and not player.user_id:
                 user = User.query.filter(
