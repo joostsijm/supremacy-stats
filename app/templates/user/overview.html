@@ -49,7 +49,8 @@
 </table>
 {% endblock %}
 {% block javascript %}
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/site/sb-admin-datatables.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/site/datatables.min.js') }}"></script>
 {% endblock %}
