@@ -1,27 +1,66 @@
 $('.table.countrys').DataTable({
-	"order": [[ 2, "desc" ]]
-});
+	"order": [[ 2, "desc" ]],
+	responsive: true,
+})
 
 game_id = $("input[name='game_id']").val()
 
-$.getJSON("/api/game/" + game_id + "/score", function(game_data) {
-	player_data = []
+$(document).ready(function(e) {
+	get_data("everyone")
+})
 
-	for (var player in game_data["players"]) {
-		game_data["players"][player]["bullet"] = "round"
-		game_data["players"][player]["bulletBorderAlpha"] = 1
-		game_data["players"][player]["bulletColor"] = "#FFFFFF"
-		game_data["players"][player]["bulletSize"] = 5
-		game_data["players"][player]["hideBulletsCount"] = 50
-		game_data["players"][player]["lineThickness"] = 2
-		game_data["players"][player]["useLineColorForBulletBorder"] = true
-		game_data["players"][player]["balloonText"] = "[[title]]: [[value]]"
+$(".show_players").on("click", function() {
+	get_data("players")
+});
+
+$(".show_everyone").on("click", function() {
+	get_data("everyone")
+});
+
+function get_data(type)
+{
+	$(".show_button").text(type.charAt(0).toUpperCase() + type.slice(1))
+
+	url = "/api/game/" + game_id + "/score/" + type
+	$.ajax({
+		dataType: "json",
+		url: url,
+	})
+		.done(function(data) {
+			player_data = get_player_data(data)
+			days_data = data["days"]
+
+			make_chart(player_data, days_data)
+		})
+}
+
+function get_player_data(data)
+{
+	player_data = data["players"]
+
+	for (var player in player_data) {
+		player_data[player]["bullet"] = "round"
+		player_data[player]["bulletBorderAlpha"] = 1
+		player_data[player]["bulletColor"] = "#FFFFFF"
+		player_data[player]["bulletSize"] = 8
+		player_data[player]["hideBulletsCount"] = 50
+		player_data[player]["labelText"] = "[[title]]"
+		player_data[player]["labelFunction"] = labelFunction
+		player_data[player]["labelPosition"] = "top"
+		player_data[player]["lineThickness"] = 2
+		player_data[player]["useLineColorForBulletBorder"] = true
+		player_data[player]["balloonText"] = "[[title]]: [[value]]"
 	}
 
+	return player_data
+}
+
+function make_chart(player_data, days_data)
+{
 	var chart = AmCharts.makeChart("game_index", {
 		"type": "serial",
-		"dataProvider": game_data["days"],
-		"graphs": game_data["players"],
+		"dataProvider": days_data,
+		"graphs": player_data,
 		"categoryField": "day",
 		"categoryAxis": {
 			"gridPosition": "start",
@@ -40,91 +79,14 @@ $.getJSON("/api/game/" + game_id + "/score", function(game_data) {
 		},
 		"theme": "light",
 		"addClassNames": true,
-		"legend": {
-			"horizontalGap": 10,
-			"position": "bottom",
-		},
-	});
+	})
+}
 
-	/*
-	var chart = AmCharts.makeChart("chartdiv", {
-		"type": "serial",
-		"theme": "light",
-		"marginRight": 40,
-		"marginLeft": 40,
-		"autoMarginOffset": 20,
-		"mouseWheelZoomEnabled":true,
-		"dataDateFormat": "YYYY-MM-DD",
-		"balloon": {
-			"borderThickness": 1,
-			"shadowAlpha": 0
-		},
-		"graphs": [{
-			"id": "g1",
-			"balloon":{
-			  "drop":true,
-			  "adjustBorderColor":false,
-			  "color":"#ffffff"
-			},
-			"bullet": "round",
-			"bulletBorderAlpha": 1,
-			"bulletColor": "#FFFFFF",
-			"bulletSize": 5,
-			"hideBulletsCount": 50,
-			"lineThickness": 2,
-			"title": "red line",
-			"useLineColorForBulletBorder": true,
-			"valueField": "value",
-			"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-		}],
-		"chartScrollbar": {
-			"graph": "g1",
-			"oppositeAxis":false,
-			"offset":30,
-			"scrollbarHeight": 80,
-			"backgroundAlpha": 0,
-			"selectedBackgroundAlpha": 0.1,
-			"selectedBackgroundColor": "#888888",
-			"graphFillAlpha": 0,
-			"graphLineAlpha": 0.5,
-			"selectedGraphFillAlpha": 0,
-			"selectedGraphLineAlpha": 1,
-			"autoGridCount":true,
-			"color":"#AAAAAA"
-		},
-		"chartCursor": {
-			"pan": true,
-			"valueLineEnabled": true,
-			"valueLineBalloonEnabled": true,
-			"cursorAlpha":1,
-			"cursorColor":"#258cbb",
-			"limitToGraph":"g1",
-			"valueLineAlpha":0.2,
-			"valueZoomable":true
-		},
-		"valueScrollbar":{
-		  "oppositeAxis":false,
-		  "offset":50,
-		  "scrollbarHeight":10
-		},
-		"categoryField": "date",
-		"categoryAxis": {
-			"parseDates": true,
-			"dashLength": 1,
-			"minorGridEnabled": true
-		},
-		"export": {
-			"enabled": true
-		},
-		"dataProvider": game_data
-	});
+function labelFunction(item, label)
+{
+	if (item.index === item.graph.chart.dataProvider.length - 1)
+		return label
+	else
+		return ""
+}
 
-	chart.addListener("rendered", zoomChart);
-
-	zoomChart();
-
-	function zoomChart() {
-		chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
-	}
-	*/
-});
