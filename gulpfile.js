@@ -33,7 +33,8 @@ gulp.task('vendor', function() {
 	gulp.src([
 		'./node_modules/datatables.net/js/*.js',
 		'./node_modules/datatables.net-bs4/js/*.js',
-		'./node_modules/datatables.net-bs4/css/*.css'
+		'./node_modules/datatables.net-bs4/css/*.css',
+		'./node_modules/datatables.net-responsive/js/*'
 	])
 		.pipe(gulp.dest('./app/static/vendor/datatables/'));
 
@@ -65,6 +66,28 @@ gulp.task('vendor', function() {
 		'./node_modules/jquery.easing/*.js'
 	])
 		.pipe(gulp.dest('./app/static/vendor/jquery-easing'));
+
+	// Minify vendor js
+	gulp.src([
+		'./app/static/vendor/**/*.js',
+		'!./app/static/vendor/**/*.min.js'
+	])
+		.pipe(uglify())
+		.pipe(rename({
+			suffix: '.min'
+		}))
+		.pipe(gulp.dest('./app/static/vendor'))
+
+	// Minify vendor csj
+	gulp.src([
+		'./app/static/vendor/**/*.css',
+		'!./app/static/vendor/**/*.min.css'
+	])
+		.pipe(cleanCSS())
+		.pipe(rename({
+			suffix: '.min'
+		}))
+		.pipe(gulp.dest('./app/static/vendor'))
 });
 
 // Compile SASS 
@@ -79,8 +102,8 @@ gulp.task('css:compile', function() {
 // Minify CSS
 gulp.task('css:minify', ['css:compile'], function() {
 	return gulp.src([
-		'./app/static/css/*.css',
-		'!./app/static/css/*.min.css'
+		'./app/static/css/**/*.css',
+		'!./app/static/css/**/*.min.css'
 	])
 		.pipe(cleanCSS())
 		.pipe(rename({
@@ -124,15 +147,15 @@ gulp.task('runserver', function() {
 });
 
 // Dev task
-gulp.task('dev', ['runserver', 'css', 'js', 'vendor', 'browserSync'], function() {
+gulp.task('dev', ['runserver', 'browserSync'], function() {
 	gulp.watch([
 		'./app/templates/**/*.html',
 		'./app/**/*.py',
 	], browserSync.reload);
 	gulp.watch([
-		'./app/static/sass/*.sass',
-		'./app/static/css/*.css',
-		'!./app/static/css/*.min.css',
+		'./app/static/sass/**/*.sass',
+		'./app/static/css/**/*.css',
+		'!./app/static/css/**/*.min.css',
 	], ['css']);
 	gulp.watch([
 		'./app/static/js/**/*.js',
