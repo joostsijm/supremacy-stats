@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="card-body row">
-		<div class="col-12 col-md-6">
+		<div class="col-12 col-md">
 			<div class="row mt-2">
 				<div class="col">Website ID</div>
 				<div class="col"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
@@ -34,7 +34,7 @@
 				<div class="col">{{ game.fetch_at_formatted }}</div>
 			</div>
 		</div>
-		<div class="col-12 col-md-6">
+		<div class="col-12 col-md">
 			<div class="row mt-2">
 				<div class="col">Total players</div>
 				<div class="col">{{ game.players.count() }}</div>
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div id="game_index" style="height: 1500px;"></div>
+		<div id="game_index" style="height: 100vh;"></div>
 	</div>
 	<div class="card-footer small text-muted">Updated {{ game.last_fetch }}</div>
 </div>
@@ -86,9 +86,9 @@
 		<tr {{ 'class=text-muted' if player.defeated }}>
 			<td>{{ player.nation_name }}</td>
 			{% if player.user is not none  %}
-			<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.name }}</a></td>
+			<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.fullname }}</a></td>
 			{% else %}
-			<td>{{ player.name }}</td>
+			<td>{{ player.fullname }}</td>
 			{% endif %}
 			<td class="text-right">{{ player.points() }}</td>
 			<td class="text-right text-{{ 'success' if player.last_day_percentage() >= 0 else 'danger' }}">{{ player.last_day_percentage() }}%</td>

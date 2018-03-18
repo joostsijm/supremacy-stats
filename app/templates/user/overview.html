@@ -8,22 +8,26 @@
 	<div class="card-header">
 		<i class="fa fa-user"></i> {{ user.name }}
 	</div>
-	<div class="card-body">
-		<div class="row">
-			<div class="col-4">Name</div>
-			<div class="col-8">{{ user.name }}</div>
+	<div class="card-body row">
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Name</div>
+				<div class="col">{{ user.name }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Website ID</div>
+				<div class="col"><a href="{{ user.supremacy_url }}" target="_blank">{{ user.site_id }}</a></div>
+			</div>
 		</div>
-		<div class="row">
-			<div class="col-4">Website ID</div>
-			<div class="col-8"><a href="{{ user.supremacy_url }}" target="_blank">{{ user.site_id }}</a></div>
-		</div>
-		<div class="row">
-			<div class="col-4">Milittary score</div>
-			<div class="col-8">{{ user.score_military }}</div>
-		</div>
-		<div class="row">
-			<div class="col-4">ecoEomic score</div>
-			<div class="col-8">{{ user.score_economic }}</div>
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Milittary score</div>
+				<div class="col">{{ user.score_military }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">ecoEomic score</div>
+				<div class="col">{{ user.score_economic }}</div>
+			</div>
 		</div>
 	</div>
 </div>
