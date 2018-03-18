@@ -2,5 +2,6 @@
 $(document).ready(function() {
 	$('.dataTable').DataTable({
 		responsive: true,
+		pageLength: 25,
 	});
 });
