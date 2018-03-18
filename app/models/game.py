@@ -70,11 +70,14 @@ class Game(db.Model):
 
     @hybrid_property
     def supremacy_url(self):
-        return "https://www.supremacy1914.com/play.php?mode=guest&uid=2345621&gameID=" + str(self.game_id)
+        return "https://www.supremacy1914.com/play.php?mode=guest&gameID=" + str(self.game_id)
 
     @hybrid_property
     def last_fetch(self):
-        return humanize.naturaltime(datetime.now() - self.fetch_at)
+        if self.fetch_at:
+            return humanize.naturaltime(datetime.now() - self.fetch_at)
+        else:
+            return "never"
 
     @hybrid_property
     def start_at_formatted(self):
