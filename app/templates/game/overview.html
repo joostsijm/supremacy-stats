@@ -10,34 +10,61 @@
 	<div class="card-header">
 		<i class="fa fa-gamepad"></i> {{ game.game_id}}
 		<div class="dropdown pull-right">
-			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+			<div class="dropdown-menu">
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
-					<button type="submit" class="btn btn-secondary btn-sm">Update</button>
+					<button type="submit" class="dropdown-item">Update</button>
 				</form>
 			</div>
 		</div>
 	</div>
-	<div class="card-body">
-		<div class="row mt-3">
-			<div class="col-4">Website ID</div>
-			<div class="col-8"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
+	<div class="card-body row">
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Website ID</div>
+				<div class="col"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Start date</div>
+				<div class="col">{{ game.start_at }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Last updated</div>
+				<div class="col">{{ game.fetch_at_formatted }}</div>
+			</div>
 		</div>
-		<div class="row mt-3">
-			<div class="col-4">Last updated</div>
-			<div class="col-8">IDK lol</div>
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Map</div>
+				<div class="col">{{ game.map.name }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Total players</div>
+				<div class="col">{{ game.players.count() }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Real players</div>
+				<div class="col">{{ game.active_players_count }} / {{ game.map.slots }}</div>
+			</div>
 		</div>
 	</div>
 </div>
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-area-chart"></i> Game {{ game.game_id }}
+		<div class="dropdown pull-right">
+			<button class="btn btn-secondary btn-sm dropdown-toggle show_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
+			<div class="dropdown-menu">
+				<button class="dropdown-item show_players">Players</button>
+				<button class="dropdown-item show_everyone">Everyone</button>
+			</div>
+		</div>
 	</div>
 	<div class="card-body">
-		<div id="game_index" style="height: 1500px;"></div>
+		<div id="game_index" style="height: 100vh;"></div>
 	</div>
-	<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+	<div class="card-footer small text-muted">Updated {{ game.last_fetch }}</div>
 </div>
 <table class="table table-bordered countrys" width="100%" cellspacing="0">
 	<thead>
@@ -63,9 +90,9 @@
 		<tr {{ 'class=text-muted' if player.defeated }}>
 			<td>{{ player.nation_name }}</td>
 			{% if player.user is not none  %}
-			<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.name }}</a></td>
+			<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.fullname }}</a></td>
 			{% else %}
-			<td>{{ player.name }}</td>
+			<td>{{ player.fullname }}</td>
 			{% endif %}
 			<td class="text-right">{{ player.points() }}</td>
 			<td class="text-right text-{{ 'success' if player.last_day_percentage() >= 0 else 'danger' }}">{{ player.last_day_percentage() }}%</td>
@@ -76,12 +103,12 @@
 </table>
 {% endblock %}
 {% block javascript %}
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/site/sb-admin-datatables.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.min.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.js') }}"></script>
 {% endblock %}

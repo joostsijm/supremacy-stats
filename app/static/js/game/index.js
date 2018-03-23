@@ -1,3 +1,5 @@
 $(".dataTable").DataTable({
-	"order": [0, "desc"]
+	order: [0, "desc"],
+	responsive: true,
+	pageLength: 25,
 });

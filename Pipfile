@@ -9,13 +9,14 @@ name = "pypi"
 
 sqlalchemy = "*"
 requests = "*"
-"psycopg2" = "*"
+"psycopg2-binary" = "*"
 alembic = "*"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-breadcrumbs = "*"
 flask-menu = "*"
 apscheduler = "*"
+humanize = "*"
 
 
 [dev-packages]

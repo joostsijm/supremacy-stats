@@ -9,6 +9,7 @@ from flask_menu import Menu, register_menu
 from app import app
 from app.models.game import Game
 from app.models.user import User
+from app.models.player import Player
 import fetch
 
 Menu(app=app)
@@ -54,8 +55,8 @@ def game_overview(game_id):
     return render_template('game/overview.html', game=game)
 
 
-@app.route('/api/game/<int:game_id>/score')
-def api_game_score(game_id):
+@app.route('/api/game/<int:game_id>/score/<string:type>')
+def api_game_score(game_id, type):
     """Returns list days with players"""
 
     game_id = int(game_id)
@@ -77,7 +78,12 @@ def api_game_score(game_id):
 
     player_list = []
 
-    for player in game.players:
+    if type == "players":
+        players = game.players.filter(Player.user_id != None).all()
+    else:
+        players = game.players
+
+    for player in players:
         player_list.append({
             "title": player.nation_name,
             "valueField": player.name,

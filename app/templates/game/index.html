@@ -31,7 +31,7 @@
 				<td>{{ game.start_at }}</td>
 				<td>{{ game.last_day() }}</td>
 				<td>{{ game.map.name }}</td>
-				<td>{{ game.players.count() }}</td>
+				<td>{{ game.active_players_count }} / {{ game.map.slots }}</div>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -55,5 +55,6 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/game/index.min.js') }}"></script>
 {% endblock %}
