@@ -4,7 +4,7 @@ Game model module
 """
 
 from datetime import datetime
-from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from sqlalchemy.ext.hybrid import hybrid_property
 from flask import url_for
 from app import db
 import humanize
@@ -52,12 +52,12 @@ class Game(db.Model):
     # Attributes
     # -------------
 
-    @hybrid_method
+    @hybrid_property
     def day(self):
         delta = datetime.today() - self.start_at
         return delta.days + 1
 
-    @hybrid_method
+    @hybrid_property
     def last_day(self):
         day = self.days.order_by(Day.day.desc()).first()
         if day is None:
