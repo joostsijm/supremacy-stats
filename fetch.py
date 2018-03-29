@@ -95,7 +95,7 @@ def get_results(game_id):
     get_players(game_id)
     # get_relations(game_id)
 
-    for day_index in range(game.last_day(), get_day(game, game_id)):
+    for day_index in range(game.last_day, get_day(game, game_id)):
         day_index += 1
 
         result = get_score(game, day_index)
@@ -201,7 +201,7 @@ def save_player(game, player_data):
             if player is None:
                 player = Player()
 
-                player.start_day = game.last_day()
+                player.start_day = game.last_day
                 player.nation_name = player_data["nationName"]
                 player.primary_color = player_data["primaryColor"]
                 player.secondary_color = player_data["secondaryColor"]
