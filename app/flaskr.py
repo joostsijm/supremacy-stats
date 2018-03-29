@@ -107,6 +107,16 @@ def api_fetch_game():
     return redirect(game.url, code=302)
 
 
+@app.route('/api/game/fetch', methods=['POST'])
+def api_fetch_game_players():
+    """Update game in the database"""
+
+    game_id = request.form.get('game_id')
+    game = fetch.get_players(game_id)
+
+    return redirect(game.url, code=302)
+
+
 @app.route('/users')
 @register_menu(app, 'users', 'Users')
 @register_breadcrumb(app, '.users', 'Users')

@@ -38,6 +38,7 @@
 			<th>Name</th>
 			<th>Nation</th>
 			<th>Points</th>
+			<th>Last Login</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -47,6 +48,7 @@
 			<td>{{ player.fullname }}</td>
 			<td>{{ player.nation_name }}</td>
 			<td>{{ player.today().points }}</td>
+			<td>{{ player.last_login_formatted }}</td>
 		</tr>
 		{% endfor %}
 	</tbody>
