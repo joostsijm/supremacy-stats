@@ -7,6 +7,7 @@ from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 
 from app import db
 from app.models.day import Day
+import humanize
 
 
 class Player(db.Model):
@@ -92,6 +93,13 @@ class Player(db.Model):
     @hybrid_property
     def fullname(self):
         return "%s %s" % (self.title, self.name)
+
+    @hybrid_property
+    def last_login_formatted(self):
+        if self.last_login is None:
+            return ""
+
+        return humanize.naturaltime(self.last_login)
 
     #
     # Representation
