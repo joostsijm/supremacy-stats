@@ -266,25 +266,25 @@ def get_relations(game_id):
             ).first()
 
             for foreign_id in player_relations:
-                db.session.add(save_foreign_relation(
+                save_foreign_relation(
                     game,
                     player_relations,
                     player,
                     foreign_id
-                ))
+                )
 
                 db.session.commit()
 
 
-def save_foreign_relation(game, player_relations, player, foreign_id):
+def save_foreign_relation(game, player_relations, native_player, foreign_player_id):
     """Save foreign relation"""
-    relation_status = player_relations[foreign_id]
+    relation_status = player_relations[foreign_player_id]
     foreign_player = game.players.filter(
-        Player.player_id == foreign_id
+        Player.player_id == foreign_player_id
     ).first()
 
     relation = game.relations.filter(and_(
-        Relation.player_native_id == player.id,
+        Relation.player_native_id == native_player.id,
         Relation.player_foreign_id == foreign_player.id
         )).order_by(Relation.start_day.desc()).first()
 
@@ -292,10 +292,10 @@ def save_foreign_relation(game, player_relations, player, foreign_id):
         relation = Relation()
 
         relation.game_id = game.id
-        relation.player_native_id = player.id
+        relation.player_native_id = native_player.id
         relation.player_foreign_id = foreign_player.id
 
-        relation.start_day = game.day()
+        relation.start_day = game.day
         relation.status = relation_status
 
         db.session.add(relation)

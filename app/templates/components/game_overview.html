@@ -1,0 +1,52 @@
+<div class="card mb-3">
+	<div class="card-header">
+		<i class="fa fa-gamepad"></i> {{ game.game_id}}
+		<div class="dropdown pull-right">
+			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+			<div class="dropdown-menu">
+				<form action="{{ url_for('api_fetch_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
+					<button type="submit" class="dropdown-item">Update</button>
+				</form>
+				<form action="{{ url_for('api_fetch_game_players') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
+					<button type="submit" class="dropdown-item">Update players</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="card-body row">
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Website ID</div>
+				<div class="col"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Start date</div>
+				<div class="col">{{ game.start_at }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Last updated</div>
+				<div class="col">{{ game.fetch_at_formatted }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Day</div>
+				<div class="col">{{ game.last_day }}</div>
+			</div>
+		</div>
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Map</div>
+				<div class="col">{{ game.map.name }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Total players</div>
+				<div class="col">{{ game.players.count() }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Real players</div>
+				<div class="col">{{ game.active_players_count }} / {{ game.map.slots }}</div>
+			</div>
+		</div>
+	</div>
+</div>

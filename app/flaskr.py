@@ -55,6 +55,16 @@ def game_overview(game_id):
     return render_template('game/overview.html', game=game)
 
 
+@app.route('/game/<int:game_id>/relations')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_relations(game_id):
+    """Show game relations"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/relations.html', game=game)
+
 @app.route('/api/game/<int:game_id>/score/<string:type>')
 def api_game_score(game_id, type):
     """Returns list days with players"""
@@ -96,6 +106,42 @@ def api_game_score(game_id, type):
 
     return jsonify(score)
 
+@app.route('/api/game/<int:game_id>/relations')
+def api_game_relations(game_id):
+    """Returns list days with players"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+
+    day_dict = {}
+
+    for day in game.days:
+        if day.day not in day_dict:
+            day_dict[day.day] = {}
+            day_dict[day.day]["day"] = day.day
+
+        day_dict[day.day][day.player.name] = day.points
+
+    day_list = []
+
+    for day in day_dict:
+        day_list.append(day_dict[day])
+
+    player_list = []
+    players = game.players
+
+    for player in players:
+        if player.native_relations or player.foreign_relations:
+            relation_list = []
+            for relation in player.native_relations:
+                relation_list.append(relation.player_foreign.nation_name)
+
+            player_list.append({
+                "name": player.nation_name,
+                "imports": relation_list,
+            })
+
+    return jsonify(player_list)
 
 @app.route('/api/game/fetch', methods=['POST'])
 def api_fetch_game():
