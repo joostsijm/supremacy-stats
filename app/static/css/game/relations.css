@@ -1,17 +1,21 @@
-#relations {
+#relations
+{
 	text-align: center;
 }
 
-.node {
+.node
+{
 	font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	fill: #bbb;
 }
 
-.node:hover {
+.node:hover
+{
 	fill: #000;
 }
 
-.link {
+.link
+{
 	stroke: steelblue;
 	stroke-opacity: 0.4;
 	fill: none;
@@ -20,28 +24,34 @@
 
 .node:hover,
 .node--source,
-.node--target {
+.node--target
+{
 	font-weight: 700;
 }
 
-.node--source {
+.node--source
+{
 	fill: #2ca02c;
 }
 
-.node--target {
+.node--target
+{
 	fill: #d62728;
 }
 
 .link--source,
-.link--target {
+.link--target
+{
 	stroke-opacity: 1;
 	stroke-width: 2px;
 }
 
-.link--source {
+.link--source
+{
 	stroke: #d62728;
 }
 
-.link--target {
+.link--target
+{
 	stroke: #2ca02c;
 }

@@ -44,9 +44,9 @@ class Player(db.Model):
 
     days = db.relationship("Day", back_populates="player", lazy="dynamic")
 
-    native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native")
+    native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native", lazy="dynamic")
 
-    foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign")
+    foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign", lazy="dynamic")
 
     #
     # Attributes

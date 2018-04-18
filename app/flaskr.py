@@ -10,6 +10,7 @@ from app import app
 from app.models.game import Game
 from app.models.user import User
 from app.models.player import Player
+from app.models.relation import Relation
 import fetch
 
 Menu(app=app)
@@ -106,34 +107,22 @@ def api_game_score(game_id, type):
 
     return jsonify(score)
 
-@app.route('/api/game/<int:game_id>/relations')
-def api_game_relations(game_id):
-    """Returns list days with players"""
+@app.route('/api/game/<int:game_id>/relations/<relation_type>')
+def api_game_relations(game_id, relation_type):
+    """Returns list of players with relationships"""
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-
-    day_dict = {}
-
-    for day in game.days:
-        if day.day not in day_dict:
-            day_dict[day.day] = {}
-            day_dict[day.day]["day"] = day.day
-
-        day_dict[day.day][day.player.name] = day.points
-
-    day_list = []
-
-    for day in day_dict:
-        day_list.append(day_dict[day])
 
     player_list = []
     players = game.players
 
     for player in players:
-        if player.native_relations or player.foreign_relations:
+        native_relations = player.native_relations.filter(Relation.status == relation_type)
+        foreign_relations = player.foreign_relations.filter(Relation.status == relation_type)
+        if native_relations.count() or foreign_relations.count():
             relation_list = []
-            for relation in player.native_relations:
+            for relation in native_relations.all():
                 relation_list.append(relation.player_foreign.nation_name)
 
             player_list.append({

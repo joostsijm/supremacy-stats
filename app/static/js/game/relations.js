@@ -1,14 +1,14 @@
-var diameter = 960,
+var diameter = 460,
 radius = diameter / 2,
 innerRadius = radius - 120;
 
 var cluster = d3.cluster()
-.size([360, innerRadius]);
+	.size([360, innerRadius]);
 
 var line = d3.radialLine()
-.curve(d3.curveBundle.beta(0.85))
-.radius(function(d) { return d.y; })
-.angle(function(d) { return d.x / 180 * Math.PI; });
+	.curve(d3.curveBundle.beta(0.85))
+	.radius(function(d) { return d.y; })
+	.angle(function(d) { return d.x / 180 * Math.PI; });
 
 var svg = d3.select("#relations").append("svg")
 	.attr("width", diameter)
@@ -19,7 +19,7 @@ var svg = d3.select("#relations").append("svg")
 var link = svg.append("g").selectAll(".link"),
 node = svg.append("g").selectAll(".node");
 game_id = $("input[name='game_id']").val();
-api_url = "/api/game/" + game_id + "/relations";
+api_url = "/api/game/" + game_id + "/relations/-2";
 
 d3.json(api_url, function(error, classes) {
 	if (error) throw error;
@@ -29,12 +29,27 @@ d3.json(api_url, function(error, classes) {
 
 	cluster(root);
 
+	// build the arrow.
+	svg.append("svg:defs").selectAll("marker")
+		.data(packageImports(root.leaves()))
+		.enter().append("svg:marker") // This section adds in the arrows
+		.attr("id", String)
+		.attr("viewBox", "0 -5 10 10")
+		.attr("refX", 15)
+		.attr("refY", -1.5)
+		.attr("markerWidth", 6)
+		.attr("markerHeight", 6)
+		.attr("orient", "auto")
+		.append("svg:path")
+		.attr("d", "M0,-5L10,0L0,5");
+
 	link = link
 		.data(packageImports(root.leaves()))
 		.enter().append("path")
 		.each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
 		.attr("class", "link")
-		.attr("d", line);
+		.attr("d", line)
+		.attr("marker-end", "url(#end)"); // add the arrow to the link end
 
 	node = node
 		.data(root.leaves())
@@ -50,27 +65,27 @@ d3.json(api_url, function(error, classes) {
 
 function mouseovered(d) {
 	node
-	.each(function(n) { n.target = n.source = false; });
+		.each(function(n) { n.target = n.source = false; });
 
 	link
-	.classed("link--target", function(l) { if (l.target === d) return l.source.source = true; })
-	.classed("link--source", function(l) { if (l.source === d) return l.target.target = true; })
-	.filter(function(l) { return l.target === d || l.source === d; })
-	.raise();
+		.classed("link--target", function(l) { if (l.target === d) return l.source.source = true; })
+		.classed("link--source", function(l) { if (l.source === d) return l.target.target = true; })
+		.filter(function(l) { return l.target === d || l.source === d; })
+		.raise();
 
 	node
-	.classed("node--target", function(n) { return n.target; })
-	.classed("node--source", function(n) { return n.source; });
+		.classed("node--target", function(n) { return n.target; })
+		.classed("node--source", function(n) { return n.source; });
 }
 
 function mouseouted(d) {
 	link
-	.classed("link--target", false)
-	.classed("link--source", false);
+		.classed("link--target", false)
+		.classed("link--source", false);
 
 	node
-	.classed("node--target", false)
-	.classed("node--source", false);
+		.classed("node--target", false)
+		.classed("node--source", false);
 }
 
 // Lazily construct the package hierarchy from class names.
@@ -102,17 +117,17 @@ function packageImports(nodes) {
 	var map = {},
 	imports = [];
 
-  // Compute a map from name to node.
-  nodes.forEach(function(d) {
-  	map[d.data.name] = d;
-  });
+	// Compute a map from name to node.
+	nodes.forEach(function(d) {
+		map[d.data.name] = d;
+	});
 
-  // For each import, construct a link from the source to target node.
-  nodes.forEach(function(d) {
-  	if (d.data.imports) d.data.imports.forEach(function(i) {
-  		imports.push(map[d.data.name].path(map[i]));
-  	});
-  });
+	// For each import, construct a link from the source to target node.
+	nodes.forEach(function(d) {
+		if (d.data.imports) d.data.imports.forEach(function(i) {
+			imports.push(map[d.data.name].path(map[i]));
+		});
+	});
 
-  return imports;
+	return imports;
 }
