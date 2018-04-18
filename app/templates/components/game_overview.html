@@ -8,9 +8,15 @@
 					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 					<button type="submit" class="dropdown-item">Update</button>
 				</form>
-				<form action="{{ url_for('api_fetch_game_players') }}" method="post">
+				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
+					<input type="hidden" name="fetch_type" value="players"</input>
 					<button type="submit" class="dropdown-item">Update players</button>
+				</form>
+				<form action="{{ url_for('api_fetch_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
+					<input type="hidden" name="fetch_type" value="relations"</input>
+					<button type="submit" class="dropdown-item">Update relations</button>
 				</form>
 			</div>
 		</div>

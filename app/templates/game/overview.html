@@ -3,6 +3,7 @@
 {% block head %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/overview.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
@@ -23,7 +24,7 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div id="game_index" style="height: 100vh;"></div>
+		<div id="game_index"></div>
 	</div>
 	<div class="card-footer small text-muted">Updated {{ game.last_fetch }}</div>
 </div>

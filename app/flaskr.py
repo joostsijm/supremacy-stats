@@ -148,17 +148,15 @@ def api_fetch_game():
     """Update game in the database"""
 
     game_id = request.form.get('game_id')
-    game = fetch.get_results(game_id)
+    fetch_type = request.form.get('fetch_type')
+    game = Game.query.filter(Game.game_id == game_id).first()
 
-    return redirect(game.url, code=302)
-
-
-@app.route('/api/game/fetch', methods=['POST'])
-def api_fetch_game_players():
-    """Update game in the database"""
-
-    game_id = request.form.get('game_id')
-    game = fetch.get_players(game_id)
+    if fetch_type == 'relations':
+        fetch.get_relations(game_id)
+    elif fetch_type == 'players':
+        fetch.get_players(game_id)
+    else:
+        fetch.get_results(game_id)
 
     return redirect(game.url, code=302)
 
