@@ -2,7 +2,8 @@
 *.swp
 *.min.js
 *.min.css
-node_modules
-vendor
-nohup.out
+node_modules/
+vendor/
 __pycache__/
+.venv/
+nohup.out
