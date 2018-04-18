@@ -1,15 +1,15 @@
-#relations
+#war_relations
 {
 	text-align: center;
 }
 
-.node
+#war_relations .node
 {
 	font: 300 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	fill: #bbb;
 }
 
-.link
+#war_relations .link
 {
 	stroke: steelblue;
 	stroke-opacity: 0.5;
@@ -18,36 +18,82 @@
 	stroke-width: 3px;
 }
 
-.node:hover,
-.node--source,
-.node--target
+#war_relations .node:hover,
+#war_relations .node--source,
+#war_relations .node--target
 {
 	font-weight: 700;
 }
 
-.node--source
+#war_relations .node--source
 {
 	fill: #ffc107;
 }
 
-.node--target
+#war_relations .node--target
 {
 	fill: #dc3545;
 }
 
-.link--source,
-.link--target
+#war_relations .link--source,
+#war_relations .link--target
 {
 	stroke-opacity: 1;
 	stroke-width: 4px;
 }
 
-.link--source
+#war_relations .link--source
 {
 	stroke: #ffc107;
 }
 
-.link--target
+#war_relations .link--target
 {
 	stroke: #dc3545;
+}
+
+#force_relations .link {
+	fill: none;
+	stroke: #666;
+	stroke-width: 1.5px;
+}
+
+#force_relations #share-map {
+	fill: green;
+}
+
+#force_relations .link.share-map {
+	stroke: green;
+}
+
+#force_relations #right-of-way {
+	fill: green;
+}
+
+#force_relations .link.right-of-way {
+	stroke: green;
+	stroke-dasharray: 0,2 1;
+}
+
+#force_relations #war {
+	fill: red;
+}
+
+#force_relations .link.war {
+	stroke: red;
+}
+
+#force_relations .link.resolved {
+}
+
+#force_relations circle {
+	fill: #ccc;
+	stroke: #333;
+	stroke-width: 1.5px;
+}
+
+#force_relations text {
+	font: 10px sans-serif;
+	pointer-events: none;
+	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }

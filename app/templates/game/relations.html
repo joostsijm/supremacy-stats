@@ -15,36 +15,30 @@
 	<div class="col-lg-6">
 		<div class="card mb-3">
 			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Game {{ game.game_id }}
-				<div class="dropdown pull-right">
-					<button class="btn btn-secondary btn-sm dropdown-toggle show_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
-					<div class="dropdown-menu">
-						<button class="dropdown-item show_players">Players</button>
-						<button class="dropdown-item show_everyone">Everyone</button>
-					</div>
-				</div>
+				<i class="fa fa-area-chart"></i> War Diagram
 			</div>
 			<div class="card-body">
-				<div id="relations"></div>
+				<div id="war_relations"></div>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-6">
 		<div class="card mb-3">
 			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Game {{ game.game_id }}
-				<div class="dropdown pull-right">
-					<button class="btn btn-secondary btn-sm dropdown-toggle show_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
-					<div class="dropdown-menu">
-						<button class="dropdown-item show_players">Players</button>
-						<button class="dropdown-item show_everyone">Everyone</button>
-					</div>
-				</div>
+				<i class="fa fa-area-chart"></i> Peace Diagram
 			</div>
 			<div class="card-body">
-				<div id="relations"></div>
+				<div id="peace_relations"></div>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="card mb-3">
+	<div class="card-header">
+		<i class="fa fa-area-chart"></i> Relations
+	</div>
+	<div class="card-body">
+		<div id="relations"></div>
 	</div>
 </div>
 {% include 'components/game/players.html' %}
@@ -52,7 +46,6 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
 <script type='text/javascript' src="https://d3js.org/d3.v4.min.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/game/relations.js') }}"></script>
 {% endblock %}

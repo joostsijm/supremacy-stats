@@ -107,6 +107,7 @@ def api_game_score(game_id, type):
 
     return jsonify(score)
 
+
 @app.route('/api/game/<int:game_id>/relations/<relation_type>')
 def api_game_relations(game_id, relation_type):
     """Returns list of players with relationships"""
@@ -115,9 +116,8 @@ def api_game_relations(game_id, relation_type):
     game = Game.query.filter(Game.game_id == game_id).first()
 
     player_list = []
-    players = game.players
 
-    for player in players:
+    for player in game.players:
         native_relations = player.native_relations.filter(Relation.status == relation_type)
         foreign_relations = player.foreign_relations.filter(Relation.status == relation_type)
         if native_relations.count() or foreign_relations.count():
@@ -131,6 +131,27 @@ def api_game_relations(game_id, relation_type):
             })
 
     return jsonify(player_list)
+
+
+@app.route('/api/game/<int:game_id>/force_relations')
+def api_game_force_relations(game_id):
+    """Returns list of players with relationships"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+
+    relation_list = []
+
+    for player in game.players:
+        for relation in player.native_relations:
+            relation_list.append({
+                "source": relation.player_native.nation_name,
+                "target": relation.player_foreign.nation_name,
+                "type": relation.status_formatted,
+            })
+
+    return jsonify(relation_list)
+
 
 @app.route('/api/game/fetch', methods=['POST'])
 def api_fetch_game():

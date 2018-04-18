@@ -1,30 +1,36 @@
-var diameter = 460,
+$('.table.countrys').DataTable({
+	"order": [[ 2, "desc" ]],
+	responsive: true,
+})
+
+game_id = $("input[name='game_id']").val();
+
+diameter = 460,
 radius = diameter / 2,
 innerRadius = radius - 120;
 
-var cluster = d3.cluster()
+cluster = d3.cluster()
 	.size([360, innerRadius]);
 
-var line = d3.radialLine()
+line = d3.radialLine()
 	.curve(d3.curveBundle.beta(0.85))
 	.radius(function(d) { return d.y; })
 	.angle(function(d) { return d.x / 180 * Math.PI; });
 
-var svg = d3.select("#relations").append("svg")
+svg = d3.select("#war_relations").append("svg")
 	.attr("width", diameter)
 	.attr("height", diameter)
 	.append("g")
 	.attr("transform", "translate(" + radius + "," + radius + ")");
 
-var link = svg.append("g").selectAll(".link"),
+link = svg.append("g").selectAll(".link"),
 node = svg.append("g").selectAll(".node");
-game_id = $("input[name='game_id']").val();
-api_url = "/api/game/" + game_id + "/relations/3";
+api_url = "/api/game/" + game_id + "/relations/-2";
 
 d3.json(api_url, function(error, classes) {
 	if (error) throw error;
 
-	var root = packageHierarchy(classes)
+	root = packageHierarchy(classes)
 		.sum(function(d) { return d.size; });
 
 	cluster(root);
@@ -75,7 +81,7 @@ function mouseouted(d) {
 
 // Lazily construct the package hierarchy from class names.
 function packageHierarchy(classes) {
-	var map = {};
+	map = {};
 
 	function find(name, data) {
 		var node = map[name], i;
@@ -99,7 +105,7 @@ function packageHierarchy(classes) {
 
 // Return a list of imports for the given array of nodes.
 function packageImports(nodes) {
-	var map = {},
+	map = {},
 	imports = [];
 
 	// Compute a map from name to node.
