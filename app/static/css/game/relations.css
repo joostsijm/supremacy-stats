@@ -5,21 +5,17 @@
 
 .node
 {
-	font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font: 300 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	fill: #bbb;
-}
-
-.node:hover
-{
-	fill: #000;
 }
 
 .link
 {
 	stroke: steelblue;
-	stroke-opacity: 0.4;
+	stroke-opacity: 0.5;
 	fill: none;
 	pointer-events: none;
+	stroke-width: 3px;
 }
 
 .node:hover,
@@ -31,27 +27,27 @@
 
 .node--source
 {
-	fill: #2ca02c;
+	fill: #ffc107;
 }
 
 .node--target
 {
-	fill: #d62728;
+	fill: #dc3545;
 }
 
 .link--source,
 .link--target
 {
 	stroke-opacity: 1;
-	stroke-width: 2px;
+	stroke-width: 4px;
 }
 
 .link--source
 {
-	stroke: #d62728;
+	stroke: #ffc107;
 }
 
 .link--target
 {
-	stroke: #2ca02c;
+	stroke: #dc3545;
 }

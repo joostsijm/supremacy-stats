@@ -19,7 +19,7 @@ var svg = d3.select("#relations").append("svg")
 var link = svg.append("g").selectAll(".link"),
 node = svg.append("g").selectAll(".node");
 game_id = $("input[name='game_id']").val();
-api_url = "/api/game/" + game_id + "/relations/-2";
+api_url = "/api/game/" + game_id + "/relations/3";
 
 d3.json(api_url, function(error, classes) {
 	if (error) throw error;
@@ -29,27 +29,12 @@ d3.json(api_url, function(error, classes) {
 
 	cluster(root);
 
-	// build the arrow.
-	svg.append("svg:defs").selectAll("marker")
-		.data(packageImports(root.leaves()))
-		.enter().append("svg:marker") // This section adds in the arrows
-		.attr("id", String)
-		.attr("viewBox", "0 -5 10 10")
-		.attr("refX", 15)
-		.attr("refY", -1.5)
-		.attr("markerWidth", 6)
-		.attr("markerHeight", 6)
-		.attr("orient", "auto")
-		.append("svg:path")
-		.attr("d", "M0,-5L10,0L0,5");
-
 	link = link
 		.data(packageImports(root.leaves()))
 		.enter().append("path")
 		.each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
 		.attr("class", "link")
 		.attr("d", line)
-		.attr("marker-end", "url(#end)"); // add the arrow to the link end
 
 	node = node
 		.data(root.leaves())
