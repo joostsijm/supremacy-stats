@@ -10,6 +10,7 @@
 <p>
 	<a href="{{ url_for('game_overview', game_id=game.game_id) }}" class="btn btn-light">Overview</a>
 	<a href="{{ url_for('game_relations', game_id=game.game_id) }}" class="btn btn-light">Relations</a>
+	<a href="{{ url_for('game_force_relations', game_id=game.game_id) }}" class="btn btn-light">Force Relations</a>
 </p>
 {% include 'components/game/overview.html' %}
 <div class="card mb-3">

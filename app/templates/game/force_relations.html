@@ -12,28 +12,6 @@
 	<a href="{{ url_for('game_force_relations', game_id=game.game_id) }}" class="btn btn-light">Force Relations</a>
 </p>
 {% include 'components/game/overview.html' %}
-<div class="row">
-	<div class="col-lg-6">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> War Diagram
-			</div>
-			<div class="card-body">
-				<div id="war_relations"></div>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-6">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Peace Diagram
-			</div>
-			<div class="card-body">
-				<div id="peace_relations"></div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-area-chart"></i> Relations
@@ -47,6 +25,6 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/relations.js') }}"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/game/force_relations.js') }}"></script>
 {% endblock %}

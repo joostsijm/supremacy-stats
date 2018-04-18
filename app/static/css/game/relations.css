@@ -52,47 +52,47 @@
 	stroke: #dc3545;
 }
 
-#force_relations .link {
+#relations .link {
 	fill: none;
 	stroke: #666;
 	stroke-width: 1.5px;
 }
 
-#force_relations #share-map {
+#relations #share-map {
 	fill: green;
 }
 
-#force_relations .link.share-map {
+#relations .link.share-map {
 	stroke: green;
 }
 
-#force_relations #right-of-way {
+#relations #right-of-way {
 	fill: green;
 }
 
-#force_relations .link.right-of-way {
+#relations .link.right-of-way {
 	stroke: green;
 	stroke-dasharray: 0,2 1;
 }
 
-#force_relations #war {
+#relations #war {
 	fill: red;
 }
 
-#force_relations .link.war {
+#relations .link.war {
 	stroke: red;
 }
 
-#force_relations .link.resolved {
+#relations .link.resolved {
 }
 
-#force_relations circle {
+#relations circle {
 	fill: #ccc;
 	stroke: #333;
 	stroke-width: 1.5px;
 }
 
-#force_relations text {
+#relations text {
 	font: 10px sans-serif;
 	pointer-events: none;
 	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;

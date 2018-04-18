@@ -66,8 +66,20 @@ def game_relations(game_id):
     game = Game.query.filter(Game.game_id == game_id).first()
     return render_template('game/relations.html', game=game)
 
-@app.route('/api/game/<int:game_id>/score/<string:type>')
-def api_game_score(game_id, type):
+
+@app.route('/game/<int:game_id>/force_relations')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_force_relations(game_id):
+    """Show game relations"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/force_relations.html', game=game)
+
+
+@app.route('/api/game/<int:game_id>/score/<string:score_type>')
+def api_game_score(game_id, score_type):
     """Returns list days with players"""
 
     game_id = int(game_id)
@@ -89,7 +101,7 @@ def api_game_score(game_id, type):
 
     player_list = []
 
-    if type == "players":
+    if score_type == "players":
         players = game.players.filter(Player.user_id != None).all()
     else:
         players = game.players
