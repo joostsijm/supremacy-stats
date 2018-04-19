@@ -77,6 +77,16 @@ def game_force_relations(game_id):
     game = Game.query.filter(Game.game_id == game_id).first()
     return render_template('game/force_relations.html', game=game)
 
+@app.route('/game/<int:game_id>/edge_relations')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_edge_relations(game_id):
+    """Show game relations"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/edge_relations.html', game=game)
+
 
 @app.route('/api/game/<int:game_id>/score/<string:score_type>')
 def api_game_score(game_id, score_type):
@@ -163,6 +173,40 @@ def api_game_force_relations(game_id):
             })
 
     return jsonify(relation_list)
+
+
+@app.route('/api/game/<int:game_id>/edge_relations')
+def api_game_edge_relations(game_id):
+    """Returns list of players with relationships"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+
+    player_list = []
+
+    for player in game.players:
+        war = []
+        right_of_way = []
+        share_map = []
+        native_relations = player.native_relations
+        foreign_relations = player.foreign_relations
+        if native_relations.count() or foreign_relations.count():
+            for relation in native_relations.all():
+                if relation.status == -2:
+                    war.append(relation.player_foreign.nation_name)
+                elif relation.status == 3:
+                    right_of_way.append(relation.player_foreign.nation_name)
+                elif relation.status == 4:
+                    share_map.append(relation.player_foreign.nation_name)
+
+            player_list.append({
+                "name": player.nation_name,
+                "wars": war,
+                "right_of_ways": right_of_way,
+                "share_maps": share_map,
+            })
+
+    return jsonify(player_list)
 
 
 @app.route('/api/game/fetch', methods=['POST'])

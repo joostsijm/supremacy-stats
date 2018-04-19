@@ -2,7 +2,7 @@
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block head %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/relations.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/force_relations.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
@@ -12,12 +12,33 @@
 	<a href="{{ url_for('game_force_relations', game_id=game.game_id) }}" class="btn btn-light">Force Relations</a>
 </p>
 {% include 'components/game/overview.html' %}
-<div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-area-chart"></i> Relations
+<div class="row">
+	<div class="col-lg-6 force_relations">
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-area-chart"></i> Relations
+			</div>
+			<div class="card-body">
+				<div id="force_relations"></div>
+			</div>
+		</div>
 	</div>
-	<div class="card-body">
-		<div id="relations"></div>
+	<div class="col-lg-6 edge_relations">
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-area-chart"></i> Relations
+				<div class="pull-right">
+					Share map <span class="legend shares_maps_with"></span></td>
+					Right of way <span class="legend shares_ways_with"></span>
+					War <span class="legend fights_against"></span>
+				</div>
+			</div>
+			<div class="card-body">
+					</tr>
+				</table>			
+				<div id="edge_relations"></div>
+			</div>
+		</div>
 	</div>
 </div>
 {% include 'components/game/players.html' %}

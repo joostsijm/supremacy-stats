@@ -1,0 +1,107 @@
+.force_relations .link {
+	fill: none;
+	stroke: #666;
+	stroke-width: 1.5px;
+}
+
+.force_relations #share-map {
+	fill: #28a745;
+}
+
+.force_relations .link.share-map {
+	stroke: #28a745;
+}
+
+.force_relations #right-of-way {
+	fill: #40ce1c;
+}
+
+.force_relations .link.right-of-way {
+	stroke: green;
+	stroke-dasharray: 0,2 1;
+}
+
+.force_relations #war {
+	fill: #dc3545;
+}
+
+.force_relations .link.war {
+	stroke: #dc3545;
+}
+
+.force_relations .link.resolved {
+}
+
+.force_relations circle {
+	fill: #ccc;
+	stroke: #333;
+	stroke-width: 1.5px;
+}
+
+.force_relations text {
+	font: 10px sans-serif;
+	pointer-events: none;
+	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+.edge_relations .node
+{
+	font: 300 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	opacity: 0.6
+}
+
+.edge_relations .share_map,
+.edge_relations .war,
+.edge_relations .right_of_way
+{
+	stroke: #666;
+	stroke-opacity: 0.1;
+	fill: none;
+	pointer-events: none;
+	z-index: -100;
+	stroke-width: 1px;
+}
+
+.edge_relations .node:hover,
+.edge_relations .node--source,
+.edge_relations .node--target,
+.edge_relations .node--active
+{
+	font-weight: 700;
+	opacity: 0.8;
+}
+
+.edge_relations .shares_maps_with,
+.edge_relations .fights_against,
+.edge_relations .shares_ways_with
+{
+	stroke-width: 4px;
+	stroke-opacity: 1;
+	z-index: 99999;
+}
+
+.edge_relations .legend
+{
+	display: inline-block;
+	width: 30px;
+	border: 2px solid;
+	border-radius: 2px;
+}
+
+.edge_relations .shares_maps_with
+{
+	stroke: #28a745; 
+	border-color: #28a745;
+}
+
+.edge_relations .fights_against
+{
+	stroke: #dc3545;
+	border-color: #dc3545;
+}
+
+.edge_relations .shares_ways_with
+{
+	stroke: #adff2f;
+	border-color: #adff2f;
+}

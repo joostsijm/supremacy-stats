@@ -1,90 +1,5 @@
-$('.table.countrys').DataTable({
-	"order": [[ 2, "desc" ]],
-	responsive: true,
-})
-
-game_id = $("input[name='game_id']").val();
-width = window.innerWidth / 2
-height = window.innerHeight
-
-nodes = {};
-api_url = "/api/game/" + game_id + "/force_relations";
-
-d3.json(api_url, function(error, directed) {
-	if (error) throw error;
-
-	directed.forEach(function(link) {
-		link.source = nodes[link.source] || (nodes[link.source] = { name : link.source });
-		link.target = nodes[link.target] || (nodes[link.target] = { name : link.target });
-	});
-
-	force = d3.layout.force()
-		.nodes(d3.values(nodes))
-		.links(directed)
-		.linkDistance(150)
-		.charge(-280)
-		.on("tick", tick)
-		.start();
-
-	svg = d3.select("#force_relations").append("svg")
-	    .attr('viewBox','0 0 ' + width + ' ' + height)
-	    .append("g")
-	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-	// Per-type markers, as they don't inherit styles.
-	svg.append("defs").selectAll("marker")
-		.data(["war", "right-of-way", "share-map"])
-		.enter().append("marker")
-		.attr("id", function(d) { return d; })
-		.attr("viewBox", "0 -5 10 10")
-		.attr("refX", 15)
-		.attr("refY", -1.5)
-		.attr("markerWidth", 6)
-		.attr("markerHeight", 6)
-		.attr("orient", "auto")
-		.append("path")
-		.attr("d", "M0,-5L10,0L0,5");
-
-	path = svg.append("g").selectAll("path")
-		.data(force.links())
-		.enter().append("path")
-		.attr("class", function(d) { return "link " + d.type; })
-		.attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
-
-	circle = svg.append("g").selectAll("circle")
-		.data(force.nodes())
-		.enter().append("circle")
-		.attr("r", 6)
-		.call(force.drag);
-
-	text = svg.append("g").selectAll("text")
-		.data(force.nodes())
-		.enter().append("text")
-		.attr("x", 8)
-		.attr("y", ".31em")
-		.text(function(d) { return d.name; });
-
-	// Use elliptical arc path segments to doubly-encode directionality.
-	function tick() {
-		path.attr("d", linkArc);
-		circle.attr("transform", transform);
-		text.attr("transform", transform);
-	}
-});
-
-function linkArc(d) {
-	dx = d.target.x - d.source.x,
-		dy = d.target.y - d.source.y,
-		dr = Math.sqrt(dx * dx + dy * dy);
-	return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-}
-
-function transform(d) {
-	return "translate(" + d.x + "," + d.y + ")";
-}
-
-diameter = $("#edge_relations").innerWidth();
-radius = diameter / 2;
+diameter = 750,
+radius = diameter / 2,
 innerRadius = radius - 120;
 
 cluster = d3.layout.cluster()
@@ -100,7 +15,7 @@ line = d3.svg.line.radial()
 	.radius(function(d) { return d.y; })
 	.angle(function(d) { return d.x / 180 * Math.PI; });
 	
-svg = d3.select("#edge_relations").append("svg")
+svg = d3.select("#graph").append("svg")
 	.attr("width", diameter)
 	.attr("height", diameter)
 	.append("g")
@@ -111,9 +26,7 @@ war = svg.append("g").selectAll(".war");
 right_of_way = svg.append("g").selectAll(".right_of_way");
 node = svg.append("g").selectAll(".node");
 
-api_url = "/api/game/" + game_id + "/edge_relations";
-
-d3.json(api_url, function(error, classes) {
+d3.json("types.json", function(error, classes) {
 	nodes = cluster.nodes(packageHierarchy(classes));
 	share_maps = typeShare_map(nodes);
 	right_of_ways = typeRight_of_way(nodes);
@@ -175,17 +88,18 @@ function mouseovered(d) {
 		.filter(function(l) { return l.source === d; })
 		.each(function() { this.parentNode.appendChild(this); });
 
+
 	node
 		.classed("node--target", function(n) { return n.target; })
 		.style('fill', function(l) { 
 			if(d.share_maps.indexOf(l.name) != -1) {
-				return '#28a745';
+				return 'rgba(250, 0, 235, 1)';
 			}
 			if(d.wars.indexOf(l.name) != -1) {
-				return '#dc3545';
+				return 'rgba(0, 193, 248, 1)';
 			}
 			if(d.right_of_ways.indexOf(l.name) != -1) {
-				return '#adff2f';
+				return 'rgba(255, 204, 0, 1)';
 			}
 			return null;
 		 });
