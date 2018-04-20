@@ -1,8 +1,8 @@
 {% extends "layouts/main.html" %}
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block head %}
-<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/relations_2.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/relations_2.min.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
@@ -47,5 +47,5 @@
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/relations_2.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/game/relations_2.min.js') }}"></script>
 {% endblock %}

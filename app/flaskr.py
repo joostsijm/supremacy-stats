@@ -184,7 +184,7 @@ def api_game_edge_relations(game_id):
 
     player_list = []
 
-    for player in game.players:
+    for player in game.players.order_by(Player.nation_name).all():
         war = []
         right_of_way = []
         share_map = []
