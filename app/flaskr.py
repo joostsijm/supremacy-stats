@@ -260,5 +260,6 @@ def user_overview(site_id):
 
 @webhook.hook()
 def on_push(data):
-    with open('test.txt', 'w') as file:
-        file.write(data)
+    return jsonify("succes")
+    # with open('test.txt', 'w') as file:
+    #     file.write(data)
