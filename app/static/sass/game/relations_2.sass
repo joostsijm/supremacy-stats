@@ -1,65 +1,65 @@
 .force_relations
   .link
-	fill: none
-	stroke: #666
-	stroke-width: 1.5px
+    fill: none
+    stroke: #666
+    stroke-width: 1.5px
   #share-map
-	fill: #28a745
+    fill: #28a745
   .link.share-map
-	stroke: #28a745
+    stroke: #28a745
   #right-of-way
-	fill: #40ce1c
+    fill: #40ce1c
   .link.right-of-way
-	stroke: green
-	stroke-dasharray: 0,2 1
+    stroke: green
+    stroke-dasharray: 0,2 1
   #war
-	fill: #dc3545
+    fill: #dc3545
   .link
-	&.war
-	  stroke: #dc3545
-	&.resolved
+    &.war
+      stroke: #dc3545
+    &.resolved
   circle
-	fill: #ccc
-	stroke: #333
-	stroke-width: 1.5px
-	&.active
-	  fill: #888
-	  stroke: #222
-	  stroke-width: 3px
+    fill: #ccc
+    stroke: #333
+    stroke-width: 1.5px
+    &.active
+      fill: #888
+      stroke: #222
+      stroke-width: 3px
   text
-	font: 10px sans-serif
-	pointer-events: none
-	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff
+    font: 10px sans-serif
+    pointer-events: none
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff
 
 .edge_relations
   .node
-	font: 300 16px "Helvetica Neue", Helvetica, Arial, sans-serif
-	opacity: 0.6
+    font: 300 16px "Helvetica Neue", Helvetica, Arial, sans-serif
+    opacity: 0.6
   .share_map, .war, .right_of_way
-	stroke: #666
-	stroke-opacity: 0.1
-	fill: none
-	pointer-events: none
-	z-index: -100
-	stroke-width: 1px
+    stroke: #666
+    stroke-opacity: 0.1
+    fill: none
+    pointer-events: none
+    z-index: -100
+    stroke-width: 1px
   .node:hover, .node--source, .node--target, .node--active
-	font-weight: 700
-	opacity: 0.8
+    font-weight: 700
+    opacity: 0.8
   .shares_maps_with, .fights_against, .shares_ways_with
-	stroke-width: 4px
-	stroke-opacity: 1
-	z-index: 99999
+    stroke-width: 4px
+    stroke-opacity: 1
+    z-index: 99999
   .legend
-	display: inline-block
-	width: 30px
-	border: 2px solid
-	border-radius: 2px
+    display: inline-block
+    width: 30px
+    border: 2px solid
+    border-radius: 2px
   .shares_maps_with
-	stroke: #28a745
-	border-color: #28a745
+    stroke: #28a745
+    border-color: #28a745
   .fights_against
-	stroke: #dc3545
-	border-color: #dc3545
+    stroke: #dc3545
+    border-color: #dc3545
   .shares_ways_with
-	stroke: #adff2f
-	border-color: #adff2f
+    stroke: #adff2f
+    border-color: #adff2f

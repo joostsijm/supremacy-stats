@@ -2,6 +2,7 @@
 *.swp
 *.min.js
 *.min.css
+*.compiled.css
 node_modules/
 vendor/
 __pycache__/

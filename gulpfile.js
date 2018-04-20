@@ -92,10 +92,13 @@ gulp.task('vendor', function() {
 
 // Compile SASS 
 gulp.task('css:compile', function() {
-	return gulp.src('app/static/sass/*.sass')
+	return gulp.src('app/static/sass/**/*.sass')
 		.pipe(sass.sync({
 			outputStyle: 'expanded'
 		}).on('error', sass.logError))
+		.pipe(rename({
+			suffix: '.compiled'
+		}))
 		.pipe(gulp.dest('app/static/css'));
 });
 
@@ -110,7 +113,7 @@ gulp.task('css:minify', ['css:compile'], function() {
 			suffix: '.min'
 		}))
 		.pipe(gulp.dest('app/static/css'))
-		.pipe(browserSync.stream({match: 'app/static/css/***/*.css'}));
+		.pipe(browserSync.stream({match: 'app/static/css/**/*.css'}));
 });
 
 // CSS
