@@ -259,7 +259,8 @@ def user_overview(site_id):
     return render_template('user/overview.html', user=user)
 
 @webhook.hook()
+@app.route('/test/<int:data>')
 def on_push(data):
-    return jsonify("succes")
-    # with open('test.txt', 'w') as file:
-    #     file.write(data)
+    with open('test.txt', 'w') as file:
+         file.write(str(data))
+    return jsonify(data)
