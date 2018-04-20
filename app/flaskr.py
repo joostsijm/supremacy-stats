@@ -3,7 +3,7 @@
 Simple flask thing
 """
 
-from subprocess import call
+from subprocess import check_output
 from flask import render_template, jsonify, request, redirect, url_for
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
@@ -261,6 +261,7 @@ def user_overview(site_id):
 @webhook.hook()
 @app.route('/test/<int:data>')
 def on_push(data):
+    return str(check_output(["ls", "-sla"]))
     with open('test.txt', 'w') as file:
          file.write(str(data))
     return jsonify(data)
