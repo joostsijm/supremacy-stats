@@ -7,7 +7,7 @@ from subprocess import call
 from flask import render_template, jsonify, request, redirect, url_for
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
-from app import app
+from app import app, webhook
 from app.models.game import Game
 from app.models.user import User
 from app.models.player import Player
