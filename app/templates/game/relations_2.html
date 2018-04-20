@@ -2,14 +2,14 @@
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block head %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/force_relations.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/relations_2.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 <p>
 	<a href="{{ url_for('game_overview', game_id=game.game_id) }}" class="btn btn-light">Overview</a>
 	<a href="{{ url_for('game_relations', game_id=game.game_id) }}" class="btn btn-light">Relations</a>
-	<a href="{{ url_for('game_force_relations', game_id=game.game_id) }}" class="btn btn-light">Force Relations</a>
+	<a href="{{ url_for('game_relations_2', game_id=game.game_id) }}" class="btn btn-light">Force Relations</a>
 </p>
 {% include 'components/game/overview.html' %}
 <div class="row">
@@ -47,5 +47,5 @@
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/force_relations.js') }}"></script>
+<script type='text/javascript' src="{{ url_for('static', filename='js/game/relations_2.js') }}"></script>
 {% endblock %}
