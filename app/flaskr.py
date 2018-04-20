@@ -3,7 +3,7 @@
 Simple flask thing
 """
 
-from subprocess import check_output
+from subprocess import call
 from flask import render_template, jsonify, request, redirect, url_for
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
@@ -216,7 +216,6 @@ def api_fetch_game():
 
     game_id = request.form.get('game_id')
     fetch_type = request.form.get('fetch_type')
-    game = Game.query.filter(Game.game_id == game_id).first()
 
     if fetch_type == 'relations':
         fetch.get_relations(game_id)
@@ -261,7 +260,6 @@ def user_overview(site_id):
 @webhook.hook()
 @app.route('/test/<int:data>')
 def on_push(data):
-    return str(check_output(["ls", "-sla"]))
-    with open('test.txt', 'w') as file:
-         file.write(str(data))
-    return jsonify(data)
+    call(["git", "pull"])
+    call(["gulp"])
+    call(["touch", "flask.wsgi"])
