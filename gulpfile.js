@@ -103,7 +103,7 @@ gulp.task('css:compile', function() {
 });
 
 // Minify CSS
-gulp.task('css:minify', ['css:compile'], function() {
+gulp.task('css:minify', function() {
 	return gulp.src([
 		'app/static/css/**/*.css',
 		'!app/static/css/**/*.min.css'
@@ -158,11 +158,13 @@ gulp.task('dev', ['runserver', 'browserSync'], function() {
 	], browserSync.reload);
 	gulp.watch([
 		'app/static/sass/**/*.sass',
+	], ['css:compile']);
+	gulp.watch([
 		'app/static/css/**/*.css',
 		'!app/static/css/**/*.min.css',
-	], ['css']);
+	], ['css:minify']);
 	gulp.watch([
 		'app/static/js/**/*.js',
 		'!app/static/js/**/*.min.js'
-	],['js']);
+	], ['js']);
 });
