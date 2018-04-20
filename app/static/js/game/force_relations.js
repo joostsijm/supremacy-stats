@@ -55,6 +55,9 @@ d3.json(api_url, function(error, directed) {
 		.data(force.nodes())
 		.enter().append("circle")
 		.attr("r", 6)
+		.attr("class", function(n) {
+			return 'force_node ' + n.name.replace(/\s+/g, '_').toLowerCase();
+		})
 		.call(force.drag);
 
 	text = svg.append("g").selectAll("text")
@@ -145,7 +148,7 @@ d3.json(api_url, function(error, classes) {
 		.data(nodes.filter(function(n) { return !n.children; }))
 		.enter().append("text")
 		.attr("class", function(n) {
-			return 'node ' + n.name.toLowerCase();
+			return 'node ' + n.name.replace(/\s+/g, '_').toLowerCase();
 		})
 		.attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
 		.attr("dy", ".31em")
@@ -189,6 +192,13 @@ function mouseovered(d) {
 			}
 			return null;
 		 });
+
+	name = $(this).text().replace(/\s+/g, '_').toLowerCase();
+	selector = ".force_node." + name;
+	$(selector).addClass("active");
+	$(selector)
+		.removeClass("active")
+		.attr("r", "10");
 }
 
 function mouseouted(d) {
@@ -205,6 +215,11 @@ function mouseouted(d) {
 		.classed("node--target", false)
 		.style('fill', null);
 
+	name = $(this).text().replace(/\s+/g, '_').toLowerCase();
+	selector = ".force_node." + name;
+	$(selector)
+		.removeClass("active")
+		.attr("r", "6");
 }
 
 d3.select(self.frameElement).style("height", diameter + "px");
@@ -249,6 +264,7 @@ function typeShare_map(nodes) {
 
 	return share_maps;
 }
+
 //Make the share_map links
 function typeWar(nodes) {
 	map = {},
@@ -266,6 +282,7 @@ function typeWar(nodes) {
 
 	return wars;
 }
+
 function typeRight_of_way(nodes) {
 	map = {},
 	right_of_ways = [];

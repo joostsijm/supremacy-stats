@@ -38,6 +38,12 @@
 	stroke-width: 1.5px;
 }
 
+.force_relations circle.active {
+	fill: #888;
+	stroke: #222;
+	stroke-width: 3px;
+}
+
 .force_relations text {
 	font: 10px sans-serif;
 	pointer-events: none;
