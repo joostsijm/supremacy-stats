@@ -2,7 +2,7 @@
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block head %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/relations_2.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/relations_2.compiled.min.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
