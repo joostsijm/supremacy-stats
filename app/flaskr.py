@@ -3,6 +3,7 @@
 Simple flask thing
 """
 
+from subprocess import call
 from flask import render_template, jsonify, request, redirect, url_for
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
@@ -256,3 +257,8 @@ def user_overview(site_id):
     site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)
+
+@webhook.hook()
+def on_push(data):
+    with open('test.txt', 'w') as file:
+        file.write(data)
