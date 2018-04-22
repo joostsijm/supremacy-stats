@@ -258,7 +258,7 @@ def user_overview(site_id):
     return render_template('user/overview.html', user=user)
 
 @webhook.hook()
-@app.route('/test/<int:data>')
+@app.route('/deploy/<int:data>')
 def on_push(data):
     call(["git", "pull"])
     call(["gulp"])
