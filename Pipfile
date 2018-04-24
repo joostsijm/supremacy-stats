@@ -15,5 +15,7 @@ flask-menu = "*"
 apscheduler = "*"
 humanize = "*"
 github-webhook = "*"
+flask-login = "*"
+flask-migrate = "*"
 
 [dev-packages]
