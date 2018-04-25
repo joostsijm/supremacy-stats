@@ -197,7 +197,7 @@ function mouseovered(d) {
 	selector = ".force_node." + name;
 	$(selector).addClass("active");
 	$(selector)
-		.removeClass("active")
+		.addClass("active")
 		.attr("r", "10");
 }
 
