@@ -33,7 +33,7 @@ d3.json(api_url, function(error, directed) {
 
 	// Per-type markers, as they don't inherit styles.
 	svg.append("defs").selectAll("marker")
-		.data(["war", "right-of-way", "share-map"])
+		.data(["war", "right-of-way", "share-map", "share-info"])
 		.enter().append("marker")
 		.attr("id", function(d) { return d; })
 		.attr("viewBox", "0 -5 10 10")
