@@ -193,10 +193,12 @@ def save_player(game, player_data):
         player_id = int(player_data["playerID"])
 
         if player_id > 0:
-            player = Player.query.filter(and_(
-                Player.game_id == game.id,
-                Player.player_id == player_id)
-                                        ).first()
+            player = Player.query.filter(
+                and_(
+                    Player.game_id == game.id,
+                    Player.player_id == player_id
+                )
+            ).first()
 
             if player is None:
                 player = Player()
@@ -259,28 +261,36 @@ def get_relations(game_id):
         get_relations(game_id)
     else:
         result = text["result"]["relations"]["neighborRelations"]
-        for player_id in result:
-            player_relations = result[player_id]
-            player = game.players.filter(
-                Player.player_id == player_id
-            ).first()
 
-            for foreign_id in player_relations:
-                save_foreign_relation(
-                    game,
-                    player_relations,
-                    player,
-                    foreign_id
-                )
+        # for relation in game.relations.filter(Relation.end_day == None).all():
+        #     print(relation)
 
-                db.session.commit()
+        game.relations.update({Relation.end_day: game.last_day}) 
+
+        for native_id in result:
+            relations = result[native_id]
+            for foreign_id in relations:
+                if foreign_id != native_id:
+                    save_foreign_relation(
+                        game,
+                        relations,
+                        native_id,
+                        foreign_id
+                    )
+
+        db.session.commit()
 
 
-def save_foreign_relation(game, player_relations, native_player, foreign_player_id):
+def save_foreign_relation(game, player_relations, native_id, foreign_id):
     """Save foreign relation"""
-    relation_status = player_relations[foreign_player_id]
+    relation_status = player_relations[foreign_id]
+
+    native_player = game.players.filter(
+        Player.player_id == native_id
+    ).first()
+
     foreign_player = game.players.filter(
-        Player.player_id == foreign_player_id
+        Player.player_id == foreign_id
     ).first()
 
     relation = game.relations.filter(and_(
@@ -288,7 +298,7 @@ def save_foreign_relation(game, player_relations, native_player, foreign_player_
         Relation.player_foreign_id == foreign_player.id
         )).order_by(Relation.start_day.desc()).first()
 
-    if relation is None or relation_status != relation.status:
+    if relation is None:
         relation = Relation()
 
         relation.game_id = game.id
@@ -299,6 +309,9 @@ def save_foreign_relation(game, player_relations, native_player, foreign_player_
         relation.status = relation_status
 
         db.session.add(relation)
+
+    elif relation_status == relation.status:
+        relation.end_day = None
 
 
 def check_response(game_id, response):
@@ -321,7 +334,7 @@ def check_response(game_id, response):
 if __name__ == "__main__":
 
     # random game
-    GAME_ID = 2272846
+    GAME_ID = 2312652
 
-    get_results(GAME_ID)
+    get_relations(GAME_ID)
     print("\ndone!")
