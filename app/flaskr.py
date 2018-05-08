@@ -219,15 +219,12 @@ def api_fetch_game():
 
     if fetch_type == 'relations':
         fetch.get_relations(game_id)
-        return redirect(url_for('game_relations', game_id=game_id), code=302)
-
     elif fetch_type == 'players':
         fetch.get_players(game_id)
-
     else:
         fetch.get_results(game_id)
 
-    return redirect(url_for('game_overview', game_id=game_id), code=302)
+    return redirect(request.referrer, code=302)
 
 
 @app.route('/users')
