@@ -262,9 +262,6 @@ def get_relations(game_id):
     else:
         result = text["result"]["relations"]["neighborRelations"]
 
-        # for relation in game.relations.filter(Relation.end_day == None).all():
-        #     print(relation)
-
         game.relations.update({Relation.end_day: game.last_day}) 
 
         for native_id in result:
