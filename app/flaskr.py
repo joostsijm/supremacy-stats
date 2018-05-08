@@ -249,10 +249,25 @@ def user_overview_dlc(*args, **kwargs):
                      dynamic_list_constructor=user_overview_dlc)
 def user_overview(site_id):
     """Show user overview"""
-
     site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('site/404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('site/500.html'), 500
+
+
+@app.errorhandler(Exception)
+def unhandled_exception(error):
+    return render_template('site/500.html'), 500
+
 
 @webhook.hook()
 @app.route('/deploy/<int:data>')
