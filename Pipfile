@@ -1,9 +1,12 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
+
 sqlalchemy = "*"
 requests = "*"
 "psycopg2-binary" = "*"
@@ -17,5 +20,8 @@ humanize = "*"
 github-webhook = "*"
 flask-login = "*"
 flask-migrate = "*"
+flask-compress = "*"
+
 
 [dev-packages]
+
