@@ -17,6 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
     'postgresql://supindex@localhost/supindex'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+app.jinja_env.lstrip_blocks = True
+app.jinja_env.trim_blocks = True
 
 COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml', 'application/json', 'application/javascript']
 COMPRESS_LEVEL = 6
