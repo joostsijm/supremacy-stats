@@ -113,6 +113,14 @@
 			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 			<script type='text/javascript' src="{{ url_for('static', filename='js/site/main.min.js') }}"></script>
 			{% block javascript %}{% endblock %}
+			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57154028-5"></script>
+			<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', 'UA-57154028-5');
+			</script>
 		</div>
 	</body>
 </html>
