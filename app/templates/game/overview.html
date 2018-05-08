@@ -33,11 +33,11 @@
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
 {% endblock %}
