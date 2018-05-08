@@ -141,8 +141,8 @@ def api_game_relations(game_id, relation_type):
     player_list = []
 
     for player in game.players:
-        native_relations = player.native_relations.filter(Relation.status == relation_type)
-        foreign_relations = player.foreign_relations.filter(Relation.status == relation_type)
+        native_relations = player.native_relations.filter(Relation.end_day == None).filter(Relation.status == relation_type)
+        foreign_relations = player.foreign_relations.filter(Relation.end_day == None).filter(Relation.status == relation_type)
         if native_relations.count() or foreign_relations.count():
             relation_list = []
             for relation in native_relations.all():
@@ -166,7 +166,7 @@ def api_game_force_relations(game_id):
     relation_list = []
 
     for player in game.players:
-        for relation in player.native_relations:
+        for relation in player.native_relations.filter(Relation.end_day == None):
             relation_list.append({
                 "source": relation.player_native.nation_name,
                 "target": relation.player_foreign.nation_name,
@@ -189,8 +189,8 @@ def api_game_edge_relations(game_id):
         war = []
         right_of_way = []
         share_map = []
-        native_relations = player.native_relations
-        foreign_relations = player.foreign_relations
+        native_relations = player.native_relations.filter(Relation.end_day == None)
+        foreign_relations = player.foreign_relations.filter(Relation.end_day == None)
         if native_relations.count() or foreign_relations.count():
             for relation in native_relations.all():
                 if relation.status == -2:
