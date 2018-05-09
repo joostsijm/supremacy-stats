@@ -279,6 +279,7 @@ def internal_server_error(error):
 @app.route('/deploy/<int:data>')
 def on_push(data):
     call(["git", "pull"])
+    call(["yarn"])
     call(["touch", "flask.wsgi"])
-    call(["gulp"])
+    call(["yarn gulp"])
     return jsonify(True)
