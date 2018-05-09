@@ -2,7 +2,6 @@
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block css %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='css/game/overview.min.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
@@ -33,7 +32,6 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
 <script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
-<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.js') }}"></script>
 <script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.min.js') }}"></script>
 <script async type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
 {% endblock %}
