@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="">
 		<meta name="author" content="">
+		<link rel="stylesheet" href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}">
 		<title>{% block title %}{% endblock %} - Supremacy-Stats</title>
 		{% block head %}{% endblock %}
 	</head>
@@ -110,7 +111,6 @@
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57154028-5"></script>
 		<noscript id="deferred-styles">
 			<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
-			<link rel="stylesheet" href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/main.min.css') }}">
 			<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.min.css') }}">
 			{% block css %}{% endblock %}
