@@ -57,6 +57,17 @@ def game_overview(game_id):
     return render_template('game/overview.html', game=game)
 
 
+@app.route('/game/<int:game_id>/players')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_players(game_id):
+    """Show game overview"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/players.html', game=game)
+
+
 @app.route('/game/<int:game_id>/relations')
 @register_breadcrumb(app, '.games.game_id', '',
                      dynamic_list_constructor=game_overview_dlc)
@@ -261,11 +272,6 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template('site/500.html'), 500
-
-
-@app.errorhandler(Exception)
-def unhandled_exception(error):
     return render_template('site/500.html'), 500
 
 

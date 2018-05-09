@@ -13,28 +13,6 @@
 	<a href="{{ url_for('game_relations_2', game_id=game.game_id) }}" class="btn btn-light">Relations 2</a>
 </p>
 {% include 'components/game/overview.html' %}
-<div class="row">
-	<div class="col-lg-6">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> War Diagram
-			</div>
-			<div class="card-body">
-				<div id="war_relations"></div>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-6">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Peace Diagram
-			</div>
-			<div class="card-body">
-				<div id="peace_relations"></div>
-			</div>
-		</div>
-	</div>
-</div>
 {% include 'components/game/players.html' %}
 {% endblock %}
 {% block javascript %}

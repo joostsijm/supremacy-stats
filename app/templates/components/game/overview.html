@@ -5,17 +5,17 @@
 			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
 			<div class="dropdown-menu">
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}"></input>
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<button type="submit" class="dropdown-item">Update</button>
 				</form>
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}"></input>
-					<input type="hidden" name="fetch_type" value="players"</input>
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="fetch_type" value="players">
 					<button type="submit" class="dropdown-item">Update players</button>
 				</form>
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}"></input>
-					<input type="hidden" name="fetch_type" value="relations"></input>
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="fetch_type" value="relations">
 					<button type="submit" class="dropdown-item">Update relations</button>
 				</form>
 			</div>

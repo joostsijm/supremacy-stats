@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="mb-3">
-	<table class="table table-bordered dataTable" cellspacing="0">
+	<table class="table table-bordered dataTable" width="100%" cellspacing="0">
 		<thead>
 			<tr>
 				<th>Game ID</th>
@@ -15,15 +15,6 @@
 				<th>Players</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<th>Game ID</th>
-				<th>Start Date</th>
-				<th>Current Day</th>
-				<th>Map</th>
-				<th>Players</th>
-			</tr>
-		</tfoot>
 		<tbody>
 			{% for game in games %}
 			<tr>
