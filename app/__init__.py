@@ -17,7 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
     'postgresql://supindex@localhost/supindex'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 21600
+# Cache files for 15 days
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1296000
 app.jinja_env.lstrip_blocks = True
 app.jinja_env.trim_blocks = True
 
