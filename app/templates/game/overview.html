@@ -29,7 +29,6 @@
 	</div>
 	<div class="card-footer small text-muted">Updated {{ game.last_fetch }}</div>
 </div>
-{% include 'components/game/players.html' %}
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
