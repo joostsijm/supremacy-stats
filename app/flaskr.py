@@ -266,7 +266,7 @@ def user_overview(site_id):
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found(error):
     return render_template('site/404.html'), 404
 
 
@@ -279,6 +279,6 @@ def internal_server_error(error):
 @app.route('/deploy/<int:data>')
 def on_push(data):
     call(["git", "pull"])
-    call(["gulp"])
     call(["touch", "flask.wsgi"])
+    call(["gulp"])
     return jsonify(True)
