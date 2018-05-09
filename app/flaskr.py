@@ -281,5 +281,5 @@ def on_push(data):
     call(["git", "pull"])
     call(["yarn"])
     call(["touch", "flask.wsgi"])
-    call(["yarn gulp"])
+    call(["yarn", "gulp"])
     return jsonify(True)
