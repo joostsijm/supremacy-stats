@@ -18,6 +18,7 @@ class Relation(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     start_day = db.Column(db.Integer)
+    end_day = db.Column(db.Integer)
     status = db.Column(db.Integer)
 
     #
@@ -39,18 +40,20 @@ class Relation(db.Model):
 
     @hybrid_property
     def status_formatted(self):
-        if self.status == -2:
-            return "war"
-        if self.status == -1:
-            return "ceasefire"
-        elif self.status == 0:
-            return "peace"
-        elif self.status == 3:
-            return "right-of-way"
-        elif self.status == 4:
-            return "share-map"
-        elif self.status == 6:
-            return "share-information"
+        """Return description of the relation"""
+        status_list = {
+            -2: "war",
+            -1: "ceasefire",
+            0: "peace",
+            3: "right-of-way",
+            4: "share-map",
+            6: "share-info"
+        }
+        status = self.status
+        if status in status_list:
+            return status_list[status]
+        return "unknown"
+
     #
     # Representation
     # -------------

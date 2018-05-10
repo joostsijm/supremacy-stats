@@ -1,43 +1,39 @@
 {% extends "layouts/main.html" %}
 {% block title %}Game {{ game.game_id }}{% endblock %}
-{% block head %}
+{% block css %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/overview.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/game/overview.min.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-<input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 <p>
 	<a href="{{ url_for('game_overview', game_id=game.game_id) }}" class="btn btn-light">Overview</a>
+	<a href="{{ url_for('game_players', game_id=game.game_id) }}" class="btn btn-light">Players</a>
 	<a href="{{ url_for('game_relations', game_id=game.game_id) }}" class="btn btn-light">Relations</a>
 	<a href="{{ url_for('game_relations_2', game_id=game.game_id) }}" class="btn btn-light">Relations 2</a>
 </p>
 {% include 'components/game/overview.html' %}
-<div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-area-chart"></i> Game {{ game.game_id }}
+<div class="mb-0 mt-4">
+<div class="row">
+	<div class="col">
+		<i class="fa fa-area-chart"></i> Graph
+	</div>
+	<div class="col">
 		<div class="dropdown pull-right">
-			<button class="btn btn-secondary btn-sm dropdown-toggle show_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
+			<button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
 			<div class="dropdown-menu">
 				<button class="dropdown-item show_players">Players</button>
 				<button class="dropdown-item show_everyone">Everyone</button>
 			</div>
 		</div>
 	</div>
-	<div class="card-body">
-		<div id="game_index"></div>
-	</div>
-	<div class="card-footer small text-muted">Updated {{ game.last_fetch }}</div>
 </div>
-{% include 'components/game/players.html' %}
+<hr class="mt-2">
+<div id="game_index"></div>
+</div>
 {% endblock %}
 {% block javascript %}
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.responsive.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/plugins/export/export.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/themes/light.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/serial.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/light.min.js') }}"></script>
+<script async type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
 {% endblock %}

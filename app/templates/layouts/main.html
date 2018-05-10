@@ -6,17 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="">
 		<meta name="author" content="">
+		<link rel="stylesheet" href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.css') }}">
 		<title>{% block title %}{% endblock %} - Supremacy-Stats</title>
-		{% block head%}{% endblock %}
-		<!-- Bootstrap core CSS-->
-		<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-		<!-- Custom fonts for this template-->
-		<link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-		<!-- Custom styles for this template-->
-		<link href="{{ url_for('static', filename='css/main.min.css') }}" rel="stylesheet">
-		<link href="{{ url_for('static', filename='css/custom.min.css') }}" rel="stylesheet">
+		{% block head %}{% endblock %}
 	</head>
-
 	<body class="fixed-nav sticky-footer bg-dark" id="page-top">
 		<!-- Navigation-->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -62,7 +55,7 @@
 			</div>
 		</nav>
 		<div class="content-wrapper">
-			<div class="container-fluid">
+			<div class="container-fluid mb-4">
 				<!-- Breadcrumbs-->
 				<ol class="breadcrumb">
 					{%- for breadcrumb in breadcrumbs -%}
@@ -120,11 +113,37 @@
 					</div>
 				</div>
 			</div>
-			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-			<script type='text/javascript' src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-			<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-			<script type='text/javascript' src="{{ url_for('static', filename='js/site/main.min.js') }}"></script>
-			{% block javascript %}{% endblock %}
 		</div>
+		<script type='text/javascript' src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+		<script type='text/javascript' src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+		<script async type='text/javascript' src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+		<script async type='text/javascript' src="{{ url_for('static', filename='js/site/main.min.js') }}"></script>
+		{% block javascript %}{% endblock %}
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57154028-5"></script>
+		<noscript id="deferred-styles">
+			<link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+			<link rel="stylesheet" href="{{ url_for('static', filename='css/main.min.css') }}">
+			<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.min.css') }}">
+			{% block css %}{% endblock %}
+		</noscript>
+		<script>
+			var loadDeferredStyles = function() {
+				var addStylesNode = document.getElementById("deferred-styles");
+				var replacement = document.createElement("div");
+				replacement.innerHTML = addStylesNode.textContent;
+				document.body.appendChild(replacement)
+				addStylesNode.parentElement.removeChild(addStylesNode);
+			};
+			var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+					window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+			if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+			else window.addEventListener('load', loadDeferredStyles);
+
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-57154028-5');
+		</script>
 	</body>
 </html>

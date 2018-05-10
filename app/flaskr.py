@@ -119,6 +119,17 @@ def game_overview(game_id):
     return render_template('game/overview.html', game=game)
 
 
+@app.route('/game/<int:game_id>/players')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_players(game_id):
+    """Show game overview"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/players.html', game=game)
+
+
 @app.route('/game/<int:game_id>/relations')
 @register_breadcrumb(app, '.games.game_id', '',
                      dynamic_list_constructor=game_overview_dlc)
@@ -203,8 +214,8 @@ def api_game_relations(game_id, relation_type):
     player_list = []
 
     for player in game.players:
-        native_relations = player.native_relations.filter(Relation.status == relation_type)
-        foreign_relations = player.foreign_relations.filter(Relation.status == relation_type)
+        native_relations = player.native_relations.filter(Relation.end_day == None).filter(Relation.status == relation_type)
+        foreign_relations = player.foreign_relations.filter(Relation.end_day == None).filter(Relation.status == relation_type)
         if native_relations.count() or foreign_relations.count():
             relation_list = []
             for relation in native_relations.all():
@@ -228,7 +239,7 @@ def api_game_force_relations(game_id):
     relation_list = []
 
     for player in game.players:
-        for relation in player.native_relations:
+        for relation in player.native_relations.filter(Relation.end_day == None):
             relation_list.append({
                 "source": relation.player_native.nation_name,
                 "target": relation.player_foreign.nation_name,
@@ -251,8 +262,8 @@ def api_game_edge_relations(game_id):
         war = []
         right_of_way = []
         share_map = []
-        native_relations = player.native_relations
-        foreign_relations = player.foreign_relations
+        native_relations = player.native_relations.filter(Relation.end_day == None)
+        foreign_relations = player.foreign_relations.filter(Relation.end_day == None)
         if native_relations.count() or foreign_relations.count():
             for relation in native_relations.all():
                 if relation.status == -2:
@@ -281,15 +292,12 @@ def api_fetch_game():
 
     if fetch_type == 'relations':
         fetch.get_relations(game_id)
-        return redirect(url_for('game_relations', game_id=game_id), code=302)
-
     elif fetch_type == 'players':
         fetch.get_players(game_id)
-
     else:
         fetch.get_results(game_id)
 
-    return redirect(url_for('game_overview', game_id=game_id), code=302)
+    return redirect(request.referrer, code=302)
 
 
 @app.route('/users')
@@ -314,15 +322,26 @@ def user_overview_dlc(*args, **kwargs):
                      dynamic_list_constructor=user_overview_dlc)
 def user_overview(site_id):
     """Show user overview"""
-
     site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('site/404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('site/500.html'), 500
+
 
 @webhook.hook()
 @app.route('/deploy/<int:data>')
 def on_push(data):
     call(["git", "pull"])
-    call(["gulp"])
+    call(["yarn"])
     call(["touch", "flask.wsgi"])
+    call(["yarn", "gulp"])
     return jsonify(True)
