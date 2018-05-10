@@ -3,12 +3,14 @@
 User model module
 """
 
+from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_property
 from flask import url_for
 from app import db
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     # Table name
     __tablename__ = 'sp_users'
 
@@ -19,6 +21,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     site_id = db.Column(db.Integer, unique=True, nullable=False)
+    email = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    registration_at = db.Column(db.DateTime, default=datetime.utcnow)
     score_military = db.Column(db.Integer)
     score_economic = db.Column(db.Integer)
 
@@ -31,6 +36,9 @@ class User(db.Model):
     #
     # Attributes
     # -------------
+
+    def __init__(self, id=None):
+        self.id = id
 
     @hybrid_property
     def url(self):

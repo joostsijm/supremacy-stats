@@ -4,10 +4,11 @@ Simple flask thing
 """
 
 from subprocess import call
-from flask import render_template, jsonify, request, redirect, url_for
+from flask import render_template, jsonify, request, redirect, url_for, flash
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
-from app import app, webhook
+from flask_login import login_required, login_user, logout_user
+from app import app, login_manager, webhook, db
 from app.models.game import Game
 from app.models.user import User
 from app.models.player import Player
@@ -18,7 +19,68 @@ Menu(app=app)
 Breadcrumbs(app=app)
 
 
+@login_manager.user_loader
+def load_user(id):
+    """Return user"""
+    return User.query.get(id)
+
+
+@register_breadcrumb(app, '.login', 'Login')
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Handle login page and data"""
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter(User.email == email).first()
+        if user is not None:
+            if user.password == password:
+                login_user(user)
+                flash('You were successfully logged in.', 'success')
+                if request.args.get("next") is not None:
+                    return redirect(request.args.get("next"))
+                else:
+                    return redirect(url_for('index'))
+            else:
+                flash('Incorrect password.', 'danger')
+        else:
+            flash('User not found.', 'danger')
+
+        return redirect(url_for('login'))
+    else:
+        return render_template('user/login.html')
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    """Register a new user"""
+    if "name" not in request.form:
+        flash('Fill in name', 'warning')
+        return render_template('user/login.html')
+
+    if "email" not in request.form:
+        flash('Fill in email', 'warning')
+        return render_template('user/login.html', email=request.form['email'])
+
+    user = User.query.filter(User.name == request.form['name']).first()
+    if user is None:
+        flash('Name not found', 'warning')
+        return render_template('user/login.html', name=request.form['name'], email=request.form['email'])
+
+    user.email = request.form['email']
+    user.password = request.form['password']
+    db.session.commit()
+    login_user(user)
+    flash('Succesfully registered account "%s".' % (user.name), 'success')
+
+    if request.args.get("next") is not None:
+        return redirect(request.args.get("next"))
+    else:
+        return redirect(url_for('index'))
+
+
 @app.route('/')
+@login_required
 @register_menu(app, '.', 'Home')
 @register_breadcrumb(app, '.', 'Home')
 def index():
