@@ -6,7 +6,7 @@ $(document).ready(function() {
 				target: 'tr td:not(:first-child)'
 			}
 		},
-		pageLength: 25,
+		paging: false,
 		width: "100%",
 	});
 });

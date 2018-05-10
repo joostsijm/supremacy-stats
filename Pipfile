@@ -1,21 +1,27 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
-sqlalchemy = "*"
+
+SQLAlchemy = "*"
 requests = "*"
 "psycopg2-binary" = "*"
 alembic = "*"
-flask = "*"
-flask-sqlalchemy = "*"
-flask-breadcrumbs = "*"
-flask-menu = "*"
-apscheduler = "*"
+Flask = "*"
+Flask-SQLAlchemy = "*"
+Flask-Breadcrumbs = "*"
+Flask-Menu = "*"
+APScheduler = "*"
 humanize = "*"
 github-webhook = "*"
-flask-login = "*"
-flask-migrate = "*"
+Flask-Login = "*"
+Flask-Migrate = "*"
+Flask-Compress = "*"
+
 
 [dev-packages]
+

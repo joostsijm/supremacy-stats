@@ -40,7 +40,8 @@ gulp.task('vendor', function() {
 
 	// Amchart
 	gulp.src([
-		'node_modules/amcharts3/amcharts/**/*',
+		'node_modules/amcharts3/amcharts/themes/*.js',
+		'node_modules/amcharts3/amcharts/*.js',
 	])
 		.pipe(gulp.dest('app/static/vendor/amcharts3/'));
 
