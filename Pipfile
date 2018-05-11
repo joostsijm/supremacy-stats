@@ -7,20 +7,21 @@ name = "pypi"
 
 [packages]
 
-SQLAlchemy = "*"
+sqlalchemy = "*"
 requests = "*"
 "psycopg2-binary" = "*"
 alembic = "*"
-Flask = "*"
-Flask-SQLAlchemy = "*"
-Flask-Breadcrumbs = "*"
-Flask-Menu = "*"
-APScheduler = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+flask-breadcrumbs = "*"
+flask-menu = "*"
+apscheduler = "*"
 humanize = "*"
 github-webhook = "*"
-Flask-Login = "*"
-Flask-Migrate = "*"
-Flask-Compress = "*"
+flask-login = "*"
+flask-migrate = "*"
+flask-compress = "*"
+"flask-argon2" = "*"
 
 
 [dev-packages]

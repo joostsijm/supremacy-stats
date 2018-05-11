@@ -4,10 +4,11 @@ Simple flask thing
 """
 
 from subprocess import call
-from flask import render_template, jsonify, request, redirect, url_for
+from flask import render_template, jsonify, request, redirect, url_for, flash
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
-from app import app, webhook
+from flask_login import login_required, login_user, logout_user, current_user
+from app import app, login_manager, webhook, db
 from app.models.game import Game
 from app.models.user import User
 from app.models.player import Player
@@ -18,15 +19,117 @@ Menu(app=app)
 Breadcrumbs(app=app)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    """Return user"""
+    return User.query.get(user_id)
+
+
+@register_breadcrumb(app, '.login', 'Login')
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Handle login page and data"""
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter(User.email == email).first()
+        if user is not None:
+            if user.password == password:
+                login_user(user, remember=True)
+                flash('You were successfully logged in.', 'success')
+                if request.args.get("next") is not None:
+                    return redirect(request.args.get("next"))
+                return redirect(url_for('index'))
+            else:
+                flash('Incorrect password.', 'danger')
+        else:
+            flash('User not found.', 'danger')
+
+        return redirect(url_for('login'))
+    else:
+        return render_template('user/login.html')
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    """Register a new user"""
+    if request.method != "POST":
+        return redirect(url_for('login'))
+
+    if "name" not in request.form or not request.form['name']:
+        flash('Fill in the name', 'warning')
+        return render_template('user/login.html')
+
+    if "email" not in request.form or not request.form['email']:
+        flash('Fill in the email', 'warning')
+        return render_template('user/login.html', name=request.form['name'])
+
+    if "password" not in request.form or not request.form['password']:
+        flash('Fill in the password', 'warning')
+        return render_template(
+            'user/login.html',
+            name=request.form['name'],
+            email=request.form['email']
+        )
+
+    user = User.query.filter(User.name == request.form['name']).first()
+    if user is None:
+        flash('Name not found', 'warning')
+        return render_template(
+            'user/login.html',
+            name=request.form['name'],
+            email=request.form['email']
+        )
+
+    if user.email is not None:
+        flash('User already taken', 'warning')
+        return render_template(
+            'user/login.html',
+            name=request.form['name'],
+            email=request.form['email']
+        )
+
+    user.email = request.form['email']
+    user.password = request.form['password']
+
+    db.session.commit()
+    login_user(user, remember=True)
+    flash('Succesfully registered account "%s".' % (user.name), 'success')
+
+    if request.args.get("next") is not None:
+        return redirect(request.args.get("next"))
+    else:
+        return redirect(url_for('index'))
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    """Logout function for users"""
+    logout_user()
+    flash('succesfully logged out.', 'success')
+    return redirect(url_for('login'))
+
+
 @app.route('/')
 @register_menu(app, '.', 'Home')
 @register_breadcrumb(app, '.', 'Home')
 def index():
     """Show homepage"""
 
-    games = Game.query.count()
-    users = User.query.count()
-    return render_template('site/index.html', games=games, users=users)
+    game_count = Game.query.count()
+    user_count = User.query.count()
+    if current_user.is_authenticated:
+        games = current_user.players.order_by(Player.game_id.desc()).all() 
+    else:
+        games = None
+
+    return render_template(
+        'site/index.html',
+        game_count=game_count,
+        user_count=user_count,
+        games=games
+    )
 
 
 @app.route('/games')
@@ -264,6 +367,16 @@ def user_overview(site_id):
     site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)
+
+
+@app.route('/user_claim', methods=['POST'])
+def user_claim():
+    if "name" in request.form:
+        return render_template(
+            'user/login.html',
+            name=request.form['name'],
+        )
+    return redirect(url_for('login'))
 
 
 @app.errorhandler(404)

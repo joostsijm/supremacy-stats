@@ -7,6 +7,12 @@
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-user"></i> {{ user.name }}
+		{% if not user.email and not current_user.is_authenticated %}
+		<form action="{{ url_for('user_claim') }}" method="post" class="pull-right">
+			<input type="hidden" name="name" value="{{ user.name }}">
+			<button type="submit" class="btn btn-secondary btn-sm">Claim user</button>
+		</form>
+		{% endif %}
 	</div>
 	<div class="card-body row">
 		<div class="col-12 col-md">
