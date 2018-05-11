@@ -34,7 +34,7 @@ def login():
         password = request.form['password']
         user = User.query.filter(User.email == email).first()
         if user is not None:
-            if user.password == password:
+            if user.check_password(password):
                 login_user(user, remember=True)
                 flash('You were successfully logged in.', 'success')
                 if request.args.get("next") is not None:
