@@ -8,7 +8,7 @@
 				<div class="card-body-icon">
 					<i class="fa fa-fw fa-gamepad"></i>
 				</div>
-				<div class="mr-5">{{ games }} games found</div>
+				<div class="mr-5">{{ game_count }} games found</div>
 			</div>
 			<a class="card-footer text-white clearfix small z-1" href="{{ url_for('game_index') }}">
 				<span class="float-left">View games</span>
@@ -24,7 +24,7 @@
 				<div class="card-body-icon">
 					<i class="fa fa-fw fa-user"></i>
 				</div>
-				<div class="mr-5">{{ users }} users found</div>
+				<div class="mr-5">{{ user_count }} users found</div>
 			</div>
 			<a class="card-footer text-white clearfix small z-1" href="{{ url_for('user_index') }}">
 				<span class="float-left">View users</span>
@@ -38,4 +38,29 @@
 {% endblock %}
 {% block content %}
 <p class="text-justify">Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</p>
+<div class="mb-0 mt-4">
+	<h2><i class="fa fa-gamepad"></i> Your Games</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Game ID</th>
+				<th>Name</th>
+				<th>Nation</th>
+				<th>Points</th>
+				<th>Last Login</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for player in games %}
+			<tr>
+				<td><a href="{{ url_for('game_overview', game_id=player.game.game_id) }}">{{ player.game.game_id }}</a></td>
+				<td>{{ player.fullname }}</td>
+				<td>{{ player.nation_name }}</td>
+				<td>{{ player.today().points }}</td>
+				<td>{{ player.last_login_formatted }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock %}

@@ -13,22 +13,22 @@
 </p>
 {% include 'components/game/overview.html' %}
 <div class="mb-0 mt-4">
-<div class="row">
-	<div class="col">
-		<i class="fa fa-area-chart"></i> Graph
-	</div>
-	<div class="col">
-		<div class="dropdown pull-right">
-			<button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
-			<div class="dropdown-menu">
-				<button class="dropdown-item show_players">Players</button>
-				<button class="dropdown-item show_everyone">Everyone</button>
+	<div class="row">
+		<div class="col">
+			<i class="fa fa-area-chart"></i> Graph
+		</div>
+		<div class="col">
+			<div class="dropdown pull-right">
+				<button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everyone</button>
+				<div class="dropdown-menu">
+					<button class="dropdown-item show_players">Players</button>
+					<button class="dropdown-item show_everyone">Everyone</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<hr class="mt-2">
-<div id="game_index"></div>
+	<hr class="mt-2">
+	<div id="game_index"></div>
 </div>
 {% endblock %}
 {% block javascript %}

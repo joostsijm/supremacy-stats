@@ -47,10 +47,20 @@
 							</div>
 						</form>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-							<i class="fa fa-fw fa-sign-out"></i>Logout</a>
-					</li>
+					<ul class="navbar-nav ml-auto">
+						{% if current_user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ url_for('user_overview', site_id=current_user.site_id) }}">{{ current_user.name }}</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ url_for('login') }}">Login</a>
+						</li>
+						{% endif %}
+					</ul>
 				</ul>
 			</div>
 		</nav>
@@ -96,19 +106,19 @@
 				<i class="fa fa-angle-up"></i>
 			</a>
 			<!-- Logout Modal-->
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+							<h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
 							<button class="close" type="button" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">×</span>
 							</button>
 						</div>
-						<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+						<div class="modal-body">Click the "logout" out button to logout</div>
 						<div class="modal-footer">
 							<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-							<a class="btn btn-primary" href="login.html">Logout</a>
+							<a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
 						</div>
 					</div>
 				</div>
