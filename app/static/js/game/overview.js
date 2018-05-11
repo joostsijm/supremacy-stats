@@ -1,15 +1,17 @@
 game_id = $("input[name='game_id']").val()
 
 $(document).ready(function(e) {
-	get_data("everyone")
+	get_data("players")
 })
 
 $(".show_players").on("click", function() {
 	get_data("players")
+	$(".switch_player").text("Players")
 });
 
 $(".show_everyone").on("click", function() {
 	get_data("everyone")
+	$(".switch_player").text("Everyone")
 });
 
 function get_data(type)

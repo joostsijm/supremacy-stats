@@ -132,6 +132,7 @@ def api_game_score(game_id, score_type):
         player_list.append({
             "title": player.nation_name,
             "valueField": player.name,
+            "lineColor": player.primary_color,
         })
 
     score = {
