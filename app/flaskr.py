@@ -35,7 +35,7 @@ def login():
         user = User.query.filter(User.email == email).first()
         if user is not None:
             if user.password == password:
-                login_user(user)
+                login_user(user, remember=True)
                 flash('You were successfully logged in.', 'success')
                 if request.args.get("next") is not None:
                     return redirect(request.args.get("next"))
@@ -93,7 +93,7 @@ def register():
     user.password = request.form['password']
 
     db.session.commit()
-    login_user(user)
+    login_user(user, remember=True)
     flash('Succesfully registered account "%s".' % (user.name), 'success')
 
     if request.args.get("next") is not None:

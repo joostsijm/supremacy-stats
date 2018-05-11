@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     site_id = db.Column(db.Integer, unique=True, nullable=False)
-    email = db.Column(db.String(255))
+    email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
     registration_at = db.Column(db.DateTime, default=datetime.utcnow)
     score_military = db.Column(db.Integer)
