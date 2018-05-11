@@ -57,15 +57,15 @@ def register():
         return redirect(url_for('login'))
 
     if "name" not in request.form or not request.form['name']:
-        flash('Fill in name', 'warning')
+        flash('Fill in the name', 'warning')
         return render_template('user/login.html')
 
     if "email" not in request.form or not request.form['email']:
-        flash('Fill in email', 'warning')
+        flash('Fill in the email', 'warning')
         return render_template('user/login.html', name=request.form['name'])
 
     if "password" not in request.form or not request.form['password']:
-        flash('Fill in password', 'warning')
+        flash('Fill in the password', 'warning')
         return render_template(
             'user/login.html',
             name=request.form['name'],
@@ -119,7 +119,11 @@ def index():
 
     game_count = Game.query.count()
     user_count = User.query.count()
-    games = current_user.players.order_by(Player.game_id.desc()).all() 
+    if current_user.is_authenticated:
+        games = current_user.players.order_by(Player.game_id.desc()).all() 
+    else:
+        games = None
+
     return render_template(
         'site/index.html',
         game_count=game_count,
@@ -362,6 +366,16 @@ def user_overview(site_id):
     site_id = int(site_id)
     user = User.query.filter(User.site_id == site_id).first()
     return render_template('user/overview.html', user=user)
+
+
+@app.route('/user_claim', methods=['POST'])
+def user_claim():
+    if "name" in request.form:
+        return render_template(
+            'user/login.html',
+            name=request.form['name'],
+        )
+    return redirect(url_for('login'))
 
 
 @app.errorhandler(404)

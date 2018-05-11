@@ -17,6 +17,9 @@
 		<div class="card mx-auto mt-5">
 			<div class="card-header">
 				<i class="fa fa-user"></i> Login
+				<div class="pull-right">
+					<a href="{{ request.referrer }}" class="btn btn-sm btn-secondary">Cancel</a>
+				</div>
 			</div>
 			<div class="card-body">
 				{% with messages = get_flashed_messages(with_categories=true) %}
