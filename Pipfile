@@ -8,20 +8,18 @@ name = "pypi"
 [packages]
 
 sqlalchemy = "*"
-requests = "*"
 "psycopg2-binary" = "*"
-alembic = "*"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-breadcrumbs = "*"
 flask-menu = "*"
-apscheduler = "*"
-humanize = "*"
-github-webhook = "*"
 flask-login = "*"
 flask-migrate = "*"
 flask-compress = "*"
 "flask-argon2" = "*"
+apscheduler = "*"
+requests = "*"
+humanize = "*"
 
 
 [dev-packages]
