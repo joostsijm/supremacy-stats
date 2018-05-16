@@ -12,7 +12,7 @@ import humanize
 
 class Player(db.Model):
     # Table name
-    __tablename__ = 'sp_players'
+    __tablename__ = "sp_players"
 
     #
     # db.Columns
@@ -36,17 +36,11 @@ class Player(db.Model):
     # Relationships
     # -------------
 
-    user_id = db.Column(db.Integer, db.ForeignKey('sp_users.id'))
-    user = db.relationship("User", back_populates="players")
+    user_id = db.Column(db.Integer, db.ForeignKey("sp_users.id"))
+    user = db.relationship("User", backref=db.backref("players"))
 
-    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
-    game = db.relationship("Game", back_populates="players")
-
-    days = db.relationship("Day", back_populates="player", lazy="dynamic")
-
-    native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native", lazy="dynamic")
-
-    foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign", lazy="dynamic")
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("players"))
 
     #
     # Attributes

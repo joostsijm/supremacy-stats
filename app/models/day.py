@@ -3,7 +3,7 @@ from app import db
 
 class Day(db.Model):
     # Table name
-    __tablename__ = 'sp_days'
+    __tablename__ = "sp_days"
 
     #
     # Columns
@@ -17,14 +17,14 @@ class Day(db.Model):
     # Relationships
     # -------------
 
-    player_id = db.Column(db.Integer, db.ForeignKey('sp_players.id'))
-    player = db.relationship("Player", back_populates="days")
+    player_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
+    player = db.relationship("Player", backref=db.backref("days"))
 
-    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
-    game = db.relationship("Game", back_populates="days")
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("days"))
 
-    coalition_id = db.Column(db.Integer, db.ForeignKey('sp_coalitions.id'))
-    coalition = db.relationship("Coalition", back_populates="days")
+    coalition_id = db.Column(db.Integer, db.ForeignKey("sp_coalitions.id"))
+    coalition = db.relationship("Coalition", backref=db.backref("days"))
 
     #
     # Representation

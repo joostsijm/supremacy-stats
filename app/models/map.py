@@ -10,7 +10,7 @@ class Map(db.Model):
     """Model for a map"""
 
     # Table name
-    __tablename__ = 'sp_maps'
+    __tablename__ = "sp_maps"
 
     #
     # Columns
@@ -25,8 +25,6 @@ class Map(db.Model):
     #
     # Relationships
     # -------------
-
-    games = db.relationship("Game", back_populates="map")
 
     #
     # Representation

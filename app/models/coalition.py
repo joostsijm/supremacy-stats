@@ -3,7 +3,7 @@ from app import db
 
 class Coalition(db.Model):
     # Table name
-    __tablename__ = 'sp_coalitions'
+    __tablename__ = "sp_coalitions"
 
     #
     # db.Columns
@@ -18,10 +18,8 @@ class Coalition(db.Model):
     # Relationships
     # -------------
 
-    days = db.relationship("Day", back_populates="coalition")
-
-    game_id = db.Column(db.Integer, db.ForeignKey('sp_games.id'))
-    game = db.relationship("Game", back_populates="coalitions")
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("coalitions"))
 
     #
     # Representation

@@ -20,7 +20,7 @@ from app.models.coalition import Coalition
 class Game(db.Model):
     """Model for game"""
     # Table name
-    __tablename__ = 'sp_games'
+    __tablename__ = "sp_games"
 
     #
     # Columns
@@ -37,16 +37,8 @@ class Game(db.Model):
     # Relationships
     # -------------
 
-    map_id = db.Column(db.Integer, db.ForeignKey('sp_maps.id'))
-    map = db.relationship("Map", back_populates="games")
-
-    players = db.relationship("Player", back_populates="game", lazy="dynamic")
-
-    days = db.relationship("Day", back_populates="game", lazy="dynamic")
-
-    relations = db.relationship("Relation", back_populates="game", lazy="dynamic")
-
-    coalitions = db.relationship("Coalition", back_populates="game")
+    map_id = db.Column(db.Integer, db.ForeignKey("sp_maps.id"))
+    map = db.relationship("Map", backref=db.backref("games"))
 
     #
     # Attributes
@@ -66,7 +58,7 @@ class Game(db.Model):
 
     @hybrid_property
     def url(self):
-        return url_for('game_overview', game_id=self.game_id)
+        return url_for("game_overview", game_id=self.game_id)
 
     @hybrid_property
     def supremacy_url(self):

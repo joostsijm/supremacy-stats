@@ -12,7 +12,7 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
     # Table name
-    __tablename__ = 'sp_users'
+    __tablename__ = "sp_users"
 
     #
     # db.Columns
@@ -31,8 +31,6 @@ class User(db.Model, UserMixin):
     # Relationships
     # -------------
 
-    players = db.relationship("Player", back_populates="user", lazy="dynamic")
-
     #
     # Attributes
     # -------------
@@ -43,7 +41,7 @@ class User(db.Model, UserMixin):
     @hybrid_property
     def url(self):
         """Return url user profile"""
-        return url_for('user_overview', site_id=self.site_id)
+        return url_for("user_overview", site_id=self.site_id)
 
     @hybrid_property
     def supremacy_url(self):
