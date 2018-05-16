@@ -44,58 +44,73 @@ class Player(db.Model):
 
     days = db.relationship("Day", back_populates="player", lazy="dynamic")
 
-    native_relations = db.relationship("Relation", foreign_keys="Relation.player_native_id", back_populates="player_native", lazy="dynamic")
+    native_relations = db.relationship(
+        "Relation",
+        foreign_keys="Relation.player_native_id",
+        back_populates="player_native",
+        lazy="dynamic"
+    )
 
-    foreign_relations = db.relationship("Relation", foreign_keys="Relation.player_foreign_id", back_populates="player_foreign", lazy="dynamic")
+    foreign_relations = db.relationship(
+        "Relation",
+        foreign_keys="Relation.player_foreign_id",
+        back_populates="player_foreign",
+        lazy="dynamic"
+    )
 
     #
     # Attributes
     # -------------
 
-    @hybrid_method
+    @hybrid_property
     def points(self):
-        today = self.today()
-        if today is not None:
-            return today.points
-
+        """Display current points"""
+        day = self.today()
+        if day is not None:
+            return day.points
         return 0
 
     @hybrid_method
     def today(self):
+        """Return last day"""
         return self.days.order_by(Day.day.desc()).first()
 
-    @hybrid_method
+    @hybrid_property
     def last_day_percentage(self):
-        today = self.today()
-        if today is None:
+        """Show percentage growth day"""
+        day = self.today()
+        if day is None:
             return 0
 
-        yesterday = self.days.filter(Day.day == today.day - 1).first()
+        yesterday = self.days.filter(Day.day == day.day - 1).first()
         if yesterday is None:
             return 0
 
-        percentage = (today.points - yesterday.points) / yesterday.points * 100
+        percentage = (day.points - yesterday.points) / yesterday.points * 100
         return round(percentage, 2)
 
-    @hybrid_method
+    @hybrid_property
     def last_week_percentage(self):
-        today = self.today()
-        if today is None:
+        """Show percentage growth last week"""
+        day = self.today()
+        if day is None:
             return 0
 
-        last_week = self.days.filter(Day.day == today.day - 7).first()
+        last_week = self.days.filter(Day.day == day.day - 7).first()
         if last_week is None:
             return 0
 
-        percentage = (today.points - last_week.points) / last_week.points * 100
+        percentage = (day.points - last_week.points) / last_week.points * 100
         return round(percentage, 2)
 
     @hybrid_property
     def fullname(self):
+        """Returns player full name"""
         return "%s %s" % (self.title, self.name)
 
     @hybrid_property
     def last_login_formatted(self):
+        """Humanize user last login"""
         if self.last_login is None:
             return ""
 
