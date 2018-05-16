@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	$('.dataTable').DataTable({
+		order: [2, "desc"],
 		responsive: {
 			details: {
 				type: 'column',

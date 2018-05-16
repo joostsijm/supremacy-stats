@@ -1,6 +1,6 @@
 $(document).ready(function(e) {
 	$('.table.countrys').DataTable({
-		"order": [[ 2, "desc" ]],
+		order: [2, "desc"],
 		responsive: true,
 	})
 
