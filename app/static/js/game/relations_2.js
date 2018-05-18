@@ -1,11 +1,6 @@
 game_id = $("input[name='game_id']").val();
 
 $(document).ready(function(e) {
-	$('.table.countrys').DataTable({
-		order: [2, "desc"],
-		responsive: true,
-	});
-
 	width = window.innerWidth / 2
 	height = window.innerHeight
 

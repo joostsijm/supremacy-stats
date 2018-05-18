@@ -11,6 +11,7 @@
 			<th>Percent day</th>
 			<th>Percent week</th>
 			<th>Last Login</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,6 +29,7 @@
 			<td class="text-right text-{{ 'success' if day_percentage >= 0 else 'danger' }}">{{ day_percentage }}%</td>
 			<td class="text-right text-{{ 'success' if week_percentage >= 0 else 'danger' }}">{{ week_percentage }}%</td>
 			<td>{{ player.last_login_formatted }}</td>
+			<td>{{ player.last_login.timestamp() if player.last_login }}</td>
 		</tr>
 		{% endfor %}
 	</tbody>

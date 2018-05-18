@@ -1,9 +1,4 @@
 $(document).ready(function(e) {
-	$('.table.countrys').DataTable({
-		order: [2, "desc"],
-		responsive: true,
-	})
-
 	game_id = $("input[name='game_id']").val();
 
 	diameter = 460,
