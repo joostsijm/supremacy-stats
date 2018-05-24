@@ -11,13 +11,7 @@ import requests
 from sqlalchemy.sql import and_
 
 from app import db
-from app.models.day import Day
-# from app.models.coalition import Coalition
-from app.models.game import Game
-from app.models.map import Map
-from app.models.player import Player
-from app.models.user import User
-from app.models.relation import Relation
+from app.models import Game, Map, Player, User, Relation, Day
 
 
 HEADERS = {
@@ -262,7 +256,7 @@ def get_relations(game_id):
     else:
         result = text["result"]["relations"]["neighborRelations"]
 
-        game.relations.update({Relation.end_day: game.last_day}) 
+        game.relations.update({Relation.end_day: game.last_day})
 
         for native_id in result:
             relations = result[native_id]
@@ -326,6 +320,27 @@ def check_response(game_id, response):
         return False
 
     return True
+
+
+def get_coalitions(game_id):
+    """Get game coalitions"""
+    print("Get coalitions")
+
+    payload = PAYLOAD_SAMPLE
+    payload["gameID"] = game_id
+    payload["stateType"] = 5
+
+    game = Game.query.filter(Game.game_id == game_id).first()
+    if game is None:
+        get_game(game_id)
+
+    request = requests.post(game.game_host, headers=HEADERS, json=payload)
+
+    text = json.loads(request.text)
+    if not check_response(game_id, text):
+        get_relations(game_id)
+    else:
+        return
 
 
 if __name__ == "__main__":
