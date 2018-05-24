@@ -175,7 +175,7 @@ class Player(db.Model):
     # -------------
 
     user_id = db.Column(db.Integer, db.ForeignKey("sp_users.id"))
-    user = db.relationship("User", backref=db.backref("players"))
+    user = db.relationship("User", backref=db.backref("players", lazy="dynamic"))
 
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
     game = db.relationship("Game", backref=db.backref("players", lazy="dynamic"))
