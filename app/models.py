@@ -56,30 +56,46 @@ class Game(db.Model):
 
     @hybrid_property
     def supremacy_url(self):
+        """Return supremacy website url"""
         return "https://www.supremacy1914.com/play.php?mode=guest&gameID=" + str(self.game_id)
 
     @hybrid_property
     def last_fetch(self):
+        """Give natural last fetch date"""
         if self.fetch_at:
             return humanize.naturaltime(datetime.now() - self.fetch_at)
-        else:
-            return "never"
+        return "never"
 
     @hybrid_property
     def start_at_formatted(self):
+        """Give natural start date"""
         return humanize.naturaldate(self.start_at)
 
     @hybrid_property
     def fetch_at_formatted(self):
+        """Give natural date"""
         return humanize.naturaltime(self.fetch_at)
 
     @hybrid_property
-    def active_players(self):
-        return self.players.filter_by(Game.user_id >= 8).get()
-
-    @hybrid_property
     def active_players_count(self):
-        return self.players.filter(Player.user_id != None).count()
+        """Count active non ai players"""
+        return self.players.filter(
+            Player.user_id != None
+        ).filter(Player.defeated == False).count()
+
+    @hybrid_method
+    def active_players(self):
+        """Return active non ai players"""
+        return self.players.filter(
+            Player.user_id != None
+        ).filter(Player.defeated == False).all()
+
+    @hybrid_method
+    def all_players(self):
+        """Return all non ai players"""
+        return self.players.filter(
+            Player.user_id != None
+        ).all()
 
     #
     # Representation

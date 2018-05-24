@@ -15,7 +15,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for player in game.players %}
+		{% for player in players %}
 		{% set day_percentage = player.last_day_percentage %}
 		{% set week_percentage = player.last_week_percentage %}
 		<tr {{ 'class=text-muted' if player.defeated }}>
