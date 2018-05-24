@@ -43,6 +43,51 @@ class Game(db.Model):
         delta = datetime.today() - self.start_at
         return delta.days + 1
 
+    @hybrid_property
+    def last_day(self):
+        day = self.days.order_by(Day.day.desc()).first()
+        if day is None:
+            return 0
+        return day.day
+
+    @hybrid_property
+    def url(self):
+        return url_for("game_overview", game_id=self.game_id)
+
+    @hybrid_property
+    def supremacy_url(self):
+        return "https://www.supremacy1914.com/play.php?mode=guest&gameID=" + str(self.game_id)
+
+    @hybrid_property
+    def last_fetch(self):
+        if self.fetch_at:
+            return humanize.naturaltime(datetime.now() - self.fetch_at)
+        else:
+            return "never"
+
+    @hybrid_property
+    def start_at_formatted(self):
+        return humanize.naturaldate(self.start_at)
+
+    @hybrid_property
+    def fetch_at_formatted(self):
+        return humanize.naturaltime(self.fetch_at)
+
+    @hybrid_property
+    def active_players(self):
+        return self.players.filter_by(Game.user_id >= 8).get()
+
+    @hybrid_property
+    def active_players_count(self):
+        return self.players.filter(Player.user_id != None).count()
+
+    #
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<Game(%s)>" % (self.id)
+
 
 class User(db.Model, UserMixin):
     # Table name
@@ -267,7 +312,7 @@ class Day(db.Model):
     # -------------
 
     player_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player = db.relationship("Player", backref=db.backref("days"))
+    player = db.relationship("Player", backref=db.backref("days", lazy="dynamic"))
 
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
     game = db.relationship("Game", backref=db.backref("days", lazy="dynamic"))
