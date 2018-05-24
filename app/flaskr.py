@@ -9,10 +9,7 @@ from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
 from flask_login import login_required, login_user, logout_user, current_user
 from app import app, login_manager, webhook, db
-from app.models.game import Game
-from app.models.user import User
-from app.models.player import Player
-from app.models.relation import Relation
+from app.models import Game, User, Player, Relation
 import fetch
 
 Menu(app=app)
@@ -191,6 +188,7 @@ def game_relations_2(game_id):
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
     return render_template('game/relations_2.html', game=game)
+
 
 @app.route('/game/<int:game_id>/edge_relations')
 @register_breadcrumb(app, '.games.game_id', '',
