@@ -278,10 +278,10 @@ class Relation(db.Model):
     game = db.relationship("Game", backref=db.backref("relations", lazy="dynamic"))
 
     player_native_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player_native = db.relationship("Player", foreign_keys="Relation.player_native_id", backref=db.backref("native_relations"))
+    player_native = db.relationship("Player", foreign_keys="Relation.player_native_id", backref=db.backref("native_relations", lazy="dynamic"))
 
     player_foreign_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player_foreign = db.relationship("Player", foreign_keys="Relation.player_foreign_id", backref=db.backref("foreign_relations"))
+    player_foreign = db.relationship("Player", foreign_keys="Relation.player_foreign_id", backref=db.backref("foreign_relations", lazy="dynamic"))
 
     #
     # Attributes
