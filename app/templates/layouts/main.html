@@ -34,6 +34,7 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
+					<!--
 					<li class="nav-item">
 						<form class="form-inline my-2 my-lg-0 mr-lg-2">
 							<div class="input-group">
@@ -46,20 +47,19 @@
 							</div>
 						</form>
 					</li>
-					<ul class="navbar-nav ml-auto">
-						{% if current_user.is_authenticated %}
-						<li class="nav-item">
-							<a class="nav-link" href="{{ url_for('user_overview', site_id=current_user.site_id) }}">{{ current_user.name }}</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
-						</li>
-						{% else %}
-						<li class="nav-item">
-							<a class="nav-link" href="{{ url_for('login') }}">Login</a>
-						</li>
-						{% endif %}
-					</ul>
+					-->
+					{% if current_user.is_authenticated %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('user_overview', site_id=current_user.site_id) }}">{{ current_user.name }}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+					</li>
+					{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('login') }}">Login</a>
+					</li>
+					{% endif %}
 				</ul>
 			</div>
 		</nav>
