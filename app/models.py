@@ -6,7 +6,7 @@ All models for module
 from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from flask import url_for
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 import humanize
 from app import db, argon2
 
@@ -57,6 +57,9 @@ class Game(db.Model):
     @hybrid_property
     def supremacy_url(self):
         """Return supremacy website url"""
+        player = self.players.filter(Player.user_id == current_user.id).first()
+        if player is not None:
+            return "https://www.supremacy1914.com/play.php?uid=" + str(current_user.site_id) + "&gameID=" + str(self.game_id)
         return "https://www.supremacy1914.com/play.php?mode=guest&gameID=" + str(self.game_id)
 
     @hybrid_property
