@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('.dataTable').DataTable({
+	$('.dataTable.countrys').DataTable({
 		order: [2, 'desc'],
 		responsive: {
 			details: {

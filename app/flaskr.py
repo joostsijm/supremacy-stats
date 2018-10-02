@@ -154,7 +154,8 @@ def game_overview(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/overview.html', game=game)
+    players = game.active_players()
+    return render_template('game/overview.html', game=game, players=players)
 
 
 @app.route('/game/<int:game_id>/players')
@@ -165,7 +166,8 @@ def game_players(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/players.html', game=game)
+    players = game.all_players()
+    return render_template('game/players.html', game=game, players=players)
 
 
 @app.route('/game/<int:game_id>/relations')
@@ -176,7 +178,8 @@ def game_relations(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/relations.html', game=game)
+    players = game.active_players()
+    return render_template('game/relations.html', game=game, players=players)
 
 
 @app.route('/game/<int:game_id>/relations_2')
@@ -187,7 +190,8 @@ def game_relations_2(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/relations_2.html', game=game)
+    players = game.active_players()
+    return render_template('game/relations_2.html', game=game, players=players)
 
 
 @app.route('/game/<int:game_id>/edge_relations')
