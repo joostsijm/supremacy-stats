@@ -65,6 +65,7 @@
 		</nav>
 		<div class="content-wrapper">
 			<div class="container-fluid mb-4">
+				{% if request.path != "/" %}
 				<ol class="breadcrumb">
 					{%- for breadcrumb in breadcrumbs -%}
 					<li class="breadcrumb-item">
@@ -72,6 +73,7 @@
 					</li>
 					{%- endfor -%}
 				</ol>
+				{% endif %}
 				<div id="content">
 					{% with messages = get_flashed_messages(with_categories=true) %}
 					{% if messages %}
@@ -86,7 +88,6 @@
 					{% endif %}
 					{% endwith %}
 					<h1>{{ self.title() }}</h1>
-					{% block head_content %}{% endblock %}
 					{% block content %}{% endblock %}
 				</div>
 			</div>

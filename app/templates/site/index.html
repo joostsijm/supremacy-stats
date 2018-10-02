@@ -1,6 +1,43 @@
 {% extends "layouts/main.html" %}
 {% block title %}Home{% endblock %}
-{% block head_content %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<div class="mb-0 mt-4">
+	<h4><i class="fa fa-gamepad"></i> Your Games</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Game ID</th>
+				<th>Map</th>
+				<th>Nation</th>
+				<th>Points</th>
+				<th>Last Login</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for player in games %}
+			<tr>
+				<td>
+					<a href="{{ url_for('game_overview', game_id=player.game.game_id) }}">
+						{{ player.game.game_id }}
+					</a>
+				</td>
+				<td>{{ player.game.map.name }}</td>
+				<td>{{ player.nation_name }}</td>
+				<td>{{ player.today().points }}</td>
+				<td>{{ player.last_login_formatted }}</td>
+				<td>
+					<a class="btn btn-primary btn-sm" href="{{ player.game.supremacy_url }}" target="_blank">
+						<i class="fa fa-fw fa-external-link"></i> Open
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
 <div class="row">
 	<div class="col-xl-3 col-sm-6 mb-3">
 		<div class="card text-white bg-primary o-hidden h-100">
@@ -35,35 +72,6 @@
 		</div>
 	</div>
 </div>
-{% endblock %}
-{% block content %}
-{% if current_user.is_authenticated %}
-<div class="mb-0 mt-4">
-	<h2><i class="fa fa-gamepad"></i> Your Games</h2>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Game ID</th>
-				<th>Name</th>
-				<th>Nation</th>
-				<th>Points</th>
-				<th>Last Login</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for player in games %}
-			<tr>
-				<td><a href="{{ url_for('game_overview', game_id=player.game.game_id) }}">{{ player.game.game_id }}</a></td>
-				<td>{{ player.fullname }}</td>
-				<td>{{ player.nation_name }}</td>
-				<td>{{ player.today().points }}</td>
-				<td>{{ player.last_login_formatted }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
-{% else %}
 <p class="text-justify">Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</p>
 {% endif %}
 {% endblock %}
