@@ -26,7 +26,6 @@
 	<tbody>
 		{% for user in users %}
 		<tr>
-
 			<td><a href="{{ url_for('user_overview', site_id=user.site_id) }}">{{ user.site_id }}</a></td>
 			<td>{{ user.name }}</td>
 			<td>{{ user.score_military }}</td>
