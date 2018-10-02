@@ -79,7 +79,7 @@ gulp.task('vendor', function() {
 		}))
 		.pipe(gulp.dest('app/static/vendor'))
 
-	// Minify vendor csj
+	// Minify vendor css
 	gulp.src([
 		'app/static/vendor/**/*.css',
 		'!app/static/vendor/**/*.min.css'
