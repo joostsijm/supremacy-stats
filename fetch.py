@@ -82,7 +82,7 @@ def get_results(game_id):
     """Return result from game"""
     game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
-        game = get_game(game_id)
+        game = update_game(game_id)
 
     game.fetch_at = datetime.now()
 
@@ -140,44 +140,67 @@ def get_game(game_id):
     if not check_response(game_id, text):
         return get_game(game_id)
 
-    result = text["result"]
-    print_json(result)
+    return text["result"]
 
+
+def save_game(game_id, result):
+    """Save game results in database"""
+
+    game = Game.query.filter(Game.game_id == game_id).first()
     if game.start_at is None:
-        game.start_at = datetime.fromtimestamp(result["startOfGame"])
-        game.password = result["password"]
-        game.scenario = result["scenarioID"]
-        game.ranked = result["ranked"]
-        game.gold_round = result["goldRound"]
-        game.ai_level = result["aiLevel"]
-        game.country_selection = result["countrySelection"]
-        game.time_scale = result["timeScale"]
-        game.team_setting = result["teamSettings"]
-        game.victory_points = result["victoryPoints"]
-        game.research_days_offset = result["researchDaysOffset"]
-        game.research_time_scale = result["researchTimeScale"]
-        game.team_victory_points = result["teamVictoryPoints"]
-
-        game_map = Map.query.filter(Map.map_id == result["mapID"]).first()
-        if game_map is None:
-            game_map = Map()
-            game_map.map_id = result["mapID"]
-            game_map.slots = result["openSlots"] + result["numberOfPlayers"]
-
-            db.session.add(game_map)
-            db.session.commit()
-
-        game.map_id = game_map.id
+        save_new_game(game, result)
 
     game.number_of_players = result["numberOfPlayers"] - result["openSlots"]
     game.end_of_game = result["endOfGame"]
-    game.last_login = datetime.fromtimestamp(
+    game.next_day_time = datetime.fromtimestamp(
         result["nextDayTime"] / 1000
     )
 
     db.session.commit()
 
     return game
+
+def save_new_game(game, result):
+    """Save new game results to database"""
+    game.start_at = datetime.fromtimestamp(result["startOfGame"])
+    game.password = result["password"]
+    game.scenario = result["scenarioID"]
+    game.ranked = result["ranked"]
+    game.gold_round = result["goldRound"]
+    game.ai_level = result["aiLevel"]
+    game.country_selection = result["countrySelection"]
+    game.time_scale = result["timeScale"]
+    game.team_setting = result["teamSettings"]
+    game.victory_points = result["victoryPoints"]
+    game.research_days_offset = result["researchDaysOffset"]
+    game.research_time_scale = result["researchTimeScale"]
+    game.team_victory_points = result["teamVictoryPoints"]
+
+    game_map = Map.query.filter(Map.map_id == result["mapID"]).first()
+    if game_map is None:
+        game_map = Map()
+        game_map.map_id = result["mapID"]
+        game_map.slots = result["openSlots"] + result["numberOfPlayers"]
+
+        db.session.add(game_map)
+        db.session.commit()
+
+    game.map_id = game_map.id
+    db.session.commit()
+
+
+def update_game(game_id):
+    """Get existing game and save to database"""
+    result = get_game(game_id)
+    game = save_game(game_id, result)
+    return game
+
+
+def update_game_details(game_id):
+    """Get game and save all data to database"""
+    result = get_game(game_id)
+    game = save_game(game_id, result)
+    save_new_game(game, result)
 
 
 def get_players(game_id):

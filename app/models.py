@@ -40,7 +40,7 @@ class Game(db.Model):
     victory_points = db.Column(db.Integer)
     research_days_offset = db.Column(db.Integer)
     research_time_scale = db.Column(db.DECIMAL(2, 1))
-    next_day_time = db.Column(db.Integer)
+    next_day_time = db.Column(db.DateTime())
 
     #
     # Relationships
