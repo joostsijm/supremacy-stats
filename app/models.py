@@ -26,6 +26,21 @@ class Game(db.Model):
     start_at = db.Column(db.DateTime)
     fetch_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
+    end_of_game = db.Column(db.Boolean, default=False)
+    number_of_players = db.Column(db.Integer)
+    password = db.Column(db.String)
+    scenario = db.Column(db.Integer)
+    ranked = db.Column(db.Integer)
+    gold_round = db.Column(db.Boolean, default=False)
+    ai_level = db.Column(db.Integer)
+    country_selection = db.Column(db.Integer)
+    time_scale = db.Column(db.DECIMAL(2, 1))
+    team_setting = db.Column(db.Integer)
+    team_victory_points = db.Column(db.Integer)
+    victory_points = db.Column(db.Integer)
+    research_days_offset = db.Column(db.Integer)
+    research_time_scale = db.Column(db.DECIMAL(2, 1))
+    next_day_time = db.Column(db.Integer)
 
     #
     # Relationships
