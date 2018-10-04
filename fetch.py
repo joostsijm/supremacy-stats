@@ -44,21 +44,26 @@ def print_json(json_text):
     print(json.dumps(json_text, sort_keys=True, indent=4))
 
 
-def get_day(game, game_id):
+def get_day(game):
     """Return single day"""
     payload = PAYLOAD_SAMPLE
-    payload["gameID"] = game_id
+    payload["gameID"] = game.game_id
     payload["stateType"] = 12
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
     text = json.loads(request.text)
-    if not check_response(game_id, text):
-        return get_day(game, game_id)
+    if not check_response(game.game_id, text):
+        return get_day(game)
 
     response = json.loads(request.text)
+
     result = response["result"]
-    return result["dayOfGame"]
+    game.day_of_game = result["dayOfGame"]
+    game.next_day_time = datetime.fromtimestamp(
+        result["nextDayTime"] / 1000
+    )
+    return game.day_of_game
 
 
 def get_score(game, day):
@@ -86,34 +91,38 @@ def get_results(game_id):
 
     game.fetch_at = datetime.now()
 
-    get_players(game_id)
-    # get_relations(game_id)
+    if datetime.now() > game.next_day_time \
+            or game.last_result_time is None \
+            or game.last_result_time > game.next_day_time:
 
-    for day_index in range(game.last_day, get_day(game, game_id)):
-        day_index += 1
+        game.last_result_time = datetime.now()
+        current_day = get_day(game)
 
-        result = get_score(game, day_index)
-        result.pop(0)
+        for day_index in range(game.last_day, current_day):
+            day_index += 1
 
-        player_id = 0
+            result = get_score(game, day_index)
+            result.pop(0)
 
-        for score in result:
-            player_id += 1
-            if score >= 20:
-                player = game.players.filter(
-                    Player.player_id == player_id
-                    ).first()
-                day = player.days.filter(Day.day == day_index).first()
+            player_id = 0
 
-                if day is None:
-                    day = Day()
-                    day.day = day_index
-                    day.points = score
-                    day.game_id = game.id
-                    day.player_id = player.id
-                    db.session.add(day)
+            for score in result:
+                player_id += 1
+                if score >= 20:
+                    player = game.players.filter(
+                        Player.player_id == player_id
+                        ).first()
+                    day = player.days.filter(Day.day == day_index).first()
 
-    db.session.commit()
+                    if day is None:
+                        day = Day()
+                        day.day = day_index
+                        day.points = score
+                        day.game_id = game.id
+                        day.player_id = player.id
+                        db.session.add(day)
+
+        db.session.commit()
 
     print("return game")
     return game
@@ -152,6 +161,7 @@ def save_game(game_id, result):
 
     game.number_of_players = result["numberOfPlayers"] - result["openSlots"]
     game.end_of_game = result["endOfGame"]
+    game.day_of_game = result["dayOfGame"]
     game.next_day_time = datetime.fromtimestamp(
         result["nextDayTime"] / 1000
     )
@@ -186,6 +196,8 @@ def save_new_game(game, result):
         db.session.commit()
 
     game.map_id = game_map.id
+
+    get_players(game.game_id)
     db.session.commit()
 
 

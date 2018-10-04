@@ -27,6 +27,7 @@ class Game(db.Model):
     fetch_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
     end_of_game = db.Column(db.Boolean, default=False)
+    day_of_game = db.Column(db.Integer)
     number_of_players = db.Column(db.Integer)
     password = db.Column(db.String)
     scenario = db.Column(db.Integer)
@@ -41,6 +42,7 @@ class Game(db.Model):
     research_days_offset = db.Column(db.Integer)
     research_time_scale = db.Column(db.DECIMAL(2, 1))
     next_day_time = db.Column(db.DateTime())
+    last_result_time = db.Column(db.DateTime, default=datetime.utcnow)
 
     #
     # Relationships
