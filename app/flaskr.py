@@ -8,6 +8,7 @@ from flask import render_template, jsonify, request, redirect, url_for, flash
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
 from flask_login import login_required, login_user, logout_user, current_user
+from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation
 import fetch
@@ -117,7 +118,11 @@ def index():
     game_count = Game.query.count()
     user_count = User.query.count()
     if current_user.is_authenticated:
-        games = current_user.players.order_by(Player.game_id.desc()).all() 
+        games = current_user.players.filter(
+            Game.end_of_game == false()
+        ).order_by(
+            Player.game_id.desc()
+        ).all()
     else:
         games = None
 
