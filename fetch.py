@@ -213,7 +213,7 @@ def get_players(game_id):
 
     game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
-        get_game(game_id)
+        game = update_game(game_id)
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
@@ -289,7 +289,7 @@ def get_relations(game_id):
 
     game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
-        get_game(game_id)
+        game = update_game(game_id)
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
@@ -375,7 +375,7 @@ def get_coalitions(game_id):
 
     game = Game.query.filter(Game.game_id == game_id).first()
     if game is None:
-        get_game(game_id)
+        game = update_game(game_id)
 
     request = requests.post(game.game_host, headers=HEADERS, json=payload)
 
