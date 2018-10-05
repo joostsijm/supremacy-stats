@@ -18,5 +18,6 @@ apscheduler = "*"
 requests = "*"
 humanize = "*"
 github-webhook = "*"
+flask-apscheduler = "*"
 
 [dev-packages]
