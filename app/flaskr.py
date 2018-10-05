@@ -4,6 +4,7 @@ Simple flask thing
 """
 
 from subprocess import call
+from datetime import datetime, timedelta
 from flask import render_template, jsonify, request, redirect, url_for, flash
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 from flask_menu import Menu, register_menu
@@ -340,7 +341,7 @@ def api_fetch_game():
     fetch_type = request.form.get('fetch_type')
 
     if fetch_type == 'results':
-        fetch.get_results(game_id)
+        fetch.update_game_results(game_id)
     elif fetch_type == 'relations':
         fetch.get_relations(game_id)
     elif fetch_type == 'players':
