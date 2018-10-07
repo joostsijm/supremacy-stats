@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import requests
 from sqlalchemy.sql import and_
 
-from app import db, scheduler 
+from app import db, scheduler
 from app.models import Game, Map, Player, User, Relation, Day
 
 
@@ -93,7 +93,7 @@ def get_results(game_id):
 
     if datetime.now() > game.next_day_time \
             or game.last_result_time is None \
-            or game.last_result_time > game.next_day_time:
+            or game.last_result_time + timedelta(days=1) < game.next_day_time:
 
         game.last_result_time = datetime.now()
         current_day = get_day(game)
@@ -124,7 +124,6 @@ def get_results(game_id):
 
         db.session.commit()
 
-    print("return game")
     return game
 
 
