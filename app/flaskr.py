@@ -116,8 +116,6 @@ def logout():
 def index():
     """Show homepage"""
 
-    game_count = Game.query.count()
-    user_count = User.query.count()
     if current_user.is_authenticated:
         games = current_user.players.filter(
             Game.end_of_game == false()
@@ -129,8 +127,6 @@ def index():
 
     return render_template(
         'site/index.html',
-        game_count=game_count,
-        user_count=user_count,
         games=games
     )
 
