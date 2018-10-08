@@ -281,7 +281,12 @@ class Player(db.Model):
 
     @hybrid_property
     def player_image_url(self):
-        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (str(self.game.game_id)[:4], str(self.game.game_id)[3:], self.player_imaeg_id)
+        """Return url for player image"""
+        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+            str(self.game.game_id)[:4],
+            str(self.game.game_id)[-3:],
+            self.player_image_id
+        )
 
     #
     # Representation
