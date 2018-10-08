@@ -288,6 +288,15 @@ class Player(db.Model):
             self.player_image_id
         )
 
+    @hybrid_property
+    def flag_image_url(self):
+        """Return url for flag image"""
+        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+            str(self.game.game_id)[:4],
+            str(self.game.game_id)[-3:],
+            self.flag_image_id
+        )
+
     #
     # Representation
     # -------------

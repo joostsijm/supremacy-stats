@@ -22,6 +22,7 @@
 		<tr {{ 'class=text-muted' if player.defeated }}>
 			<td>
 				<img src="{{ player.player_image_url }}" alt="Picture of {{ player.fullname }}">
+				<img src="{{ player.flag_image_url }}" alt="Flag of {{ player.nation_name }}">
 			</td>
 			<td>{{ player.nation_name }}</td>
 			{% if player.user is none %}
