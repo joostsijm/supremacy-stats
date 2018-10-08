@@ -340,14 +340,17 @@ def api_fetch_game():
     game_id = request.form.get('game_id')
     fetch_type = request.form.get('fetch_type')
 
-    if fetch_type == 'results':
-        fetch.update_game_results(game_id)
-    elif fetch_type == 'relations':
-        fetch.get_relations(game_id)
-    elif fetch_type == 'players':
-        fetch.get_players(game_id)
-    elif fetch_type == 'game':
-        fetch.update_game_details(game_id)
+    try:
+        if fetch_type == 'results':
+            fetch.update_game_results(game_id)
+        elif fetch_type == 'relations':
+            fetch.get_relations(game_id)
+        elif fetch_type == 'players':
+            fetch.get_players(game_id)
+        elif fetch_type == 'game':
+            fetch.update_game_details(game_id)
+    except fetch.GameDoesNotExistError as error:
+        flash('Game %s doesn\'t exist anymore' % game_id, 'danger')
 
     return redirect(request.referrer, code=302)
 

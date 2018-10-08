@@ -387,6 +387,7 @@ def check_response(game_id, response):
         else:
             print("Game does not exist")
             print_json(response["result"])
+            raise GameDoesNotExistError("Game %s is not found on the Supremacy 1914 server" % game_id)
         return False
 
     return True
@@ -411,6 +412,11 @@ def get_coalitions(game_id):
         get_relations(game_id)
     else:
         return
+
+
+class GameDoesNotExistError(Exception):
+    """Exciption if the game can not be found"""
+    pass
 
 
 if __name__ == "__main__":
