@@ -118,7 +118,7 @@ def index():
 
     if current_user.is_authenticated:
         games = current_user.players.filter(
-            Game.end_of_game == false()
+            Player.game.has(Game.end_of_game == false())
         ).order_by(
             Player.game_id.desc()
         ).all()
