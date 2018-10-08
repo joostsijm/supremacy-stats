@@ -296,6 +296,9 @@ def save_player(game, player_data):
             player.title = player_data["title"]
             player.name = player_data["name"]
 
+            player.flag_image_id = player_data["flagImageID"]
+            player.player_image_id = player_data["playerImageID"]
+
             player.defeated = player_data["defeated"]
             if player_data["lastLogin"] != 0:
                 player.last_login = datetime.fromtimestamp(

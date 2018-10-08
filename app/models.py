@@ -213,6 +213,9 @@ class Player(db.Model):
     defeated = db.Column(db.Boolean, default=False)
     last_login = db.Column(db.DateTime)
 
+    flag_image_id = db.Column(db.Integer)
+    player_image_id = db.Column(db.Integer)
+
     #
     # Relationships
     # -------------
@@ -275,6 +278,10 @@ class Player(db.Model):
             return ""
 
         return humanize.naturaltime(self.last_login)
+
+    @hybrid_property
+    def player_image_url(self):
+        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (str(self.game.game_id)[:4], str(self.game.game_id)[3:], self.player_imaeg_id)
 
     #
     # Representation
