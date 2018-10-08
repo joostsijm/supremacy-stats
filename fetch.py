@@ -386,8 +386,12 @@ def check_response(game_id, response):
             db.session.commit()
         else:
             print("Game does not exist")
-            print_json(response["result"])
-            raise GameDoesNotExistError("Game %s is not found on the Supremacy 1914 server" % game_id)
+            game.end_of_game = True
+            game.end_at = datetime.now()
+            db.session.commit()
+
+            raise GameDoesNotExistError("Game %s is not found" % game_id + \
+                "on the Supremacy 1914 server")
         return False
 
     return True
