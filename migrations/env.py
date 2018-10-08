@@ -27,6 +27,9 @@ target_metadata = current_app.extensions['migrate'].db.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+def include_symbol(tablename, schema):
+    return tablename not in ("apscheduler_jobs")
+
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -74,6 +77,7 @@ def run_migrations_online():
                       target_metadata=target_metadata,
                       process_revision_directives=process_revision_directives,
                       compare_type=True,
+                      include_symbol=include_symbol,
                       **current_app.extensions['migrate'].configure_args)
 
     try:
