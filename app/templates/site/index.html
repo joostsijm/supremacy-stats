@@ -7,17 +7,22 @@
 	<table class="table">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Game ID</th>
 				<th>Map</th>
 				<th>Nation</th>
 				<th>Points</th>
-				<th>Last Login</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for player in games %}
 			<tr>
+				<td>
+					{% if player.game.scenario %}
+					<img src="{{ player.game.scenario_url }}">
+					{% endif %}
+				</td>
 				<td>
 					<a href="{{ url_for('game_overview', game_id=player.game.game_id) }}">
 						{{ player.game.game_id }}
@@ -26,7 +31,6 @@
 				<td>{{ player.game.map.name }}</td>
 				<td>{{ player.nation_name }}</td>
 				<td>{{ player.today().points }}</td>
-				<td>{{ player.last_login_formatted }}</td>
 				<td>
 					<a class="btn btn-primary btn-sm" href="{{ player.game.supremacy_url }}" target="_blank">
 						<i class="fa fa-fw fa-external-link"></i> Open

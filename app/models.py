@@ -118,6 +118,12 @@ class Game(db.Model):
             Player.user_id != None
         ).all()
 
+    @hybrid_property
+    def scenario_url(self):
+        """Give image url for scenario"""
+        return "http://supremacy1914.com/fileadmin/templates/supremacy_1914" + \
+            "/images/scenarios/scenario_%s_small.jpg" % self.scenario
+
     #
     # Representation
     # -------------

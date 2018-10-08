@@ -1,6 +1,7 @@
 <div class="card mb-3">
 	<div class="card-header">
 		<i class="fa fa-gamepad"></i> {{ game.game_id}}
+		{% if not game.end_of_game %}
 		<div class="dropdown pull-right">
 			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
 			<div class="dropdown-menu">
@@ -26,6 +27,7 @@
 				</form>
 			</div>
 		</div>
+		{% endif %}
 	</div>
 	<div class="card-body row">
 		<div class="col-12 col-md">
