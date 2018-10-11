@@ -5,6 +5,7 @@
 <table class="table table-bordered dataTable countrys" width="100%" cellspacing="0">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Country</th>
 			<th>Ruler</th>
 			<th>Points</th>
@@ -19,6 +20,10 @@
 		{% set day_percentage = player.last_day_percentage %}
 		{% set week_percentage = player.last_week_percentage %}
 		<tr {{ 'class=text-muted' if player.defeated }}>
+			<td>
+				<img src="{{ player.player_image_url }}" alt="Picture of {{ player.fullname }}">
+				<img src="{{ player.flag_image_url }}" alt="Flag of {{ player.nation_name }}">
+			</td>
 			<td>{{ player.nation_name }}</td>
 			{% if player.user is none %}
 			<td>{{ player.fullname }}</td>

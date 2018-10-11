@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('.dataTable.countrys').DataTable({
-		order: [2, 'desc'],
+		order: [3, 'desc'],
 		responsive: {
 			details: {
 				type: 'column',
@@ -10,11 +10,11 @@ $(document).ready(function() {
 		paging: false,
 		columnDefs: [
 			{ 
-				targets: [5],
-				orderData:[6],
+				targets: [6],
+				orderData:[7],
 			},
 			{
-				targets: [6],
+				targets: [7],
 				visible: false,
 				searchable: false,
 				type: 'non-empty-string',

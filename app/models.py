@@ -121,7 +121,7 @@ class Game(db.Model):
     @hybrid_property
     def scenario_url(self):
         """Give image url for scenario"""
-        return "http://supremacy1914.com/fileadmin/templates/supremacy_1914" + \
+        return "https://supremacy1914.com/fileadmin/templates/supremacy_1914" + \
             "/images/scenarios/scenario_%s_small.jpg" % self.scenario
 
     #
@@ -281,7 +281,21 @@ class Player(db.Model):
 
     @hybrid_property
     def player_image_url(self):
-        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (str(self.game.game_id)[:4], str(self.game.game_id)[3:], self.player_imaeg_id)
+        """Return url for player image"""
+        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+            str(self.game.game_id)[:4],
+            str(self.game.game_id)[-3:],
+            self.player_image_id
+        )
+
+    @hybrid_property
+    def flag_image_url(self):
+        """Return url for flag image"""
+        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+            str(self.game.game_id)[:4],
+            str(self.game.game_id)[-3:],
+            self.flag_image_id
+        )
 
     #
     # Representation

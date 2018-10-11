@@ -19,7 +19,7 @@
 			{% for game in games %}
 			<tr>
 				<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
-				<td>{{ game.start_at }}</td>
+				<td>{{ game.start_at.strftime("%Y-%m-%d") }}</td>
 				<td>{{ game.last_day }}</td>
 				<td>{{ game.map.name }}</td>
 				<td>{{ game.active_players_count }} / {{ game.map.slots }}</td>

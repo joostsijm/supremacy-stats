@@ -9,3 +9,4 @@ __pycache__/
 .venv/
 nohup.out
 yarn-error.log
+.env

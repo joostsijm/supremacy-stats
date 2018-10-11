@@ -22,7 +22,6 @@ class Config(object):
         'default': SQLAlchemyJobStore(url=DATABASE_URI)
     }
     SCHEDULER_API_ENABLED = True
-    TESTING = True
     SQLALCHEMY_DATABASE_URI = DATABASE_URI
     SECRET_KEY = 'g6DGM5y2bVhb0mxdCRELI5m7fnzzoJ2y'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
