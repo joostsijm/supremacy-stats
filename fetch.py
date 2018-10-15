@@ -228,6 +228,11 @@ def update_game_results(game_id):
                 args={game.game_id},
                 next_run_time=game.next_day_time + timedelta(seconds=30)
             )
+        else:
+            scheduler.reschedule_job(
+                str(game.game_id),
+                next_run_time=game.next_day_time + timedelta(seconds=30)
+            )
 
 
 def get_players(game_id):
