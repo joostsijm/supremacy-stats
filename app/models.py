@@ -282,20 +282,32 @@ class Player(db.Model):
     @hybrid_property
     def player_image_url(self):
         """Return url for player image"""
-        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
-            str(self.game.game_id)[:4],
-            str(self.game.game_id)[-3:],
-            self.player_image_id
+        if self.player_image_id != -1:
+            return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+                str(self.game.game_id)[:4],
+                str(self.game.game_id)[-3:],
+                self.player_image_id
+            )
+        return "https://www.supremacy1914.nl/clients/s1914-client/s1914-client_live/images/map/avatars/%s/%s.jpg" % (
+            self.game.map.map_id,
+            self.player_id
         )
+
 
     @hybrid_property
     def flag_image_url(self):
         """Return url for flag image"""
-        return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
-            str(self.game.game_id)[:4],
-            str(self.game.game_id)[-3:],
-            self.flag_image_id
-        )
+        if self.player_image_id != -1:
+            return "https://static1.bytro.com/games/sup/%s/%s/%s.png" % (
+                str(self.game.game_id)[:4],
+                str(self.game.game_id)[-3:],
+                self.flag_image_id
+            )
+        return "https://www.supremacy1914.nl/clients/s1914-client/s1914-client_live/images/map/flags/%s/small_%s.png" % (
+            self.game.map.map_id,
+            self.player_id
+            )
+
 
     #
     # Representation
