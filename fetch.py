@@ -215,12 +215,14 @@ def update_game_results(game_id):
     if not game.end_of_game:
         get_results(game.game_id)
         job = scheduler.get_job(str(game.game_id))
-        job.remove()
+        if job is not None:
+            job.remove()
+        
         scheduler.add_job(
             func=update_game_results,
             id=str(game.game_id),
             args={game.game_id},
-            next_run_time=game.next_day_time + timedelta(seconds=30)
+            next_run_time=game.next_day_time + timedelta(minutes=2)
         )
 
 
