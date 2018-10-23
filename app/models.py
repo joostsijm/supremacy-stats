@@ -341,11 +341,14 @@ class Relation(db.Model):
         status_list = {
             -2: "war",
             -1: "ceasefire",
-            0: "peace",
+            0: "trade-embargo",
+            1: "peace",
             3: "right-of-way",
             4: "share-map",
-            6: "share-info"
+            6: "share-info",
+            7: "army-commmand"
         }
+
         status = self.status
         if status in status_list:
             return status_list[status]
