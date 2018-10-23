@@ -89,40 +89,34 @@ def get_results(game_id):
     if game is None:
         game = update_game(game_id)
 
-    game.fetch_at = datetime.now()
+    game.last_result_time = datetime.now()
+    current_day = get_day(game)
 
-    if datetime.now() > game.next_day_time \
-            or game.last_result_time is None \
-            or game.last_result_time + timedelta(days=1) < game.next_day_time:
+    for day_index in range(game.last_day, current_day):
+        day_index += 1
 
-        game.last_result_time = datetime.now()
-        current_day = get_day(game)
+        result = get_score(game, day_index)
+        result.pop(0)
 
-        for day_index in range(game.last_day, current_day):
-            day_index += 1
+        player_id = 0
 
-            result = get_score(game, day_index)
-            result.pop(0)
+        for score in result:
+            player_id += 1
+            if score >= 20:
+                player = game.players.filter(
+                    Player.player_id == player_id
+                    ).first()
+                day = player.days.filter(Day.day == day_index).first()
 
-            player_id = 0
+                if day is None:
+                    day = Day()
+                    day.day = day_index
+                    day.points = score
+                    day.game_id = game.id
+                    day.player_id = player.id
+                    db.session.add(day)
 
-            for score in result:
-                player_id += 1
-                if score >= 20:
-                    player = game.players.filter(
-                        Player.player_id == player_id
-                        ).first()
-                    day = player.days.filter(Day.day == day_index).first()
-
-                    if day is None:
-                        day = Day()
-                        day.day = day_index
-                        day.points = score
-                        day.game_id = game.id
-                        day.player_id = player.id
-                        db.session.add(day)
-
-        db.session.commit()
+    db.session.commit()
 
     return game
 
