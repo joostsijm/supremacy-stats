@@ -148,7 +148,7 @@ gulp.task('browserSync', function() {
 
 //Run Flask server
 gulp.task('runserver', function() {
-	exec('pipenv run ./start.sh');
+	exec('flask run');
 });
 
 // Dev task
@@ -159,13 +159,13 @@ gulp.task('dev', ['runserver', 'browserSync'], function() {
 	], browserSync.reload);
 	gulp.watch([
 		'app/static/sass/**/*.sass',
-	], ['css:compile']);
+	], ['css:compile', browserSync.reload]);
 	gulp.watch([
 		'app/static/css/**/*.css',
 		'!app/static/css/**/*.min.css',
-	], ['css:minify']);
+	], ['css:minify', browserSync.reload]);
 	gulp.watch([
 		'app/static/js/**/*.js',
 		'!app/static/js/**/*.min.js'
-	], ['js']);
+	], ['js', browserSync.reload]);
 });
