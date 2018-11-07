@@ -12,6 +12,11 @@
   .link.right-of-way
     stroke: green
     stroke-dasharray: 0,2 1
+  #share-info
+    fill: #007bff
+  .linkhare-info
+    stroke: blue
+    stroke-dasharray: 0,2 1
   #war
     fill: #dc3545
   .link
@@ -34,7 +39,10 @@
   .node
     font: 300 16px "Helvetica Neue", Helvetica, Arial, sans-serif
     opacity: 0.6
-  .share_map, .war, .right_of_way
+  .share_map,
+  .war,
+  .right_of_way, 
+  .share_info
     stroke: #666
     stroke-opacity: 0.1
     fill: none
@@ -44,7 +52,10 @@
   .node:hover, .node--source, .node--target, .node--active
     font-weight: 700
     opacity: 0.8
-  .shares_maps_with, .fights_against, .shares_ways_with
+  .shares_maps_with,
+  .fights_against,
+  .shares_ways_with,
+  .shares_info_with
     stroke-width: 4px
     stroke-opacity: 1
     z-index: 99999
@@ -62,3 +73,6 @@
   .shares_ways_with
     stroke: #adff2f
     border-color: #adff2f
+  .shares_info_with
+    stroke: #007bff
+    border-color: #007bff

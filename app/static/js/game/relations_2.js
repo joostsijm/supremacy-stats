@@ -111,6 +111,7 @@ $(window).bind("load", function() {
 	share_map = svg.append("g").selectAll(".share_map");
 	war = svg.append("g").selectAll(".war");
 	right_of_way = svg.append("g").selectAll(".right_of_way");
+	share_info = svg.append("g").selectAll(".share_info");
 	node = svg.append("g").selectAll(".node");
 
 	api_url = "/api/game/" + game_id + "/edge_relations";
@@ -120,6 +121,7 @@ $(window).bind("load", function() {
 		share_maps = typeShare_map(nodes);
 		right_of_ways = typeRight_of_way(nodes);
 		wars = typeWar(nodes);
+		share_infos = typeShare_info(nodes);
 
 		share_map = share_map
 			.data(bundle(share_maps))
@@ -141,7 +143,13 @@ $(window).bind("load", function() {
 			.each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
 			.attr("class", "right_of_way")
 			.attr("d", line)
-			.attr("data-is-effective-against-self", function(d) { return (d[0] === d[d.length - 1]) });
+
+		share_info = share_info
+			.data(bundle(share_infos))
+			.enter().append("path")
+			.each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+			.attr("class", "share_info")
+			.attr("d", line);
 
 		node = node
 			.data(nodes.filter(function(n) { return !n.children; }))
@@ -177,6 +185,11 @@ $(window).bind("load", function() {
 			.filter(function(l) { return l.source === d; })
 			.each(function() { this.parentNode.appendChild(this); });
 
+		share_info
+			.classed("shares_info_with", function(l) { if (l.source === d) { return l.target.target = true;} })
+			.filter(function(l) { return l.source === d; })
+			.each(function() { this.parentNode.appendChild(this); });
+
 		node
 			.classed("node--target", function(n) { return n.target; })
 			.style('fill', function(l) {
@@ -209,6 +222,9 @@ $(window).bind("load", function() {
 
 		right_of_way
 			.classed("shares_ways_with", false);
+
+		share_info
+			.classed("shares_info_with", false);
 
 		node
 			.classed("node--target", false)
@@ -264,7 +280,7 @@ $(window).bind("load", function() {
 		return share_maps;
 	}
 
-	//Make the share_map links
+	// Make the war links
 	function typeWar(nodes) {
 		map = {},
 		wars = [];
@@ -282,6 +298,7 @@ $(window).bind("load", function() {
 		return wars;
 	}
 
+	// Make the right of way links
 	function typeRight_of_way(nodes) {
 		map = {},
 		right_of_ways = [];
@@ -299,4 +316,21 @@ $(window).bind("load", function() {
 		return right_of_ways;
 	}
 
+	// Make the share info links
+	function typeShare_info(nodes) {
+		map = {},
+		share_infos = [];
+
+		nodes.forEach(function(d) {
+			map[d.name] = d;
+		});
+
+		nodes.forEach(function(d) {
+			if (d.share_infos) d.share_infos.forEach(function(i) {
+				share_infos.push({source: map[d.name], target: map[i]});
+			});
+		});
+
+		return share_infos;
+	}
 });

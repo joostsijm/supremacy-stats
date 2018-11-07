@@ -308,6 +308,7 @@ def api_game_edge_relations(game_id):
         war = []
         right_of_way = []
         share_map = []
+        share_info = []
         native_relations = player.native_relations.filter(Relation.end_day == None)
         foreign_relations = player.foreign_relations.filter(Relation.end_day == None)
         if native_relations.count() or foreign_relations.count():
@@ -318,12 +319,15 @@ def api_game_edge_relations(game_id):
                     right_of_way.append(relation.player_foreign.nation_name)
                 elif relation.status == 4:
                     share_map.append(relation.player_foreign.nation_name)
+                elif relation.status == 6:
+                    share_info.append(relation.player_foreign.nation_name)
 
             player_list.append({
                 "name": player.nation_name,
                 "wars": war,
                 "right_of_ways": right_of_way,
                 "share_maps": share_map,
+                "share_infos": share_info,
             })
 
     return jsonify(player_list)
