@@ -98,6 +98,13 @@ class Game(db.Model):
         return humanize.naturaltime(self.fetch_at)
 
     @hybrid_property
+    def next_day_formatted(self):
+        """Return natural date of next day"""
+        if self.next_day_time > datetime.now():
+            return humanize.naturaltime(self.next_day_time)
+        return "unknown"
+
+    @hybrid_property
     def active_players_count(self):
         """Count active non ai players"""
         return self.players.filter(

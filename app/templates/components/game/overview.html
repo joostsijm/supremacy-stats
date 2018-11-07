@@ -40,6 +40,32 @@
 				<div class="col">{{ game.start_at }}</div>
 			</div>
 			<div class="row mt-2">
+				<div class="col">End date</div>
+				<div class="col">{{ game.end_at }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">AI level</div>
+				<div class="col">{{ game.ai_level }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Country selection</div>
+				<div class="col">{{ 'Yes' if game.country_selection > 0 else 'No' }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Ranked</div>
+				<div class="col">{{ 'Yes' if game.ranked > 0 else 'No' }}</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col">Victory point</div>
+				<div class="col">{{ game.victory_points }}</div>
+			</div>
+		</div>
+		<div class="col-12 col-md">
+			<div class="row mt-2">
+				<div class="col">Next day</div>
+				<div class="col">{{ game.next_day_formatted }}</div>
+			</div>
+			<div class="row mt-2">
 				<div class="col">Last updated</div>
 				<div class="col">{{ game.fetch_at_formatted }}</div>
 			</div>
@@ -47,8 +73,6 @@
 				<div class="col">Day</div>
 				<div class="col">{{ game.last_day }}</div>
 			</div>
-		</div>
-		<div class="col-12 col-md">
 			<div class="row mt-2">
 				<div class="col">Map</div>
 				<div class="col">{{ game.map.name }}</div>
