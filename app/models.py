@@ -75,10 +75,13 @@ class Game(db.Model):
     def supremacy_url(self):
         """Return supremacy website url"""
         player = self.players.filter(Player.user_id == current_user.id).first()
-        url = "https://www.supremacy1914.nl/play.php?gameID=%s" % str(self.game_id)
-        if player is not None:
-            return url + "&uid=%s" % str(current_user.site_id)
-        return url + "&mode=guest"
+        url = "https://www.supremacy1914.nl/play.php?gameID=%s&uid=%s" % (
+            str(self.game_id),
+            str(current_user.site_id)
+        )
+        if player is None:
+            return url + "&mode=guest"
+        return url
 
     @hybrid_property
     def last_fetch(self):
