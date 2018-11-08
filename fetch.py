@@ -159,6 +159,11 @@ def save_game(game_id, result):
         result["nextDayTime"] / 1000
     )
 
+    if game.end_of_game:
+        job = scheduler.get_job(str(game.game_id))
+        if job is not None:
+            job.remove()
+
     db.session.commit()
 
     return game
@@ -213,17 +218,20 @@ def update_game_results(game_id):
     result = get_game(game_id)
     game = save_game(game_id, result)
     if not game.end_of_game:
-        get_results(game.game_id)
-        job = scheduler.get_job(str(game.game_id))
-        if job is not None:
-            job.remove()
-        
-        scheduler.add_job(
-            func=update_game_results,
-            id=str(game.game_id),
-            args={game.game_id},
-            next_run_time=game.next_day_time + timedelta(minutes=2)
-        )
+        game = get_results(game.game_id)
+
+    if not game.end_of_game:
+        game_id_str = str(game.game_id)
+        job = scheduler.get_job(game_id_str)
+        if job is None:
+            scheduler.add_job(
+                id=game_id_str,
+                func=update_game_results,
+                args=[game.game_id],
+                trigger="interval",
+                days=1,
+                start_date=game.next_day_time + timedelta(minutes=2)
+            )
 
 
 def get_players(game_id):
@@ -388,6 +396,10 @@ def check_response(game_id, response):
             game.end_of_game = True
             game.end_at = datetime.now()
             db.session.commit()
+
+            job = scheduler.get_job(str(game.game_id))
+            if job is not None:
+                job.remove()
 
             raise GameDoesNotExistError("Game %s is not found" % game_id + \
                 "on the Supremacy 1914 server")
