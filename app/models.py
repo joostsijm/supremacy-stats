@@ -5,6 +5,7 @@ All models for module
 
 from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from sqlalchemy.sql.expression import false
 from flask import url_for
 from flask_login import UserMixin, current_user
 import humanize
@@ -13,10 +14,9 @@ from app import db, argon2
 
 class Game(db.Model):
     """Model for game"""
-    # Table name
+
     __tablename__ = "sp_games"
 
-    #
     # Columns
     # -------------
 
@@ -44,24 +44,24 @@ class Game(db.Model):
     next_day_time = db.Column(db.DateTime())
     last_result_time = db.Column(db.DateTime, default=datetime.utcnow)
 
-    #
     # Relationships
     # -------------
 
     map_id = db.Column(db.Integer, db.ForeignKey("sp_maps.id"))
     map = db.relationship("Map", backref=db.backref("games"))
 
-    #
     # Attributes
     # -------------
 
     @hybrid_property
     def day(self):
+        """Return current day of game"""
         delta = datetime.today() - self.start_at
         return delta.days + 1
 
     @hybrid_property
     def last_day(self):
+        """Return last fetched day"""
         day = self.days.order_by(Day.day.desc()).first()
         if day is None:
             return 0
@@ -69,6 +69,7 @@ class Game(db.Model):
 
     @hybrid_property
     def url(self):
+        """Return internal url"""
         return url_for("game_overview", game_id=self.game_id)
 
     @hybrid_property
@@ -109,21 +110,21 @@ class Game(db.Model):
     def active_players_count(self):
         """Count active non ai players"""
         return self.players.filter(
-            Player.user_id != None
-        ).filter(Player.defeated == False).count()
+            Player.user_id.isnot(None)
+        ).filter(Player.defeated == false()).count()
 
     @hybrid_method
     def active_players(self):
         """Return active non ai players"""
         return self.players.filter(
-            Player.user_id != None
-        ).filter(Player.defeated == False).all()
+            Player.user_id.isnot(None)
+        ).filter(Player.defeated == false()).all()
 
     @hybrid_method
     def all_players(self):
         """Return all non ai players"""
         return self.players.filter(
-            Player.user_id != None
+            Player.user_id.isnot(None)
         ).all()
 
     @hybrid_property
@@ -132,7 +133,6 @@ class Game(db.Model):
         return "https://supremacy1914.com/fileadmin/templates/supremacy_1914" + \
             "/images/scenarios/scenario_%s_small.jpg" % self.scenario
 
-    #
     # Representation
     # -------------
 
@@ -141,10 +141,10 @@ class Game(db.Model):
 
 
 class User(db.Model, UserMixin):
-    # Table name
+    """Model for User"""
+
     __tablename__ = "sp_users"
 
-    #
     # db.Columns
     # -------------
 
@@ -157,11 +157,6 @@ class User(db.Model, UserMixin):
     score_military = db.Column(db.Integer)
     score_economic = db.Column(db.Integer)
 
-    #
-    # Relationships
-    # -------------
-
-    #
     # Attributes
     # -------------
 
@@ -176,10 +171,12 @@ class User(db.Model, UserMixin):
     @hybrid_property
     def supremacy_url(self):
         """Return url for supremacy user profile"""
-        return "https://www.supremacy1914.com/index.php?id=59&tx_supgames_piUserPage[uid]=" + str(self.site_id)
+        return "https://www.supremacy1914.com/index.php?id=59" + \
+            "&tx_supgames_piUserPage[uid]=" + str(self.site_id)
 
     @property
     def password(self):
+        """Return the password"""
         return self._password
 
     @password.setter
@@ -191,7 +188,6 @@ class User(db.Model, UserMixin):
         """Check if password is correct"""
         return argon2.check_password_hash(self.password, password)
 
-    #
     # Representation
     # -------------
 
@@ -200,10 +196,10 @@ class User(db.Model, UserMixin):
 
 
 class Player(db.Model):
-    # Table name
+    """Model for Player"""
+
     __tablename__ = "sp_players"
 
-    #
     # db.Columns
     # -------------
 
@@ -224,7 +220,6 @@ class Player(db.Model):
     flag_image_id = db.Column(db.Integer)
     player_image_id = db.Column(db.Integer)
 
-    #
     # Relationships
     # -------------
 
@@ -234,12 +229,12 @@ class Player(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
     game = db.relationship("Game", backref=db.backref("players", lazy="dynamic"))
 
-    #
     # Attributes
     # -------------
 
     @hybrid_property
     def points(self):
+        """Return the amount of points"""
         today = self.today()
         if today is not None:
             return today.points
@@ -248,10 +243,12 @@ class Player(db.Model):
 
     @hybrid_method
     def today(self):
+        """Return last day"""
         return self.days.order_by(Day.day.desc()).first()
 
     @hybrid_property
     def last_day_percentage(self):
+        """Calculate percantage from last day"""
         today = self.today()
         if today is None:
             return 0
@@ -265,6 +262,7 @@ class Player(db.Model):
 
     @hybrid_property
     def last_week_percentage(self):
+        """Calculate percantage from last week"""
         today = self.today()
         if today is None:
             return 0
@@ -278,10 +276,12 @@ class Player(db.Model):
 
     @hybrid_property
     def fullname(self):
+        """Format fullname of player"""
         return "%s %s" % (self.title, self.name)
 
     @hybrid_property
     def last_login_formatted(self):
+        """Format last login date"""
         if self.last_login is None:
             return ""
 
@@ -296,10 +296,11 @@ class Player(db.Model):
                 str(self.game.game_id)[-3:],
                 self.player_image_id
             )
-        return "https://www.supremacy1914.com/clients/s1914-client/s1914-client_live/images/map/avatars/%s/%s.jpg" % (
-            self.game.map.map_id,
-            self.player_id
-        )
+        return "https://www.supremacy1914.com/clients/s1914-client/" + \
+            "s1914-client_live/images/map/avatars/%s/%s.jpg" % (
+                self.game.map.map_id,
+                self.player_id
+            )
 
 
     @hybrid_property
@@ -311,13 +312,13 @@ class Player(db.Model):
                 str(self.game.game_id)[-3:],
                 self.flag_image_id
             )
-        return "https://www.supremacy1914.com/clients/s1914-client/s1914-client_live/images/map/flags/%s/small_%s.png" % (
-            self.game.map.map_id,
-            self.player_id
+        return "https://www.supremacy1914.com/clients/s1914-client/" + \
+            "s1914-client_live/images/map/flags/%s/small_%s.png" % (
+                self.game.map.map_id,
+                self.player_id
             )
 
 
-    #
     # Representation
     # -------------
 
@@ -326,10 +327,10 @@ class Player(db.Model):
 
 
 class Relation(db.Model):
-    # Table name
+    """Model for Relations"""
+
     __tablename__ = "sp_relations"
 
-    #
     # db.Columns
     # -------------
 
@@ -338,7 +339,6 @@ class Relation(db.Model):
     end_day = db.Column(db.Integer)
     status = db.Column(db.Integer)
 
-    #
     # Relationships
     # -------------
 
@@ -346,12 +346,13 @@ class Relation(db.Model):
     game = db.relationship("Game", backref=db.backref("relations", lazy="dynamic"))
 
     player_native_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player_native = db.relationship("Player", foreign_keys="Relation.player_native_id", backref=db.backref("native_relations", lazy="dynamic"))
+    player_native = db.relationship("Player", foreign_keys="Relation.player_native_id", \
+        backref=db.backref("native_relations", lazy="dynamic"))
 
     player_foreign_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player_foreign = db.relationship("Player", foreign_keys="Relation.player_foreign_id", backref=db.backref("foreign_relations", lazy="dynamic"))
+    player_foreign = db.relationship("Player", foreign_keys="Relation.player_foreign_id", \
+        backref=db.backref("foreign_relations", lazy="dynamic"))
 
-    #
     # Attributes
     # -------------
 
@@ -374,7 +375,6 @@ class Relation(db.Model):
             return status_list[status]
         return "unknown"
 
-    #
     # Representation
     # -------------
 
@@ -383,10 +383,10 @@ class Relation(db.Model):
 
 
 class Day(db.Model):
-    # Table name
+    """Model for Day"""
+
     __tablename__ = "sp_days"
 
-    #
     # Columns
     # -------------
 
@@ -394,7 +394,6 @@ class Day(db.Model):
     day = db.Column(db.Integer)
     points = db.Column(db.Integer)
 
-    #
     # Relationships
     # -------------
 
@@ -407,7 +406,6 @@ class Day(db.Model):
     coalition_id = db.Column(db.Integer, db.ForeignKey("sp_coalitions.id"))
     coalition = db.relationship("Coalition", backref=db.backref("days"))
 
-    #
     # Representation
     # -------------
 
@@ -418,10 +416,8 @@ class Day(db.Model):
 class Map(db.Model):
     """Model for a map"""
 
-    # Table name
     __tablename__ = "sp_maps"
 
-    #
     # Columns
     # -------------
 
@@ -431,11 +427,9 @@ class Map(db.Model):
     image = db.Column(db.String)
     slots = db.Column(db.Integer)
 
-    #
     # Relationships
     # -------------
 
-    #
     # Representation
     # -------------
 
@@ -444,10 +438,10 @@ class Map(db.Model):
 
 
 class Coalition(db.Model):
-    # Table name
+    """Model for Coalition"""
+
     __tablename__ = "sp_coalitions"
 
-    #
     # db.Columns
     # -------------
 
@@ -458,14 +452,12 @@ class Coalition(db.Model):
     start_day = db.Column(db.Integer)
     end_day = db.Column(db.Integer)
 
-    #
     # Relationships
     # -------------
 
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
     game = db.relationship("Game", backref=db.backref("coalitions"))
 
-    #
     # Representation
     # -------------
 
