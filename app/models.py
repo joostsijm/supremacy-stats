@@ -74,14 +74,12 @@ class Game(db.Model):
     @hybrid_property
     def supremacy_url(self):
         """Return supremacy website url"""
-        player = self.players.filter(Player.user_id == current_user.id).first()
-        url = "https://www.supremacy1914.nl/play.php?gameID=%s&uid=%s" % (
-            str(self.game_id),
-            str(current_user.site_id)
-        )
-        if player is None:
-            return url + "&mode=guest"
-        return url
+        url = "https://www.supremacy1914.com/play.php?gameID=%s" % str(self.game_id)
+        if current_user.is_authenticated:
+            player = self.players.filter(Player.user_id == current_user.id).first()
+            if player is not None:
+                return url + "&uid=" + str(current_user.site_id)
+        return url + "&mode=guest"
 
     @hybrid_property
     def last_fetch(self):
@@ -298,7 +296,7 @@ class Player(db.Model):
                 str(self.game.game_id)[-3:],
                 self.player_image_id
             )
-        return "https://www.supremacy1914.nl/clients/s1914-client/s1914-client_live/images/map/avatars/%s/%s.jpg" % (
+        return "https://www.supremacy1914.com/clients/s1914-client/s1914-client_live/images/map/avatars/%s/%s.jpg" % (
             self.game.map.map_id,
             self.player_id
         )
@@ -313,7 +311,7 @@ class Player(db.Model):
                 str(self.game.game_id)[-3:],
                 self.flag_image_id
             )
-        return "https://www.supremacy1914.nl/clients/s1914-client/s1914-client_live/images/map/flags/%s/small_%s.png" % (
+        return "https://www.supremacy1914.com/clients/s1914-client/s1914-client_live/images/map/flags/%s/small_%s.png" % (
             self.game.map.map_id,
             self.player_id
             )
