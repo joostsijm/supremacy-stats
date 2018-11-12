@@ -463,3 +463,49 @@ class Coalition(db.Model):
 
     def __repr__(self):
         return "<Coalition(%s)>" % (self.id)
+
+
+class ResourcePrice(db.Model):
+    """Model for ResourcePrice"""
+
+    __tablename__ = "sp_market_price"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, default=datetime.utcnow)
+    day = db.Column(db.Integer)
+
+    # Relationships
+    # -------------
+
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("resource_prices"))
+
+    resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
+    resource = db.relationship("Resource", backref=db.backref("resource_prices"))
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<ResourcePrice(%s)>" % (self.id)
+
+
+class Resource(db.Model):
+    """Model for Resource"""
+
+    __tablename__ = "sp_resource"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<Resource(%s)>" % (self.id)
