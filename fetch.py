@@ -223,15 +223,25 @@ def update_game_results(game_id):
     if not game.end_of_game:
         game_id_str = str(game.game_id)
         job = scheduler.get_job(game_id_str)
+        print(job)
         if job is None:
             scheduler.add_job(
                 id=game_id_str,
                 func=update_game_results,
+                trigger='interval',
                 args=[game.game_id],
-                trigger="interval",
-                days=1,
-                start_date=game.next_day_time + timedelta(minutes=2)
+                seconds=10
             )
+            # scheduler.add_job(
+            #     id=game_id_str,
+            #    func=update_game_results,
+            #    args=[game.game_id],
+            #    trigger="interval",
+            #    days=1,
+            #    start_date=game.next_day_time + timedelta(minutes=2)
+            #)
+        else:
+            job.remove()
 
 
 def get_players(game_id):
@@ -435,9 +445,16 @@ class GameDoesNotExistError(Exception):
 
 
 if __name__ == "__main__":
+    update_game_results.__module__ = "fetch"
 
     # random game
     GAME_ID = 2467682
+    GAMES = Game.query.filter(Game.end_of_game == False).all()
+    for game in GAMES:
+        try:
+            update_game_results(game.game_id)
+        except GameDoesNotExistError as error:
+            print()
 
-    get_game(GAME_ID)
+    # get_game(GAME_ID)
     print("\ndone!")
