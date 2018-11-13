@@ -430,6 +430,26 @@ def get_coalitions(game_id):
         return
 
 
+def get_market(game_id):
+    """Get market prices"""
+    print("Get market")
+
+    payload = PAYLOAD_SAMPLE
+    payload["gameID"] = game_id
+    payload["stateType"] = 4
+
+    game = Game.query.filter(Game.game_id == game_id).first()
+    if game is None:
+        game = update_game(game_id)
+
+    request = requests.post(game.game_host, headers=HEADERS, json=payload)
+    text = json.loads(request.text)
+    if not check_response(game_id, text):
+        get_relations(game_id)
+    else:
+        return
+
+
 class GameDoesNotExistError(Exception):
     """Exciption if the game can not be found"""
     pass
