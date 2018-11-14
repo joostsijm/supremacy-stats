@@ -1,10 +1,9 @@
-
+"""The Supremacy 1914 class"""
 import time
 
 
 class Supremacy():
     """Class containing the API function"""
-
 
     game_id = None
     url = None
@@ -30,36 +29,30 @@ class Supremacy():
         "Cache-Control": "no-cache"
     }
 
-
     def __init__(self, game_id, url):
         """Initialize api"""
         self.game_id = game_id
         self.url = url
-
 
     @classmethod
     def game(cls):
         """Return game information"""
         return True
 
-
     @classmethod
     def coalitions(cls):
         """Return coalition list and members"""
         return True
-
 
     @classmethod
     def players(cls):
         """Return list of players"""
         return True
 
-
     @classmethod
     def market(cls):
         """Return market prices"""
         return True
-
 
     @classmethod
     def score(cls, day):
@@ -67,12 +60,10 @@ class Supremacy():
         print(day)
         return True
 
-
     @classmethod
     def relation(cls):
         """Return list of relations between people"""
         return True
-
 
     @classmethod
     def _request(cls, state_type, day=None):
@@ -82,10 +73,10 @@ class Supremacy():
         return True
 
 
-
 class GameDoesNotExistError(Exception):
     """Raise when game does not exist"""
     pass
+
 
 class ServerChangeError(Exception):
     """Raise when server has changed"""
