@@ -38,59 +38,51 @@ class Supremacy():
         self.url = url
         self.default_params["gameID"] = game_id
 
-    @classmethod
-    def game(cls):
+    def game(self):
         """Return game information"""
-        return True
+        return self._request(12)
 
-    @classmethod
-    def coalitions(cls):
+    def coalitions(self):
         """Return coalition list and members"""
-        return True
+        return self._request(5)
 
-    @classmethod
-    def players(cls):
+    def players(self):
         """Return list of players"""
-        return True
+        return self._request(1)
 
-    @classmethod
-    def market(cls):
+    def market(self):
         """Return market prices"""
-        return True
+        return self._request(4)
 
-    @classmethod
-    def score(cls, day):
+    def score(self, day):
         """Return score of specified day"""
-        print(day)
-        return True
+        return self._request(1, day)
 
-    @classmethod
-    def relation(cls):
+    def relation(self):
         """Return list of relations between people"""
-        return True
+        return self._request(1)
 
-    @classmethod
-    def _request(cls, state_type, day=None):
+    def _request(self, state_type, day=None):
         """Make request to the server"""
-        params = cls.default_params
+        params = self.default_params
         params["stateType"] = state_type
 
         if day is not None:
             params["option"] = day
 
-        request = requests.post(cls.url, headers=cls.headers, json=params)
+        request = requests.post(self.url, headers=self.headers, json=params)
         response = json.loads(request.text)
 
         if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
             if "newHostName" in response["result"]:
                 new_url = "http://%s" % response["result"]["newHostName"]
-                print("new host: %s for %s" % (new_url, cls.game_id))
+                print("new host: %s for %s" % (new_url, self.game_id))
 
                 raise ServerChangeError(new_url)
             else:
-                print("Game %s does not exist" % cls.game_id)
+                print("Game %s does not exist" % self.game_id)
 
-                raise GameDoesNotExistError("Game %s is not found" % cls.game_id)
+                raise GameDoesNotExistError("Game %s is not found" % self.game_id)
 
         return response
 
