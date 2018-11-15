@@ -44,7 +44,8 @@ class Supremacy():
 
     def coalitions(self):
         """Return coalition list and members"""
-        return self._request(5)
+        result = self._request(1)
+        return result["teams"]
 
     def players(self):
         """Return list of players"""
@@ -84,7 +85,7 @@ class Supremacy():
 
                 raise GameDoesNotExistError("Game %s is not found" % self.game_id)
 
-        return response
+        return response["result"]
 
 
 class GameDoesNotExistError(Exception):
@@ -95,3 +96,8 @@ class GameDoesNotExistError(Exception):
 class ServerChangeError(Exception):
     """Raise when server has changed"""
     pass
+
+
+def print_json(json_text):
+    """Print data to console"""
+    print(json.dumps(json_text, sort_keys=True, indent=4))
