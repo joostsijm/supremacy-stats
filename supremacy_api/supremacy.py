@@ -1,9 +1,12 @@
 """The Supremacy 1914 class"""
+
 import time
+import json
+import requests
 
 
 class Supremacy():
-    """Class containing the API function"""
+    """The supremacy class allow easy asses to the Supremacy 1914 API"""
 
     game_id = None
     url = None
@@ -33,6 +36,7 @@ class Supremacy():
         """Initialize api"""
         self.game_id = game_id
         self.url = url
+        self.default_params["gameID"] = game_id
 
     @classmethod
     def game(cls):
@@ -68,9 +72,27 @@ class Supremacy():
     @classmethod
     def _request(cls, state_type, day=None):
         """Make request to the server"""
-        print(state_type)
-        print(day)
-        return True
+        params = cls.default_params
+        params["stateType"] = state_type
+
+        if day is not None:
+            params["option"] = day
+
+        request = requests.post(cls.url, headers=cls.headers, json=params)
+        response = json.loads(request.text)
+
+        if response["result"]["@c"] == "ultshared.rpc.UltSwitchServerException":
+            if "newHostName" in response["result"]:
+                new_url = "http://%s" % response["result"]["newHostName"]
+                print("new host: %s for %s" % (new_url, cls.game_id))
+
+                raise ServerChangeError(new_url)
+            else:
+                print("Game %s does not exist" % cls.game_id)
+
+                raise GameDoesNotExistError("Game %s is not found" % cls.game_id)
+
+        return response
 
 
 class GameDoesNotExistError(Exception):
