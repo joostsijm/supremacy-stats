@@ -44,7 +44,7 @@ class Supremacy():
 
     def coalitions(self):
         """Return coalition list and members"""
-        result = self._request(1)
+        result = self._request(2)
         return result["teams"]
 
     def players(self):
