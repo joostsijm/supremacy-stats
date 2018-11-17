@@ -57,7 +57,7 @@ class Supremacy():
 
     def score(self, day):
         """Return score of specified day"""
-        return self._request(1, day)
+        return self._request(2, day)
 
     def relations(self):
         """Return list of relations between people"""

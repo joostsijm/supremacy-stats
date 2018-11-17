@@ -154,6 +154,7 @@ def update_players(game):
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.players()
+    result = result["players"]
 
     for player_id in result:
         player_data = result[player_id]
@@ -283,7 +284,7 @@ if __name__ == "__main__":
     GAME_ID = 2527307
     GAME = Game.query.filter(Game.end_of_game == False).first()
     try:
-        update_game(GAME)
+        update_players(GAME)
     except GameDoesNotExistError:
         print("game does not exist")
 
