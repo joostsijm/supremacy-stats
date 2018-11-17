@@ -7,11 +7,10 @@ Supremacy1914 ranking index retriever
 import json
 from datetime import datetime, timedelta
 from sqlalchemy.sql import and_
-from sqlalchemy.sql.expression import false
 
 from app import db, scheduler
 from app.models import Game, Map, Player, User, Relation, Day
-from supremacy_api import Supremacy
+from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
 def update_score(game):
@@ -53,8 +52,18 @@ def new_game(game_id):
     game.game_host = 'https://xgs8.c.bytro.com/'
 
     supremacy = Supremacy(game.game_id, game.game_host)
-    result = supremacy.game()
 
+    while True:
+        try:
+            result = supremacy.game()
+        except ServerChangeError as exception:
+            new_server = str(exception)
+            game.game_host = new_server
+            supremacy.url = new_server
+            continue
+        break
+
+    _update_game(game, result)
     game.start_at = datetime.fromtimestamp(result["startOfGame"])
     game.password = result["password"]
     game.scenario = result["scenarioID"]
@@ -73,6 +82,7 @@ def new_game(game_id):
     if game_map is None:
         game_map = Map()
         game_map.map_id = result["mapID"]
+        game_map.name = result["mapID"]
         game_map.slots = result["openSlots"] + result["numberOfPlayers"]
 
         db.session.add(game_map)
@@ -92,32 +102,36 @@ def update_game(game):
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.game()
 
+    _update_game(game, result)
+
+    game_id_str = str(game.game_id)
+    job = scheduler.get_job(game_id_str)
+    if game.end_of_game and job is not None:
+        job.remove()
+    elif not game.end_of_game and job is None:
+        scheduler.add_job(
+            id=game_id_str,
+            func=update_score,
+            args=[game.game_id],
+            trigger="interval",
+            days=1,
+            start_date=game.next_day_time + timedelta(minutes=5)
+        )
+
+    db.session.commit()
+
+    return game
+
+
+def _update_game(game, result):
+    """Update game stats that change"""
+
     game.number_of_players = result["numberOfPlayers"] - result["openSlots"]
     game.end_of_game = result["endOfGame"]
     game.day_of_game = result["dayOfGame"]
     game.next_day_time = datetime.fromtimestamp(
         result["nextDayTime"] / 1000
     )
-
-    if game.end_of_game:
-        job = scheduler.get_job(str(game.game_id))
-        if job is not None:
-            job.remove()
-    else:
-        game_id_str = str(game.game_id)
-        job = scheduler.get_job(game_id_str)
-        if job is None:
-            scheduler.add_job(
-                id=game_id_str,
-                func=update_game_results,
-                args=[game.game_id],
-                trigger="interval",
-                days=1,
-                start_date=game.next_day_time + timedelta(minutes=5)
-            )
-
-
-    db.session.commit()
 
     return game
 
@@ -127,120 +141,107 @@ def update_players(game):
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.players()
 
-    result = text["result"]["players"]
     for player_id in result:
-        save_player(game, result[player_id])
+        player_data = result[player_id]
+        if "playerID" in player_data:
+            player_id = int(player_data["playerID"])
 
-
-def save_player(game, player_data):
-    """Save a player"""
-    if "playerID" in player_data:
-        player_id = int(player_data["playerID"])
-
-        if player_id > 0:
-            player = Player.query.filter(
-                and_(
-                    Player.game_id == game.id,
-                    Player.player_id == player_id
-                )
-            ).first()
-
-            if player is None:
-                player = Player()
-
-                player.start_day = game.last_day
-                player.nation_name = player_data["nationName"]
-                player.primary_color = player_data["primaryColor"]
-                player.secondary_color = player_data["secondaryColor"]
-
-            player.game_id = game.id
-            player.player_id = player_id
-
-            if "userName" in player_data and not player.user_id:
-                user = User.query.filter(
-                    User.name == player_data["userName"]
+            if player_id > 0:
+                player = Player.query.filter(
+                    and_(
+                        Player.game_id == game.id,
+                        Player.player_id == player_id
+                    )
                 ).first()
 
-                if user is None:
-                    user = User()
+                if player is None:
+                    player = Player()
 
-                    user.site_id = player_data["siteUserID"]
-                    user.name = player_data["userName"]
+                    player.start_day = game.last_day
+                    player.nation_name = player_data["nationName"]
+                    player.primary_color = player_data["primaryColor"]
+                    player.secondary_color = player_data["secondaryColor"]
 
-                    db.session.add(user)
-                    db.session.commit()
+                player.game_id = game.id
+                player.player_id = player_id
 
-                player.user_id = user.id
+                if "userName" in player_data and not player.user_id:
+                    user = User.query.filter(
+                        User.name == player_data["userName"]
+                    ).first()
 
-            player.title = player_data["title"]
-            player.name = player_data["name"]
+                    if user is None:
+                        user = User()
 
-            player.flag_image_id = player_data["flagImageID"]
-            player.player_image_id = player_data["playerImageID"]
+                        user.site_id = player_data["siteUserID"]
+                        user.name = player_data["userName"]
 
-            player.defeated = player_data["defeated"]
-            if player_data["lastLogin"] != 0:
-                player.last_login = datetime.fromtimestamp(
-                    player_data["lastLogin"] / 1000
-                )
+                        db.session.add(user)
+                        db.session.commit()
 
-            db.session.add(player)
-            db.session.commit()
+                    player.user_id = user.id
+
+                player.title = player_data["title"]
+                player.name = player_data["name"]
+
+                player.flag_image_id = player_data["flagImageID"]
+                player.player_image_id = player_data["playerImageID"]
+
+                player.defeated = player_data["defeated"]
+                if player_data["lastLogin"] != 0:
+                    player.last_login = datetime.fromtimestamp(
+                        player_data["lastLogin"] / 1000
+                    )
+
+                db.session.add(player)
+                db.session.commit()
 
 
 def update_relations(game):
     """Get the relations"""
     print("Get relations")
 
-        result = text["result"]["relations"]["neighborRelations"]
+    supremacy = Supremacy(game.game_id, game.game_host)
+    result = supremacy.players()
+    result = result["relations"]["neighborRelations"]
 
-        game.relations.update({Relation.end_day: game.last_day})
+    game.relations.update({Relation.end_day: game.last_day})
 
-        for native_id in result:
-            relations = result[native_id]
-            for foreign_id in relations:
-                if foreign_id != native_id:
-                    save_foreign_relation(
-                        game,
-                        relations,
-                        native_id,
-                        foreign_id
-                    )
+    for native_id in result:
+        relations = result[native_id]
+        for foreign_id in relations:
+            if foreign_id != native_id:
+                relation_status = relations[foreign_id]
 
-        db.session.commit()
+                native_player = game.players.filter(
+                    Player.player_id == native_id
+                ).first()
 
+                foreign_player = game.players.filter(
+                    Player.player_id == foreign_id
+                ).first()
 
-def save_foreign_relation(game, player_relations, native_id, foreign_id):
-    """Save foreign relation"""
-    relation_status = player_relations[foreign_id]
+                relation = game.relations.filter(and_(
+                    Relation.player_native_id == native_player.id,
+                    Relation.player_foreign_id == foreign_player.id
+                    )).order_by(Relation.start_day.desc()).first()
 
-    native_player = game.players.filter(
-        Player.player_id == native_id
-    ).first()
+                if relation is None:
+                    relation = Relation()
 
-    foreign_player = game.players.filter(
-        Player.player_id == foreign_id
-    ).first()
+                    relation.game_id = game.id
+                    relation.player_native_id = native_player.id
+                    relation.player_foreign_id = foreign_player.id
 
-    relation = game.relations.filter(and_(
-        Relation.player_native_id == native_player.id,
-        Relation.player_foreign_id == foreign_player.id
-        )).order_by(Relation.start_day.desc()).first()
+                    relation.start_day = game.day
+                    relation.status = relation_status
 
-    if relation is None:
-        relation = Relation()
+                    db.session.add(relation)
 
-        relation.game_id = game.id
-        relation.player_native_id = native_player.id
-        relation.player_foreign_id = foreign_player.id
+                elif relation_status == relation.status:
+                    relation.end_day = None
 
-        relation.start_day = game.day
-        relation.status = relation_status
-
-        db.session.add(relation)
-
-    elif relation_status == relation.status:
-        relation.end_day = None
+    db.session.commit()
 
 
 def update_coalitions(game):
@@ -253,17 +254,26 @@ def update_market(game):
     print("Update market")
 
 
+def print_json(json_text):
+    """Print data to console"""
+    print(json.dumps(json_text, sort_keys=True, indent=4))
+
+
 if __name__ == "__main__":
     update_score.__module__ = "sync"
 
     # random game
-    GAME_ID = 2467682
-    GAMES = Game.query.filter(Game.end_of_game == false()).all()
-    for GAME in GAMES:
-        try:
-            update_game_results(GAME.game_id)
-        except GameDoesNotExistError as error:
-            print()
+    GAME_ID = 2527307
+    try:
+        new_game(GAME_ID)
+    except GameDoesNotExistError:
+        print("game does not exist")
+
+#    for GAME in GAMES:
+#        try:
+#            update_game_results(GAME.game_id)
+#        except GameDoesNotExistError as error:
+#            print()
 
     # get_game(GAME_ID)
     print("\ndone!")

@@ -7,4 +7,4 @@ far as known. This wrapper is inteded to be easy to use. You'll only need to
 supply the server url and the gameID before you'll be able to get data.
 """
 
-from .supremacy import Supremacy
+from .supremacy import Supremacy, ServerChangeError, GameDoesNotExistError
