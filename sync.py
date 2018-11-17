@@ -13,6 +13,18 @@ from app.models import Game, Map, Player, User, Relation, Day
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
+def server_change_handler(func):
+    """Add catch for exception"""
+    def wrapper(game):
+        try:
+            func(game)
+        except ServerChangeError as exception:
+            game.game_host = str(exception)
+            func(game)
+    return wrapper
+
+
+@server_change_handler
 def update_score(game):
     """Update result to current day"""
 
@@ -96,6 +108,7 @@ def new_game(game_id):
     return game
 
 
+@server_change_handler
 def update_game(game):
     """Update game to database"""
 
@@ -135,6 +148,7 @@ def _update_game(game, result):
 
     return game
 
+@server_change_handler
 def update_players(game):
     """Update players to database"""
 
@@ -197,6 +211,7 @@ def update_players(game):
                 db.session.commit()
 
 
+@server_change_handler
 def update_relations(game):
     """Get the relations"""
     print("Get relations")
@@ -244,11 +259,13 @@ def update_relations(game):
     db.session.commit()
 
 
+@server_change_handler
 def update_coalitions(game):
     """Get game coalitions"""
     print("Update coalitions")
 
 
+@server_change_handler
 def update_market(game):
     """Get market prices"""
     print("Update market")
@@ -264,8 +281,9 @@ if __name__ == "__main__":
 
     # random game
     GAME_ID = 2527307
+    GAME = Game.query.filter(Game.end_of_game == False).first()
     try:
-        new_game(GAME_ID)
+        update_game(GAME)
     except GameDoesNotExistError:
         print("game does not exist")
 
