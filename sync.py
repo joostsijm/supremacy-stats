@@ -55,6 +55,8 @@ def update_score(game):
                     day.player_id = player.id
                     db.session.add(day)
 
+    db.session.commit()
+
 
 def new_game(game_id):
     """Save new game results to database"""
@@ -284,7 +286,7 @@ if __name__ == "__main__":
     GAME_ID = 2527307
     GAME = Game.query.filter(Game.end_of_game == False).first()
     try:
-        update_players(GAME)
+        update_score(GAME)
     except GameDoesNotExistError:
         print("game does not exist")
 
