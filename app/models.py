@@ -318,6 +318,10 @@ class Player(db.Model):
                 self.player_id
             )
 
+    @hybrid_property
+    def relations_sorted(self):
+        """Return relations sorted"""
+        return self.native_relations.order_by(Relation.status.desc()).all()
 
     # Representation
     # -------------
