@@ -220,7 +220,7 @@ def update_relations(game):
     print("Get relations")
 
     supremacy = Supremacy(game.game_id, game.game_host)
-    result = supremacy.players()
+    result = supremacy.relations()
     result = result["relations"]["neighborRelations"]
 
     game.relations.update({Relation.end_day: game.last_day})
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     GAME_ID = 2527307
     GAME = Game.query.filter(Game.end_of_game == False).first()
     try:
-        update_score(GAME)
+        update_relations(GAME)
     except GameDoesNotExistError:
         print("game does not exist")
 
