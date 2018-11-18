@@ -57,7 +57,7 @@ class Game(db.Model):
     def day(self):
         """Return current day of game"""
         delta = datetime.today() - self.start_at
-        return delta.days + 1
+        return delta.days + 2
 
     @hybrid_property
     def last_day(self):
