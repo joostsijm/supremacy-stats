@@ -12,7 +12,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation
-import fetch
+import sync
 
 Menu(app=app)
 Breadcrumbs(app=app)
@@ -333,25 +333,32 @@ def api_game_edge_relations(game_id):
     return jsonify(player_list)
 
 
-@app.route('/api/game/fetch', methods=['POST'])
-def api_fetch_game():
+@app.route('/api/game/sync', methods=['POST'])
+def api_sync_game():
     """Update game in the database"""
 
     game_id = request.form.get('game_id')
-    fetch_type = request.form.get('fetch_type')
+    sync_type = request.form.get('sync_type')
+
+    game = Game.query.filter(Game.game_id == game_id).first()
 
     try:
-        if fetch_type == 'results':
-            fetch.update_game_results(game_id)
-        elif fetch_type == 'relations':
-            fetch.get_relations(game_id)
-        elif fetch_type == 'players':
-            fetch.get_players(game_id)
-        elif fetch_type == 'game':
-            fetch.update_game_details(game_id)
-    except fetch.GameDoesNotExistError as error:
+        if game is not None:
+            if sync_type == 'score':
+                sync.update_score(game)
+            elif sync_type == 'relations':
+                sync.update_relations(game)
+            elif sync_type == 'players':
+                sync.update_players(game)
+            elif sync_type == 'game':
+                sync.update_game(game)
+        else:
+            sync.new_game(game_id)
+    except sync.GameDoesNotExistError:
         flash('Game %s doesn\'t exist anymore' % game_id, 'danger')
 
+    if "games" in request.referrer:
+        return redirect(game.url, code=302)
     return redirect(request.referrer, code=302)
 
 

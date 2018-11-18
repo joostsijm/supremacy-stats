@@ -7,22 +7,22 @@
 			<div class="dropdown-menu">
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="fetch_type" value="results">
-					<button type="submit" class="dropdown-item">Update results</button>
+					<input type="hidden" name="sync_type" value="score">
+					<button type="submit" class="dropdown-item">Update score</button>
 				</form>
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="fetch_type" value="players">
+					<input type="hidden" name="sync_type" value="players">
 					<button type="submit" class="dropdown-item">Update players</button>
 				</form>
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="fetch_type" value="relations">
+					<input type="hidden" name="sync_type" value="relations">
 					<button type="submit" class="dropdown-item">Update relations</button>
 				</form>
 				<form action="{{ url_for('api_fetch_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="fetch_type" value="game">
+					<input type="hidden" name="sync_type" value="game">
 					<button type="submit" class="dropdown-item">Update game</button>
 				</form>
 			</div>
