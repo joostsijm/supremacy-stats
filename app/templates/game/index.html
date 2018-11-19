@@ -35,7 +35,7 @@
 		<i class="fa fa-gamepad"></i> Add game
 	</div>
 	<div class="card-body">
-		<form action="{{ url_for('api_fetch_game') }}" method="post">
+		<form action="{{ url_for('api_sync_game') }}" method="post">
 			<div class="form-group">
 				<label for="game_id">Game ID</label>
 				<input type="text" class="form-control" name="game_id" id="game_id" placeholder="Game ID">
