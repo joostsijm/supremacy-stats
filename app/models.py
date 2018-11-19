@@ -25,13 +25,13 @@ class Game(db.Model):
     game_host = db.Column(db.String)
     start_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
-    end_of_game = db.Column(db.Boolean, default=False)
+    end_of_game = db.Column(db.Boolean, server_default='f', default=False)
     day_of_game = db.Column(db.Integer)
     number_of_players = db.Column(db.Integer)
     password = db.Column(db.String)
     scenario = db.Column(db.Integer)
     ranked = db.Column(db.Integer)
-    gold_round = db.Column(db.Boolean, default=False)
+    gold_round = db.Column(db.Boolean, server_default='f', default=False)
     ai_level = db.Column(db.Integer)
     country_selection = db.Column(db.Integer)
     time_scale = db.Column(db.DECIMAL(2, 1))
@@ -42,12 +42,12 @@ class Game(db.Model):
     research_time_scale = db.Column(db.DECIMAL(2, 1))
     next_day_time = db.Column(db.DateTime())
 
-    track_game = db.Column(db.Boolean, default=False)
-    track_players = db.Column(db.Boolean, default=False)
-    track_score = db.Column(db.Boolean, default=False)
-    track_relations = db.Column(db.Boolean, default=False)
-    track_coalitions = db.Column(db.Boolean, default=False)
-    track_market = db.Column(db.Boolean, default=False)
+    track_game = db.Column(db.Boolean, server_default='f', default=False)
+    track_players = db.Column(db.Boolean, server_default='f', default=False)
+    track_score = db.Column(db.Boolean, server_default='f', default=False)
+    track_relations = db.Column(db.Boolean, server_default='f', default=False)
+    track_coalitions = db.Column(db.Boolean, server_default='f', default=False)
+    track_market = db.Column(db.Boolean, server_default='f', default=False)
 
     # Relationships
     # -------------
@@ -207,7 +207,7 @@ class Player(db.Model):
     primary_color = db.Column(db.String)
     secondary_color = db.Column(db.String)
 
-    defeated = db.Column(db.Boolean, default=False)
+    defeated = db.Column(db.Boolean, server_default='f', default=False)
     last_login = db.Column(db.DateTime)
 
     flag_image_id = db.Column(db.Integer)

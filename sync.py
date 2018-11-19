@@ -5,11 +5,12 @@ Supremacy1914 ranking index retriever
 """
 
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from sqlalchemy.sql import and_
 
-from app import db, scheduler
+from app import db
 from app.models import Game, Map, Player, User, Relation, Day
+from app.util.job import Job
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
@@ -119,19 +120,8 @@ def update_game(game):
 
     _update_game(game, result)
 
-    game_id_str = str(game.game_id)
-    job = scheduler.get_job(game_id_str)
-    if game.end_of_game and job is not None:
-        job.remove()
-    elif not game.end_of_game and job is None:
-        scheduler.add_job(
-            id=game_id_str,
-            func=update_score,
-            args=[game.game_id],
-            trigger="interval",
-            days=1,
-            start_date=game.next_day_time + timedelta(minutes=5)
-        )
+    job = Job(game)
+    job.check()
 
     db.session.commit()
 
