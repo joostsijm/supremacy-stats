@@ -26,10 +26,9 @@ class Job():
             func=run,
             args=[self.game.game_id],
             trigger="interval",
-            seconds=5,
+            days=1,
+            start_date=self.game.next_day_time + timedelta(minutes=5)
         )
-#            days=1,
-#            start_date=self.game.next_day_time + timedelta(minutes=5)
 
     def stop(self):
         """Stop job for game"""
@@ -45,7 +44,6 @@ class Job():
 
 def run(game_id):
     """Run the job"""
-    print(game_id)
 
     game = Game.query.filter(Game.game_id == game_id).first()
 
@@ -65,4 +63,3 @@ def run(game_id):
 
 if __name__ == "__main__":
     run.__module__ = "scheduler"
-
