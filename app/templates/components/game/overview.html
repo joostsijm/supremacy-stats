@@ -5,22 +5,22 @@
 		<div class="dropdown pull-right">
 			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
 			<div class="dropdown-menu">
-				<form action="{{ url_for('api_fetch_game') }}" method="post">
+				<form action="{{ url_for('api_sync_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<input type="hidden" name="sync_type" value="score">
 					<button type="submit" class="dropdown-item">Update score</button>
 				</form>
-				<form action="{{ url_for('api_fetch_game') }}" method="post">
+				<form action="{{ url_for('api_sync_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<input type="hidden" name="sync_type" value="players">
 					<button type="submit" class="dropdown-item">Update players</button>
 				</form>
-				<form action="{{ url_for('api_fetch_game') }}" method="post">
+				<form action="{{ url_for('api_sync_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<input type="hidden" name="sync_type" value="relations">
 					<button type="submit" class="dropdown-item">Update relations</button>
 				</form>
-				<form action="{{ url_for('api_fetch_game') }}" method="post">
+				<form action="{{ url_for('api_sync_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<input type="hidden" name="sync_type" value="game">
 					<button type="submit" class="dropdown-item">Update game</button>
