@@ -24,7 +24,6 @@ class Game(db.Model):
     game_id = db.Column(db.Integer)
     game_host = db.Column(db.String)
     start_at = db.Column(db.DateTime)
-    fetch_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
     end_of_game = db.Column(db.Boolean, default=False)
     day_of_game = db.Column(db.Integer)
@@ -42,7 +41,13 @@ class Game(db.Model):
     research_days_offset = db.Column(db.Integer)
     research_time_scale = db.Column(db.DECIMAL(2, 1))
     next_day_time = db.Column(db.DateTime())
-    last_result_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    track_game = db.Column(db.Boolean, default=False)
+    track_players = db.Column(db.Boolean, default=False)
+    track_score = db.Column(db.Boolean, default=False)
+    track_relations = db.Column(db.Boolean, default=False)
+    track_coalitions = db.Column(db.Boolean, default=False)
+    track_market = db.Column(db.Boolean, default=False)
 
     # Relationships
     # -------------
@@ -83,21 +88,9 @@ class Game(db.Model):
         return url + "&mode=guest"
 
     @hybrid_property
-    def last_fetch(self):
-        """Give natural last fetch date"""
-        if self.fetch_at:
-            return humanize.naturaltime(datetime.now() - self.fetch_at)
-        return "never"
-
-    @hybrid_property
     def start_at_formatted(self):
         """Give natural start date"""
         return humanize.naturaldate(self.start_at)
-
-    @hybrid_property
-    def fetch_at_formatted(self):
-        """Give natural date"""
-        return humanize.naturaltime(self.fetch_at)
 
     @hybrid_property
     def next_day_formatted(self):
