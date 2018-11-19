@@ -55,19 +55,15 @@
 				<div class="col">Ranked</div>
 				<div class="col">{{ 'Yes' if game.ranked > 0 else 'No' }}</div>
 			</div>
+		</div>
+		<div class="col-12 col-md">
 			<div class="row mt-2">
 				<div class="col">Victory point</div>
 				<div class="col">{{ game.victory_points }}</div>
 			</div>
-		</div>
-		<div class="col-12 col-md">
 			<div class="row mt-2">
 				<div class="col">Next day</div>
 				<div class="col">{{ game.next_day_formatted }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Last updated</div>
-				<div class="col">{{ game.fetch_at_formatted }}</div>
 			</div>
 			<div class="row mt-2">
 				<div class="col">Day</div>
