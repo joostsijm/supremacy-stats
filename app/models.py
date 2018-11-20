@@ -506,3 +506,29 @@ class Resource(db.Model):
 
     def __repr__(self):
         return "<Resource(%s)>" % (self.id)
+
+
+class SyncLog(db.Model):
+    """Model to keep a log of sync"""
+
+    __tablename__ = "sp_sync_log"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    function = db.Column(db.String)
+    datetime = db.Column(db.DateTime, default=datetime.utcnow)
+    succes = db.Column(db.Boolean, server_default='f', default=False)
+
+    # Relationships
+    # -------------
+    
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("sync_logs", lazy="dynamic"))
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<SyncLog(%s)>" % (self.id)

@@ -9,7 +9,7 @@ from datetime import datetime
 from sqlalchemy.sql import and_
 
 from app import db
-from app.models import Game, Map, Player, User, Relation, Day
+from app.models import Game, Map, Player, User, Relation, Day, SyncLog
 from app.util.job import Job
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
@@ -17,11 +17,20 @@ from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 def server_change_handler(func):
     """Add catch for exception"""
     def wrapper(game):
+        log = SyncLog()
+        log.function = func.__name__ 
+        log.game_id = game.id
+        db.session.add(log)
+        db.session.commit()
+
         try:
             func(game)
         except ServerChangeError as exception:
             game.game_host = str(exception)
             func(game)
+
+        log.succes = True
+        db.session.commit()
     return wrapper
 
 
