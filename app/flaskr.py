@@ -3,6 +3,7 @@
 Simple flask thing
 """
 
+import requests
 from subprocess import call
 from datetime import datetime, timedelta
 from flask import render_template, jsonify, request, redirect, url_for, flash
@@ -56,15 +57,15 @@ def register():
         return redirect(url_for('login'))
 
     if "name" not in request.form or not request.form['name']:
-        flash('Fill in the name', 'warning')
+        flash('Fill in the name.', 'warning')
         return render_template('user/login.html')
 
     if "email" not in request.form or not request.form['email']:
-        flash('Fill in the email', 'warning')
+        flash('Fill in the email.', 'warning')
         return render_template('user/login.html', name=request.form['name'])
 
     if "password" not in request.form or not request.form['password']:
-        flash('Fill in the password', 'warning')
+        flash('Fill in the password.', 'warning')
         return render_template(
             'user/login.html',
             name=request.form['name'],
@@ -73,7 +74,7 @@ def register():
 
     user = User.query.filter(User.name == request.form['name']).first()
     if user is None:
-        flash('Name not found', 'warning')
+        flash('Name not found.', 'warning')
         return render_template(
             'user/login.html',
             name=request.form['name'],
@@ -81,7 +82,7 @@ def register():
         )
 
     if user.email is not None:
-        flash('User already taken', 'warning')
+        flash('User already taken.', 'warning')
         return render_template(
             'user/login.html',
             name=request.form['name'],
@@ -355,7 +356,10 @@ def api_sync_game():
         else:
             sync.new_game(game_id)
     except sync.GameDoesNotExistError:
-        flash('Game %s doesn\'t exist anymore' % game_id, 'danger')
+        flash('Game %s doesn\'t exist anymore.' % game_id, 'danger')
+    except requests.exceptions.ConnectionError:
+        flash('Supremacy server connection error.', 'warning')
+
 
     if "games" in request.referrer:
         return redirect(game.url, code=302)
