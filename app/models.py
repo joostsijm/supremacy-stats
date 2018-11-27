@@ -465,23 +465,29 @@ class Coalition(db.Model):
         return "<Coalition(%s)>" % (self.id)
 
 
-class ResourcePrice(db.Model):
+class Order(db.Model):
     """Model for ResourcePrice"""
 
-    __tablename__ = "sp_market_price"
+    __tablename__ = "sp_orders"
 
     # db.Columns
     # -------------
 
     id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer)
     datetime = db.Column(db.DateTime, default=datetime.utcnow)
-    day = db.Column(db.Integer)
+    amount = db.Column(db.Integer)
+    limit = db.Column(db.DECIMAL(2, 1))
+    buy = db.Column(db.Boolean, default=False)
 
     # Relationships
     # -------------
 
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
     game = db.relationship("Game", backref=db.backref("resource_prices"))
+
+    player_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
+    player = db.relationship("Player", backref=db.backref("days", lazy="dynamic"))
 
     resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
     resource = db.relationship("Resource", backref=db.backref("resource_prices"))
