@@ -465,6 +465,24 @@ class Coalition(db.Model):
         return "<Coalition(%s)>" % (self.id)
 
 
+class Market(db.Model):
+    """Model with information of current market"""
+
+    __tablename__ = "sp_market"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships
+    # -------------
+
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("markets"))
+
+
 class Order(db.Model):
     """Model for ResourcePrice"""
 
@@ -475,7 +493,6 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer)
-    datetime = db.Column(db.DateTime, default=datetime.utcnow)
     amount = db.Column(db.Integer)
     limit = db.Column(db.DECIMAL(2, 1))
     buy = db.Column(db.Boolean, default=False)
@@ -483,20 +500,46 @@ class Order(db.Model):
     # Relationships
     # -------------
 
-    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
-    game = db.relationship("Game", backref=db.backref("resource_prices"))
+    market_id = db.Column(db.Integer, db.ForeignKey("sp_market.id"))
+    market = db.relationship("Market", backref=db.backref("orders"))
 
     player_id = db.Column(db.Integer, db.ForeignKey("sp_players.id"))
-    player = db.relationship("Player", backref=db.backref("days", lazy="dynamic"))
+    player = db.relationship("Player", backref=db.backref("orders"))
 
     resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
-    resource = db.relationship("Resource", backref=db.backref("resource_prices"))
+    resource = db.relationship("Resource", backref=db.backref("orders"))
 
     # Representation
     # -------------
 
     def __repr__(self):
-        return "<ResourcePrice(%s)>" % (self.id)
+        return "<Order(%s)>" % (self.id)
+
+class Price(db.Model):
+    """Model for ResourcePrice"""
+
+    __tablename__ = "sp_prices"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    price = db.Column(db.DECIMAL(2, 1))
+
+    # Relationships
+    # -------------
+
+    market_id = db.Column(db.Integer, db.ForeignKey("sp_market.id"))
+    market = db.relationship("Market", backref=db.backref("orders"))
+
+    resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
+    resource = db.relationship("Resource", backref=db.backref("prices"))
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<Price(%s)>" % (self.id)
 
 
 class Resource(db.Model):
