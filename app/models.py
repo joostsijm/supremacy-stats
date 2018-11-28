@@ -521,7 +521,7 @@ class Price(db.Model):
     # -------------
 
     id = db.Column(db.Integer, primary_key=True)
-    price = db.Column(db.DECIMAL(2, 1))
+    value = db.Column(db.DECIMAL(2, 1))
 
     # Relationships
     # -------------
