@@ -492,7 +492,7 @@ class Order(db.Model):
     order_id = db.Column(db.Integer)
     amount = db.Column(db.Integer)
     limit = db.Column(db.DECIMAL(2, 1))
-    buy = db.Column(db.Boolean, default=False)
+    buy = db.Column(db.Boolean, server_default='f', default=False)
 
     # Relationships
     # -------------
