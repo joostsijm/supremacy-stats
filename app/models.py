@@ -24,15 +24,14 @@ class Game(db.Model):
     game_id = db.Column(db.Integer)
     game_host = db.Column(db.String)
     start_at = db.Column(db.DateTime)
-    fetch_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
-    end_of_game = db.Column(db.Boolean, default=False)
+    end_of_game = db.Column(db.Boolean, server_default='f', default=False)
     day_of_game = db.Column(db.Integer)
     number_of_players = db.Column(db.Integer)
     password = db.Column(db.String)
     scenario = db.Column(db.Integer)
     ranked = db.Column(db.Integer)
-    gold_round = db.Column(db.Boolean, default=False)
+    gold_round = db.Column(db.Boolean, server_default='f', default=False)
     ai_level = db.Column(db.Integer)
     country_selection = db.Column(db.Integer)
     time_scale = db.Column(db.DECIMAL(2, 1))
@@ -42,7 +41,13 @@ class Game(db.Model):
     research_days_offset = db.Column(db.Integer)
     research_time_scale = db.Column(db.DECIMAL(2, 1))
     next_day_time = db.Column(db.DateTime())
-    last_result_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    track_game = db.Column(db.Boolean, server_default='f', default=False)
+    track_players = db.Column(db.Boolean, server_default='f', default=False)
+    track_score = db.Column(db.Boolean, server_default='f', default=False)
+    track_relations = db.Column(db.Boolean, server_default='f', default=False)
+    track_coalitions = db.Column(db.Boolean, server_default='f', default=False)
+    track_market = db.Column(db.Boolean, server_default='f', default=False)
 
     # Relationships
     # -------------
@@ -83,21 +88,9 @@ class Game(db.Model):
         return url + "&mode=guest"
 
     @hybrid_property
-    def last_fetch(self):
-        """Give natural last fetch date"""
-        if self.fetch_at:
-            return humanize.naturaltime(datetime.now() - self.fetch_at)
-        return "never"
-
-    @hybrid_property
     def start_at_formatted(self):
         """Give natural start date"""
         return humanize.naturaldate(self.start_at)
-
-    @hybrid_property
-    def fetch_at_formatted(self):
-        """Give natural date"""
-        return humanize.naturaltime(self.fetch_at)
 
     @hybrid_property
     def next_day_formatted(self):
@@ -214,7 +207,7 @@ class Player(db.Model):
     primary_color = db.Column(db.String)
     secondary_color = db.Column(db.String)
 
-    defeated = db.Column(db.Boolean, default=False)
+    defeated = db.Column(db.Boolean, server_default='f', default=False)
     last_login = db.Column(db.DateTime)
 
     flag_image_id = db.Column(db.Integer)
@@ -318,6 +311,10 @@ class Player(db.Model):
                 self.player_id
             )
 
+    @hybrid_property
+    def relations_sorted(self):
+        """Return relations sorted"""
+        return self.native_relations.order_by(Relation.status.desc()).all()
 
     # Representation
     # -------------
@@ -558,3 +555,29 @@ class Resource(db.Model):
 
     def __repr__(self):
         return "<Resource(%s)>" % (self.id)
+
+
+class SyncLog(db.Model):
+    """Model to keep a log of sync"""
+
+    __tablename__ = "sp_sync_log"
+
+    # db.Columns
+    # -------------
+
+    id = db.Column(db.Integer, primary_key=True)
+    function = db.Column(db.String)
+    datetime = db.Column(db.DateTime, default=datetime.utcnow)
+    succes = db.Column(db.Boolean, server_default='f', default=False)
+
+    # Relationships
+    # -------------
+    
+    game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
+    game = db.relationship("Game", backref=db.backref("sync_logs", lazy="dynamic"))
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<SyncLog(%s)>" % (self.id)

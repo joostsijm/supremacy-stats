@@ -5,22 +5,32 @@ Supremacy1914 ranking index retriever
 """
 
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from sqlalchemy.sql import and_
 
-from app import db, scheduler
-from app.models import Game, Map, Player, User, Relation, Day
+from app import db
+from app.models import Game, Map, Player, User, Relation, Day, SyncLog
+from app.util.job import Job
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
 def server_change_handler(func):
     """Add catch for exception"""
     def wrapper(game):
+        log = SyncLog()
+        log.function = func.__name__ 
+        log.game_id = game.id
+        db.session.add(log)
+        db.session.commit()
+
         try:
             func(game)
         except ServerChangeError as exception:
             game.game_host = str(exception)
             func(game)
+
+        log.succes = True
+        db.session.commit()
     return wrapper
 
 
@@ -119,19 +129,8 @@ def update_game(game):
 
     _update_game(game, result)
 
-    game_id_str = str(game.game_id)
-    job = scheduler.get_job(game_id_str)
-    if game.end_of_game and job is not None:
-        job.remove()
-    elif not game.end_of_game and job is None:
-        scheduler.add_job(
-            id=game_id_str,
-            func=update_score,
-            args=[game.game_id],
-            trigger="interval",
-            days=1,
-            start_date=game.next_day_time + timedelta(minutes=5)
-        )
+    job = Job(game)
+    job.check()
 
     db.session.commit()
 

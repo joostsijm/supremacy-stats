@@ -39,7 +39,7 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-						{% for relation in player.native_relations %}
+						{% for relation in player.relations_sorted %}
 				        <tr>
 				            <td>{{ relation.player_foreign.nation_name }}</td>
 				            <td>{{ relation.status_formatted }}</td>

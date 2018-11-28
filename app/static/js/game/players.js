@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('.dataTable.countrys').DataTable({
-		order: [3, 'desc'],
+		order: [4, 'desc'],
 		responsive: {
 			details: {
 				type: 'column',
