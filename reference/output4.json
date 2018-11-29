@@ -1,0 +1,1497 @@
+{
+    "@c": "ultshared.UltResourceState",
+    "asks": [
+        "[Lultshared.UltAskList;",
+        [
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 7807,
+                        "buy": false,
+                        "limit": 5.3,
+                        "orderID": 7936,
+                        "playerID": 0,
+                        "resourceType": 0
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2656,
+                        "buy": false,
+                        "limit": 5.4,
+                        "orderID": 7917,
+                        "playerID": 7,
+                        "resourceType": 0
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 852,
+                        "buy": false,
+                        "limit": 5.8,
+                        "orderID": 7950,
+                        "playerID": 41,
+                        "resourceType": 0
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 10956,
+                        "buy": false,
+                        "limit": 6.6,
+                        "orderID": 7957,
+                        "playerID": 46,
+                        "resourceType": 0
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 9573,
+                        "buy": false,
+                        "limit": 30.0,
+                        "orderID": 7551,
+                        "playerID": 33,
+                        "resourceType": 0
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 713,
+                        "buy": false,
+                        "limit": 3.0,
+                        "orderID": 7986,
+                        "playerID": 0,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2070,
+                        "buy": false,
+                        "limit": 3.2,
+                        "orderID": 7944,
+                        "playerID": 31,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 6377,
+                        "buy": false,
+                        "limit": 3.4,
+                        "orderID": 7797,
+                        "playerID": 6,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4675,
+                        "buy": false,
+                        "limit": 3.5,
+                        "orderID": 7937,
+                        "playerID": 39,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 15919,
+                        "buy": false,
+                        "limit": 3.7,
+                        "orderID": 7979,
+                        "playerID": 32,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2312,
+                        "buy": false,
+                        "limit": 4.0,
+                        "orderID": 7925,
+                        "playerID": 7,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 7120,
+                        "buy": false,
+                        "limit": 4.1,
+                        "orderID": 7870,
+                        "playerID": 18,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 338,
+                        "buy": false,
+                        "limit": 4.2,
+                        "orderID": 7911,
+                        "playerID": 19,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 10219,
+                        "buy": false,
+                        "limit": 4.4,
+                        "orderID": 7818,
+                        "playerID": 15,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 459,
+                        "buy": false,
+                        "limit": 4.5,
+                        "orderID": 7849,
+                        "playerID": 13,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 400,
+                        "buy": false,
+                        "limit": 4.8,
+                        "orderID": 7725,
+                        "playerID": 14,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 11717,
+                        "buy": false,
+                        "limit": 4.9,
+                        "orderID": 7965,
+                        "playerID": 1,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 433,
+                        "buy": false,
+                        "limit": 5.2,
+                        "orderID": 7732,
+                        "playerID": 34,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 979,
+                        "buy": false,
+                        "limit": 5.5,
+                        "orderID": 7835,
+                        "playerID": 30,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 374,
+                        "buy": false,
+                        "limit": 5.9,
+                        "orderID": 4507,
+                        "playerID": 3,
+                        "resourceType": 1
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3472,
+                        "buy": false,
+                        "limit": 30.0,
+                        "orderID": 6967,
+                        "playerID": 33,
+                        "resourceType": 1
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4429,
+                        "buy": false,
+                        "limit": 4.2,
+                        "orderID": 7980,
+                        "playerID": 0,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 7856,
+                        "buy": false,
+                        "limit": 4.6,
+                        "orderID": 7973,
+                        "playerID": 1,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3142,
+                        "buy": false,
+                        "limit": 4.7,
+                        "orderID": 7919,
+                        "playerID": 12,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 7135,
+                        "buy": false,
+                        "limit": 4.9,
+                        "orderID": 7952,
+                        "playerID": 7,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4170,
+                        "buy": false,
+                        "limit": 5.0,
+                        "orderID": 7857,
+                        "playerID": 37,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 313,
+                        "buy": false,
+                        "limit": 5.5,
+                        "orderID": 7726,
+                        "playerID": 14,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 70,
+                        "buy": false,
+                        "limit": 5.7,
+                        "orderID": 7871,
+                        "playerID": 27,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 283,
+                        "buy": false,
+                        "limit": 5.8,
+                        "orderID": 7885,
+                        "playerID": 38,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 11160,
+                        "buy": false,
+                        "limit": 6.0,
+                        "orderID": 7878,
+                        "playerID": 34,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4040,
+                        "buy": false,
+                        "limit": 6.1,
+                        "orderID": 7931,
+                        "playerID": 16,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 8965,
+                        "buy": false,
+                        "limit": 6.2,
+                        "orderID": 7938,
+                        "playerID": 19,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 9057,
+                        "buy": false,
+                        "limit": 6.8,
+                        "orderID": 7836,
+                        "playerID": 11,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3878,
+                        "buy": false,
+                        "limit": 6.9,
+                        "orderID": 7740,
+                        "playerID": 28,
+                        "resourceType": 2
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 19824,
+                        "buy": false,
+                        "limit": 30.0,
+                        "orderID": 7715,
+                        "playerID": 33,
+                        "resourceType": 2
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 39950,
+                        "buy": false,
+                        "limit": 2.7,
+                        "orderID": 7995,
+                        "playerID": 0,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 720,
+                        "buy": false,
+                        "limit": 3.0,
+                        "orderID": 7988,
+                        "playerID": 21,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 64,
+                        "buy": false,
+                        "limit": 3.2,
+                        "orderID": 7932,
+                        "playerID": 16,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 387,
+                        "buy": false,
+                        "limit": 3.3,
+                        "orderID": 7939,
+                        "playerID": 39,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 6094,
+                        "buy": false,
+                        "limit": 3.5,
+                        "orderID": 7799,
+                        "playerID": 6,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 5165,
+                        "buy": false,
+                        "limit": 3.6,
+                        "orderID": 7913,
+                        "playerID": 13,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 452,
+                        "buy": false,
+                        "limit": 3.9,
+                        "orderID": 7837,
+                        "playerID": 11,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 6496,
+                        "buy": false,
+                        "limit": 4.0,
+                        "orderID": 7981,
+                        "playerID": 23,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 275,
+                        "buy": false,
+                        "limit": 4.3,
+                        "orderID": 7741,
+                        "playerID": 28,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 288,
+                        "buy": false,
+                        "limit": 4.4,
+                        "orderID": 7953,
+                        "playerID": 41,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 33570,
+                        "buy": false,
+                        "limit": 4.5,
+                        "orderID": 7946,
+                        "playerID": 51,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 1288,
+                        "buy": false,
+                        "limit": 4.6,
+                        "orderID": 7872,
+                        "playerID": 15,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3052,
+                        "buy": false,
+                        "limit": 5.2,
+                        "orderID": 7792,
+                        "playerID": 30,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 649,
+                        "buy": false,
+                        "limit": 5.5,
+                        "orderID": 7967,
+                        "playerID": 1,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 203,
+                        "buy": false,
+                        "limit": 5.7,
+                        "orderID": 7219,
+                        "playerID": 20,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 456,
+                        "buy": false,
+                        "limit": 5.8,
+                        "orderID": 7727,
+                        "playerID": 14,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 180,
+                        "buy": false,
+                        "limit": 6.0,
+                        "orderID": 7960,
+                        "playerID": 46,
+                        "resourceType": 3
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 26420,
+                        "buy": false,
+                        "limit": 30.0,
+                        "orderID": 7549,
+                        "playerID": 33,
+                        "resourceType": 3
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 843,
+                        "buy": false,
+                        "limit": 3.4,
+                        "orderID": 7975,
+                        "playerID": 0,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 350,
+                        "buy": false,
+                        "limit": 3.5,
+                        "orderID": 7793,
+                        "playerID": 30,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 1052,
+                        "buy": false,
+                        "limit": 3.6,
+                        "orderID": 7940,
+                        "playerID": 17,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 585,
+                        "buy": false,
+                        "limit": 3.9,
+                        "orderID": 7838,
+                        "playerID": 11,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 792,
+                        "buy": false,
+                        "limit": 4.4,
+                        "orderID": 7989,
+                        "playerID": 13,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 616,
+                        "buy": false,
+                        "limit": 4.5,
+                        "orderID": 7968,
+                        "playerID": 1,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 813,
+                        "buy": false,
+                        "limit": 4.7,
+                        "orderID": 7220,
+                        "playerID": 20,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3379,
+                        "buy": false,
+                        "limit": 5.0,
+                        "orderID": 1316,
+                        "playerID": 22,
+                        "resourceType": 4
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 351,
+                        "buy": false,
+                        "limit": 5.3,
+                        "orderID": 7982,
+                        "playerID": 23,
+                        "resourceType": 4
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 270,
+                        "buy": false,
+                        "limit": 4.0,
+                        "orderID": 7976,
+                        "playerID": 0,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 417,
+                        "buy": false,
+                        "limit": 4.5,
+                        "orderID": 7743,
+                        "playerID": 28,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 470,
+                        "buy": false,
+                        "limit": 4.6,
+                        "orderID": 7990,
+                        "playerID": 6,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4823,
+                        "buy": false,
+                        "limit": 4.7,
+                        "orderID": 7794,
+                        "playerID": 30,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 222,
+                        "buy": false,
+                        "limit": 5.0,
+                        "orderID": 7955,
+                        "playerID": 41,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 358,
+                        "buy": false,
+                        "limit": 5.2,
+                        "orderID": 7853,
+                        "playerID": 13,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 15,
+                        "buy": false,
+                        "limit": 5.4,
+                        "orderID": 7948,
+                        "playerID": 31,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 239,
+                        "buy": false,
+                        "limit": 5.6,
+                        "orderID": 7874,
+                        "playerID": 27,
+                        "resourceType": 5
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 13362,
+                        "buy": false,
+                        "limit": 30.0,
+                        "orderID": 7716,
+                        "playerID": 33,
+                        "resourceType": 5
+                    }
+                ]
+            ],
+            [
+                "ultshared.UltAskList",
+                [
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 3385,
+                        "buy": false,
+                        "limit": 3.1,
+                        "orderID": 7977,
+                        "playerID": 0,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 7716,
+                        "buy": false,
+                        "limit": 3.2,
+                        "orderID": 7916,
+                        "playerID": 40,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 455,
+                        "buy": false,
+                        "limit": 3.5,
+                        "orderID": 7823,
+                        "playerID": 15,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 15,
+                        "buy": false,
+                        "limit": 3.6,
+                        "orderID": 7935,
+                        "playerID": 16,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 258,
+                        "buy": false,
+                        "limit": 3.9,
+                        "orderID": 7949,
+                        "playerID": 31,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 447,
+                        "buy": false,
+                        "limit": 4.0,
+                        "orderID": 7970,
+                        "playerID": 1,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4595,
+                        "buy": false,
+                        "limit": 4.2,
+                        "orderID": 7758,
+                        "playerID": 32,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2765,
+                        "buy": false,
+                        "limit": 4.6,
+                        "orderID": 1176,
+                        "playerID": 9,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2979,
+                        "buy": false,
+                        "limit": 4.7,
+                        "orderID": 1318,
+                        "playerID": 22,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 244,
+                        "buy": false,
+                        "limit": 4.8,
+                        "orderID": 7730,
+                        "playerID": 14,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 4818,
+                        "buy": false,
+                        "limit": 4.9,
+                        "orderID": 7795,
+                        "playerID": 30,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 2133,
+                        "buy": false,
+                        "limit": 5.0,
+                        "orderID": 7902,
+                        "playerID": 50,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 9608,
+                        "buy": false,
+                        "limit": 5.1,
+                        "orderID": 7991,
+                        "playerID": 13,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 356,
+                        "buy": false,
+                        "limit": 5.2,
+                        "orderID": 7840,
+                        "playerID": 11,
+                        "resourceType": 6
+                    },
+                    {
+                        "@c": "ultshared.UltOrder",
+                        "amount": 223,
+                        "buy": false,
+                        "limit": 5.5,
+                        "orderID": 7984,
+                        "playerID": 23,
+                        "resourceType": 6
+                    }
+                ]
+            ]
+        ]
+    ],
+    "bids": [
+        "[Lultshared.UltBidList;",
+        [
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ],
+            [
+                "ultshared.UltBidList",
+                []
+            ]
+        ]
+    ],
+    "prices": [
+        5.3,
+        3.2,
+        3.4,
+        3.1,
+        3.4,
+        4.0,
+        3.2
+    ],
+    "resourceProfs": {
+        "-1": {
+            "@c": "ultshared.UltResourceProfile",
+            "categories": {
+                "@c": "java.util.HashMap"
+            },
+            "corruptionValue": 0.0,
+            "executedOrders": [
+                "java.util.LinkedList",
+                []
+            ],
+            "mobilizationTarget": 10,
+            "mobilizationValue": 5,
+            "playerID": -1
+        },
+        "@c": "java.util.HashMap"
+    },
+    "stateID": "1094",
+    "stateType": 4,
+    "timeStamp": "1543422350600",
+    "trading": {
+        "@c": "ultshared.UltTrading",
+        "nextTradeID": 209,
+        "pastTrades": [
+            "java.util.Vector",
+            [
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": true,
+                    "message": "",
+                    "offersA": {
+                        "1": 5000,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "2": 5000,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 29,
+                    "partyB": 26,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1543359726000,
+                    "tradeId": 202
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": true,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 3,
+                    "partyB": 26,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1543359726000,
+                    "tradeId": 200
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": true,
+                    "message": "",
+                    "offersA": {
+                        "17": 3,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 3,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 5,
+                    "partyB": 4,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1543359726000,
+                    "tradeId": 199
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": true,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 24,
+                    "partyB": 26,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": true,
+                    "timeStamp": 1543244940596,
+                    "tradeId": 206
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 3,
+                    "partyB": 9,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": true,
+                    "timeStamp": 1543229793110,
+                    "tradeId": 207
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 1,
+                    "partyB": 24,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": true,
+                    "timeStamp": 1543204792555,
+                    "tradeId": 204
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 1,
+                    "partyB": 4,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1543100526000,
+                    "tradeId": 190
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 3,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 3,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 17,
+                    "partyB": 20,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1543014126000,
+                    "tradeId": 195
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 3,
+                    "partyB": 4,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 1542927726000,
+                    "tradeId": 189
+                },
+                {
+                    "@c": "ultshared.UltPremiumTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offerPrice": 1000.0,
+                    "offersA": {
+                        "16": 10,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 47,
+                    "partyB": 15,
+                    "priceFactor": 0.53625,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 0,
+                    "tradeId": 59,
+                    "unitType": 10
+                },
+                {
+                    "@c": "ultshared.UltPremiumTradeOffer",
+                    "delByReceiver": true,
+                    "delBySender": false,
+                    "message": "",
+                    "offerPrice": 1000.0,
+                    "offersA": {
+                        "6": 5000,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 48,
+                    "partyB": 38,
+                    "priceFactor": 0.6,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 0,
+                    "tradeId": 33,
+                    "unitType": 0
+                },
+                {
+                    "@c": "ultshared.UltPremiumTradeOffer",
+                    "delByReceiver": true,
+                    "delBySender": false,
+                    "message": "",
+                    "offerPrice": 1000.0,
+                    "offersA": {
+                        "1": 5000,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 21,
+                    "partyB": 5,
+                    "priceFactor": 1.2,
+                    "processed": true,
+                    "readByReceiver": false,
+                    "successful": false,
+                    "timeStamp": 0,
+                    "tradeId": 17,
+                    "unitType": 0
+                }
+            ]
+        ],
+        "stateID": 838,
+        "tradingOffers": [
+            "java.util.Vector",
+            [
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 4,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 3,
+                    "partyB": 2,
+                    "processed": false,
+                    "readByReceiver": false,
+                    "successful": true,
+                    "timeStamp": 1543059290804,
+                    "tradeId": 205
+                },
+                {
+                    "@c": "ultshared.UltTradeOffer",
+                    "delByReceiver": false,
+                    "delBySender": false,
+                    "message": "",
+                    "offersA": {
+                        "17": 1,
+                        "@c": "java.util.HashMap"
+                    },
+                    "offersB": {
+                        "17": 1,
+                        "@c": "java.util.HashMap"
+                    },
+                    "partyA": 9,
+                    "partyB": 10,
+                    "processed": false,
+                    "readByReceiver": false,
+                    "successful": true,
+                    "timeStamp": 1543394873654,
+                    "tradeId": 208
+                }
+            ]
+        ],
+        "tradingProfiles": {
+            "1": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 1,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 1,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "10": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 10,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "12": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 12,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "2": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 2,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "22": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 22,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "24": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 24,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 144750,
+                "resourcesSold": 0,
+                "unitsBought": 5,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "25": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 25,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "26": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 26,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 30000,
+                "resourcesSold": 22500,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "29": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 29,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 22500,
+                "resourcesSold": 30000,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "3": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 3,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "34": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 34,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "35": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 35,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "36": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 36,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "38": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 38,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "39": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 39,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "41": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 41,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 56250,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "46": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 46,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 41250,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "47": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 47,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 2,
+                "unitsSoldToday": 0
+            },
+            "48": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 48,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 1,
+                "unitsSoldToday": 0
+            },
+            "49": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 49,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 1,
+                "unitsSoldToday": 0
+            },
+            "5": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 5,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "52": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 52,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 47250,
+                "unitsBought": 0,
+                "unitsSold": 1,
+                "unitsSoldToday": 0
+            },
+            "7": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 7,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 1,
+                "unitsSoldToday": 0
+            },
+            "8": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 8,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "9": {
+                "@c": "ultshared.UltTradingProfile",
+                "playerID": 9,
+                "provincesBought": 0,
+                "provincesSold": 0,
+                "provincesSoldToday": 0,
+                "resourcesBought": 0,
+                "resourcesSold": 0,
+                "unitsBought": 0,
+                "unitsSold": 0,
+                "unitsSoldToday": 0
+            },
+            "@c": "java.util.HashMap"
+        }
+    }
+}

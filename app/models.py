@@ -527,7 +527,7 @@ class Price(db.Model):
     # -------------
 
     market_id = db.Column(db.Integer, db.ForeignKey("sp_market.id"))
-    market = db.relationship("Market", backref=db.backref("orders"))
+    market = db.relationship("Market", backref=db.backref("prices"))
 
     resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
     resource = db.relationship("Resource", backref=db.backref("prices"))

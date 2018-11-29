@@ -9,7 +9,7 @@ from datetime import datetime
 from sqlalchemy.sql import and_
 
 from app import db
-from app.models import Game, Map, Player, User, Relation, Day, SyncLog
+from app.models import Game, Map, Player, User, Relation, Day, SyncLog, Market, Order, Price
 from app.util.job import Job
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
@@ -27,6 +27,7 @@ def server_change_handler(func):
             func(game)
         except ServerChangeError as exception:
             game.game_host = str(exception)
+            db.session.commit()
             func(game)
 
         log.succes = True
@@ -272,6 +273,41 @@ def update_market(game):
     """Get market prices"""
     print("Update market")
 
+    # supremacy = Supremacy(game.game_id, game.game_host)
+    # result = supremacy.market()
+    with open('reference/output4.json') as file:
+        result = json.load(file)
+    orders = result["asks"][1] + result["bids"][1]
+
+    market = Market()
+    market.game_id = game.id
+    db.session.add(market)
+
+    for resource in orders:
+        for order_json in resource[1]:
+            print(order_json["playerID"])
+            player = game.players.filter(Player.player_id == order_json["playerID"]).first()
+
+            order = Order()
+            order.amount = order_json["amount"]
+            order.buy = order_json["buy"]
+            order.limit = order_json["limit"]
+            player.orders.append(order)
+            market.orders.append(order)
+
+            db.session.add(order)
+
+    for index, value in enumerate(result["prices"]):
+        print(value)
+        price = Price()
+        price.value = value
+        price.resource_id = index
+        market.prices.append(price)
+
+        db.session.add(price)
+
+    # db.session.commit()
+
 
 def print_json(json_text):
     """Print data to console"""
@@ -285,7 +321,7 @@ if __name__ == "__main__":
     GAME_ID = 2527307
     GAME = Game.query.filter(Game.end_of_game == False).first()
     try:
-        update_relations(GAME)
+        update_market(GAME)
     except GameDoesNotExistError:
         print("game does not exist")
 
