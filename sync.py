@@ -289,11 +289,14 @@ def update_market(game):
             player = game.players.filter(Player.player_id == order_json["playerID"]).first()
 
             order = Order()
+            order.order_id = order_json["orderID"]
             order.amount = order_json["amount"]
             order.buy = order_json["buy"]
             order.limit = order_json["limit"]
-            player.orders.append(order)
+            order.resource_id = order_json["resourceType"]
             market.orders.append(order)
+            if player is not None:
+                player.orders.append(order)
 
             db.session.add(order)
 
@@ -319,7 +322,8 @@ if __name__ == "__main__":
 
     # random game
     GAME_ID = 2527307
-    GAME = Game.query.filter(Game.end_of_game == False).first()
+    GAMES = Game.query.filter(Game.end_of_game == False).all()
+    GAME = GAMES[1]
     try:
         update_market(GAME)
     except GameDoesNotExistError:
