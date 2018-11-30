@@ -491,7 +491,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer)
     amount = db.Column(db.Integer)
-    limit = db.Column(db.DECIMAL(2, 1))
+    limit = db.Column(db.DECIMAL(3, 1))
     buy = db.Column(db.Boolean, server_default='f', default=False)
 
     # Relationships
@@ -521,7 +521,7 @@ class Price(db.Model):
     # -------------
 
     id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.DECIMAL(2, 1))
+    value = db.Column(db.DECIMAL(3, 1))
 
     # Relationships
     # -------------
