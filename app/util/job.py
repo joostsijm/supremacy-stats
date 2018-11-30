@@ -3,7 +3,6 @@
 from datetime import timedelta
 from app import scheduler
 from app.models import Game
-import sync
 
 
 class Job():
@@ -46,6 +45,8 @@ def run(game_id):
     """Run the job"""
 
     game = Game.query.filter(Game.game_id == game_id).first()
+
+    import sync
 
     if game.track_game:
         sync.update_game(game)
