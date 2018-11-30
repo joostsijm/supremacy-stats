@@ -185,18 +185,6 @@ def game_relations(game_id):
     return render_template('game/relations.html', game=game, players=players)
 
 
-@app.route('/game/<int:game_id>/relations_2')
-@register_breadcrumb(app, '.games.game_id', '',
-                     dynamic_list_constructor=game_overview_dlc)
-def game_relations_2(game_id):
-    """Show game relations"""
-
-    game_id = int(game_id)
-    game = Game.query.filter(Game.game_id == game_id).first()
-    players = game.active_players()
-    return render_template('game/relations_2.html', game=game, players=players)
-
-
 @app.route('/game/<int:game_id>/edge_relations')
 @register_breadcrumb(app, '.games.game_id', '',
                      dynamic_list_constructor=game_overview_dlc)
