@@ -11,7 +11,7 @@ from flask_menu import Menu, register_menu
 from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
-from app.models import Game, User, Player, Relation
+from app.models import Game, User, Player, Relation, Resource
 import sync
 
 Menu(app=app)
@@ -196,15 +196,15 @@ def game_relations_2(game_id):
     return render_template('game/relations_2.html', game=game, players=players)
 
 
-@app.route('/game/<int:game_id>/edge_relations')
+@app.route('/game/<int:game_id>/market')
 @register_breadcrumb(app, '.games.game_id', '',
                      dynamic_list_constructor=game_overview_dlc)
-def game_edge_relations(game_id):
-    """Show game relations"""
+def game_market(game_id):
+    """Show game market"""
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/edge_relations.html', game=game)
+    return render_template('game/market.html', game=game)
 
 
 @app.route('/api/game/<int:game_id>/score/<string:score_type>')
@@ -331,6 +331,45 @@ def api_game_edge_relations(game_id):
             })
 
     return jsonify(player_list)
+
+
+@app.route('/api/game/<int:game_id>/market')
+def api_market(game_id):
+    """Returns list of markets with prices"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+
+    market_dict = {}
+
+    for market in game.markets:
+        dict_ = {}
+        for resource in market.resources:
+            dict_[resource.name] = resource.price
+        market_dict[market.datetime] = dict_
+
+    market_list = []
+
+    for market in market_dict:
+        market_list.append(market_dict[market])
+
+    resource_list = []
+
+    resources = Resource.all()
+
+    for resource in resources:
+        resource_list.append({
+            "name": resource.name,
+            "valueField": resource.name,
+            "lineColor": '#000000',
+        })
+
+    market_prices = {
+        "markets": market_list,
+        "resources": resource_list,
+    }
+
+    return jsonify(market_prices)
 
 
 @app.route('/api/game/sync', methods=['POST'])
