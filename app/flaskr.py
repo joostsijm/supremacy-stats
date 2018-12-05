@@ -221,6 +221,9 @@ def api_game_score(game_id, score_type):
 
     if score_type == "players":
         players = game.players.filter(Player.user_id != None).all()
+    elif score_type == "active":
+        three_days_ago = datetime.now() - timedelta(days=3)
+        players = game.players.filter(Player.last_login >= three_days_ago).all()
     else:
         players = game.players
 

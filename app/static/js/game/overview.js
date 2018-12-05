@@ -9,6 +9,11 @@ $(".show_players").on("click", function() {
 	$(".switch_player").text("Players")
 });
 
+$(".show_active").on("click", function() {
+	get_data("active")
+	$(".switch_player").text("Active")
+});
+
 $(".show_everyone").on("click", function() {
 	get_data("everyone")
 	$(".switch_player").text("Everyone")
