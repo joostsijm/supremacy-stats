@@ -11,7 +11,7 @@ from flask_menu import Menu, register_menu
 from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
-from app.models import Game, User, Player, Relation, Resource
+from app.models import Game, User, Player, Relation, Resource, Price
 import sync
 
 Menu(app=app)
@@ -333,8 +333,8 @@ def api_game_edge_relations(game_id):
     return jsonify(player_list)
 
 
-@app.route('/api/game/<int:game_id>/market')
-def api_market(game_id):
+@app.route('/api/game/<int:game_id>/market/<string:resource_type>')
+def api_market(game_id, resource_type):
     """Returns list of markets with prices"""
 
     game_id = int(game_id)
@@ -342,10 +342,33 @@ def api_market(game_id):
 
     market_dict = {}
 
+    resource_id = None
+    if resource_type == "grain":
+        resource_id = 0
+    if resource_type == "fish":
+        resource_id = 1
+    if resource_type == "iron":
+        resource_id = 2
+    if resource_type == "wood":
+        resource_id = 3
+    if resource_type == "coal":
+        resource_id = 4
+    if resource_type == "oil":
+        resource_id = 5
+    if resource_type == "gas":
+        resource_id = 6
+
     for market in game.markets:
         dict_ = {}
-        for resource in market.resources:
-            dict_[resource.name] = resource.price
+        # prices = market.prices
+        prices = market.prices.filter(Price.resource_id == resource_id).all()
+        for price in prices:
+            name = price.resource.name
+            if price.buy:
+                name = "buy_%s" % name
+            else:
+                name = "sell_%s" % name
+            dict_[name] = str(price.value)
         market_dict[market.datetime] = dict_
 
     market_list = []
@@ -355,13 +378,18 @@ def api_market(game_id):
 
     resource_list = []
 
-    resources = Resource.all()
+    resources = Resource.query.filter(Resource.id == resource_id).all()
 
     for resource in resources:
         resource_list.append({
-            "name": resource.name,
-            "valueField": resource.name,
-            "lineColor": '#000000',
+            "name": "buy %s" % resource.name,
+            "valueField": "buy_%s" % resource.name,
+            "lineColor": resource.color,
+        })
+        resource_list.append({
+            "name": "sell %s" % resource.name,
+            "valueField": "sell_%s" % resource.name,
+            "lineColor": resource.color,
         })
 
     market_prices = {
