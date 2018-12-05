@@ -522,12 +522,13 @@ class Price(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.DECIMAL(3, 1))
+    buy = db.Column(db.Boolean, server_default='f', default=False)
 
     # Relationships
     # -------------
 
     market_id = db.Column(db.Integer, db.ForeignKey("sp_market.id"))
-    market = db.relationship("Market", backref=db.backref("prices"))
+    market = db.relationship("Market", backref=db.backref("prices", lazy="dynamic"))
 
     resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
     resource = db.relationship("Resource", backref=db.backref("prices"))
@@ -549,6 +550,7 @@ class Resource(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    color = db.Column(db.String)
 
     # Representation
     # -------------
