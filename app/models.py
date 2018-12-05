@@ -209,6 +209,8 @@ class Player(db.Model):
 
     defeated = db.Column(db.Boolean, server_default='f', default=False)
     last_login = db.Column(db.DateTime)
+    computer_player = db.Column(db.Boolean, server_default='f', default=False)
+    native_computer = db.Column(db.Boolean, server_default='f', default=False)
 
     flag_image_id = db.Column(db.Integer)
     player_image_id = db.Column(db.Integer)
