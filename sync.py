@@ -14,6 +14,10 @@ from app.util.job import Job
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
+# with open('reference/output4.json') as file:
+#     result = json.load(file)
+
+
 def server_change_handler(func):
     """Add catch for exception"""
     def wrapper(game):
@@ -273,10 +277,8 @@ def update_market(game):
     """Get market prices"""
     print("Update market")
 
-    # supremacy = Supremacy(game.game_id, game.game_host)
-    # result = supremacy.market()
-    with open('reference/output4.json') as file:
-        result = json.load(file)
+    supremacy = Supremacy(game.game_id, game.game_host)
+    result = supremacy.market()
     orders = result["asks"][1] + result["bids"][1]
 
     market = Market()
@@ -284,8 +286,16 @@ def update_market(game):
     db.session.add(market)
 
     for resource in orders:
+        if resource[1]:
+            lowest_order = resource[1][0]
+            price = Price()
+            price.value = lowest_order["limit"]
+            price.buy = lowest_order["buy"]
+            price.resource_id = lowest_order["resourceType"]
+            market.prices.append(price)
+            db.session.add(price)
+
         for order_json in resource[1]:
-            print(order_json["playerID"])
             player = game.players.filter(Player.player_id == order_json["playerID"]).first()
 
             order = Order()
@@ -300,16 +310,7 @@ def update_market(game):
 
             db.session.add(order)
 
-    for index, value in enumerate(result["prices"]):
-        print(value)
-        price = Price()
-        price.value = value
-        price.resource_id = index
-        market.prices.append(price)
-
-        db.session.add(price)
-
-    # db.session.commit()
+    db.session.commit()
 
 
 def print_json(json_text):
