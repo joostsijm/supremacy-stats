@@ -5,6 +5,7 @@ Supremacy1914 ranking index retriever
 """
 
 import json
+import sys
 from datetime import datetime
 from sqlalchemy.sql import and_
 
@@ -323,12 +324,17 @@ if __name__ == "__main__":
 
     # random game
     GAME_ID = 2527307
-    GAMES = Game.query.filter(Game.end_of_game == False).all()
-    GAME = GAMES[1]
+    if sys.argv[1]:
+        GAME = Game.query.filter(Game.game_id == sys.argv[1]).first()
+    else:
+        GAMES = Game.query.filter(Game.end_of_game == False).all()
+        GAME = GAMES[0]
     try:
         update_market(GAME)
     except GameDoesNotExistError:
-        print("game does not exist")
+        GAME.end_of_game = True
+        GAME.end_at = datetime.now()
+        db.session.commit()
 
 #    for GAME in GAMES:
 #        try:
