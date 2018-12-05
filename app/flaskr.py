@@ -334,6 +334,7 @@ def api_game_edge_relations(game_id):
 
 
 @app.route('/api/game/<int:game_id>/market/<string:resource_type>')
+@app.route('/api/game/<int:game_id>/market', defaults={'resource_type': None})
 def api_market(game_id, resource_type):
     """Returns list of markets with prices"""
 
@@ -342,26 +343,25 @@ def api_market(game_id, resource_type):
 
     market_dict = {}
 
-    resource_id = None
-    if resource_type == "grain":
-        resource_id = 0
-    if resource_type == "fish":
-        resource_id = 1
-    if resource_type == "iron":
-        resource_id = 2
-    if resource_type == "wood":
-        resource_id = 3
-    if resource_type == "coal":
-        resource_id = 4
-    if resource_type == "oil":
-        resource_id = 5
-    if resource_type == "gas":
-        resource_id = 6
+    resources = {
+        "grain": 0,
+        "fish": 1,
+        "iron": 2,
+        "wood": 3,
+        "coal": 4,
+        "oil": 5,
+        "gas": 6
+    }
+
+    resource_id = resources.get(resource_type, None)
 
     for market in game.markets:
         dict_ = {}
         # prices = market.prices
-        prices = market.prices.filter(Price.resource_id == resource_id).all()
+        if resource_id is None:
+            prices = market.prices.all()
+        else:
+            prices = market.prices.filter(Price.resource_id == resource_id).all()
         for price in prices:
             name = price.resource.name
             if price.buy:
@@ -378,7 +378,10 @@ def api_market(game_id, resource_type):
 
     resource_list = []
 
-    resources = Resource.query.filter(Resource.id == resource_id).all()
+    if resource_id is None:
+        resources = Resource.query.all()
+    else:
+        resources = Resource.query.filter(Resource.id == resource_id).all()
 
     for resource in resources:
         resource_list.append({
