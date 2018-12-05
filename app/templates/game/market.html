@@ -15,6 +15,26 @@
 	<hr class="mt-2">
 	<div id="market_index"></div>
 </div>
+{% for market in game.markets %}
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Price</th>
+            <th>Player</th>
+            <th>Resource</th>
+        </tr>
+    </thead>
+    <tbody>
+		{% for order in market.orders %}
+        <tr>
+			<td>{{ order.limit }}</p>
+			<td>{{ order.player.name }}</p>
+			<td>{{ order.resource.name }}</p>
+        </tr>
+		{% endfor %}
+    </tbody>
+<table>
+{% endfor%}
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
