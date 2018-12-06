@@ -12,16 +12,16 @@ function get_data(type)
 		url: url,
 	})
 		.done(function(data) {
-			market_data = format_data(data)
-			days_data = data["days"]
+			resource_data = format_data(data)
+			market_data = data["markets"]
 
-			make_chart(market_data, days_data)
+			make_chart(resource_data, market_data)
 		})
 }
 
 function format_data(data)
 {
-	resource_data = data["resource"]
+	resource_data = data["resources"]
 
 	for (var resource in resource_data) {
 		resource_data[resource]["bullet"] = "round"
@@ -40,19 +40,16 @@ function format_data(data)
 	return resource_data
 }
 
-function make_chart(resource_data, days_data)
+function make_chart(resource_data, market_data)
 {
-	var chart = AmCharts.makeChart("game_index", {
+	var chart = AmCharts.makeChart("market_index", {
 		"type": "serial",
-		"dataProvider": days_data,
+		"dataProvider": market_data,
 		"graphs": resource_data,
-		"categoryField": "day",
+		"categoryField": "market",
 		"categoryAxis": {
 			"gridPosition": "start",
 		},
-		"valueAxes": [{
-			"minimum": 20
-		}],
 		"chartScrollbar": {
 			"oppositeAxis":false,
 			"offset":30,

@@ -355,6 +355,7 @@ def api_market(game_id, resource_type):
 
     resource_id = resources.get(resource_type, None)
 
+    integer = 1
     for market in game.markets:
         dict_ = {}
         # prices = market.prices
@@ -369,6 +370,9 @@ def api_market(game_id, resource_type):
             else:
                 name = "sell_%s" % name
             dict_[name] = str(price.value)
+
+        dict_["market"] = integer
+        integer = integer + 1
         market_dict[market.datetime] = dict_
 
     market_list = []
@@ -385,12 +389,12 @@ def api_market(game_id, resource_type):
 
     for resource in resources:
         resource_list.append({
-            "name": "buy %s" % resource.name,
+            "title": "buy %s" % resource.name,
             "valueField": "buy_%s" % resource.name,
             "lineColor": resource.color,
         })
         resource_list.append({
-            "name": "sell %s" % resource.name,
+            "title": "sell %s" % resource.name,
             "valueField": "sell_%s" % resource.name,
             "lineColor": resource.color,
         })
@@ -420,6 +424,8 @@ def api_sync_game():
                 sync.update_relations(game)
             elif sync_type == 'players':
                 sync.update_players(game)
+            elif sync_type == 'market':
+                sync.update_market(game)
             elif sync_type == 'game':
                 sync.update_game(game)
         else:
