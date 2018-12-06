@@ -9,6 +9,11 @@ $(".show_players").on("click", function() {
 	$(".switch_player").text("Players")
 });
 
+$(".show_active").on("click", function() {
+	get_data("active")
+	$(".switch_player").text("Active")
+});
+
 $(".show_everyone").on("click", function() {
 	get_data("everyone")
 	$(".switch_player").text("Everyone")
@@ -86,4 +91,46 @@ function labelFunction(item, label)
 	else
 		return ""
 }
+
+$(document).ready(function() {
+	$('.dataTable.countrys').DataTable({
+		order: [4, 'desc'],
+		responsive: {
+			details: {
+				type: 'column',
+				target: 'tr td:not(:first-child)'
+			}
+		},
+		paging: false,
+		columnDefs: [
+			{
+				targets: [5],
+				orderData:[6],
+			},
+			{
+				targets: [6],
+				visible: false,
+				searchable: false,
+				type: 'non-empty-string',
+			},
+		],
+	});
+});
+
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    'non-empty-string-asc': function (str1, str2) {
+        if(str1 == '')
+            return 1;
+        if(str2 == '')
+            return -1;
+        return ((str1 < str2) ? -1 : ((str1 > str2) ? 1 : 0));
+    },
+    'non-empty-string-desc': function (str1, str2) {
+        if(str1 == '')
+            return 1;
+        if(str2 == '')
+            return -1;
+        return ((str1 < str2) ? 1 : ((str1 > str2) ? -1 : 0));
+    }
+});
 

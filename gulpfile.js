@@ -9,15 +9,6 @@ var pkg = require('./package.json');
 var browserSync = require('browser-sync').create();
 var exec = require('child_process').exec;
 
-// Set the banner content
-var banner = ['/*!\n',
-	' * Start Bootstrap - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
-	' * Copyright 2013-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
-	' * Licensed under <%= pkg.license %> (https://github.com/BlackrockDigital/<%= pkg.name %>/blob/master/LICENSE)\n',
-	' */\n',
-	''
-].join('');
-
 // Copy third party libraries from /node_modules into /app/static/app/static/vendor
 gulp.task('vendor', function() {
 
@@ -118,7 +109,7 @@ gulp.task('css:minify', function() {
 });
 
 // CSS
-gulp.task('css', ['css:compile', 'css:minify']);
+gulp.task('css', gulp.parallel('css:compile', 'css:minify'));
 
 // Minify JavaScript
 gulp.task('js', function() {
@@ -135,7 +126,7 @@ gulp.task('js', function() {
 });
 
 // Default task
-gulp.task('default', ['vendor', 'css', 'js']);
+gulp.task('default', gulp.parallel('vendor', 'css', 'js'));
 
 // Configure the browserSync task
 gulp.task('browserSync', function() {
@@ -152,7 +143,7 @@ gulp.task('runserver', function() {
 });
 
 // Dev task
-gulp.task('dev', ['runserver', 'browserSync'], function() {
+gulp.task('dev', gulp.series(gulp.parallel('runserver', 'browserSync'), function() {
 	gulp.watch([
 		'app/templates/**/*.html',
 		'app/**/*.py',
@@ -168,4 +159,4 @@ gulp.task('dev', ['runserver', 'browserSync'], function() {
 		'app/static/js/**/*.js',
 		'!app/static/js/**/*.min.js'
 	], ['js', browserSync.reload]);
-});
+}));

@@ -17,6 +17,7 @@
 				<button class="btn btn-sm dropdown-toggle switch_player" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Players</button>
 				<div class="dropdown-menu">
 					<button class="dropdown-item show_players">Players</button>
+					<button class="dropdown-item show_active">Active</button>
 					<button class="dropdown-item show_everyone">Everyone</button>
 				</div>
 			</div>
@@ -25,7 +26,69 @@
 	<hr class="mt-2">
 	<div id="game_index"></div>
 </div>
-{% include 'components/game/players.html' %}
+<div class="mb-0 mt-4">
+	<i class="fa fa-user-o"></i> Players
+</div>
+<hr class="mt-2">
+<table class="table table-bordered dataTable countrys" width="100%" cellspacing="0">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Country</th>
+			<th>Ruler</th>
+			<th>Points</th>
+			<th>Percent</th>
+			<th>Last Login</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for player in players %}
+		{% set day_percentage = player.last_day_percentage %}
+		{% set week_percentage = player.last_week_percentage %}
+		<tr {{ 'class=text-muted' if player.defeated }}>
+			<td>
+				<img src="{{ player.player_image_url }}" alt="Picture of {{ player.fullname }}">
+				<img src="{{ player.flag_image_url }}" alt="Flag of {{ player.nation_name }}">
+			</td>
+			<td>{{ player.nation_name }}</td>
+			{% if player.user is none %}
+			<td>{{ player.fullname }}</td>
+			{% else %}
+			<td><a href="{{ url_for('user_overview', site_id=player.user.site_id) }}">{{ player.fullname }}</a></td>
+			{% endif %}
+			<td class="text-right">{{ player.points }}</td>
+			<td class="text-right">
+				Day: <span class="text-{{ 'success' if day_percentage >= 0 else 'danger' }}">{{ day_percentage }}%</span><br>
+				Week: <span class="text-{{ 'success' if week_percentage >= 0 else 'danger' }}">{{ week_percentage }}%</span>
+			</td>
+			<td>{{ player.last_login_formatted }}</td>
+			<td>{{ player.last_login.timestamp() if player.last_login }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<div class="mb-0 mt-4">
+	<table class="table table-sm">
+	    <thead>
+	        <tr>
+	            <th>Function</th>
+	            <th>Date</th>
+	            <th>Succes</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			{% for sync_log in game.sync_logs %}
+	        <tr>
+				<td>{{ sync_log.function }}</td>
+				<td>{{ sync_log.datetime }}</td>
+				<td>{{ sync_log.succes }}</td>
+	        </tr>
+			{% endfor %}
+	    </tbody>
+	</table>
+</div>
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
@@ -34,5 +97,4 @@
 <script type='text/javascript' src="{{ url_for('static', filename='js/game/overview.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script type='text/javascript' src="{{ url_for('static', filename='js/game/players.js') }}"></script>
 {% endblock %}

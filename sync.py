@@ -208,6 +208,8 @@ def update_players(game):
 
                 player.flag_image_id = player_data["flagImageID"]
                 player.player_image_id = player_data["playerImageID"]
+                player.computer_player = player_data["computerPlayer"]
+                player.native_computer = player_data["nativeComputer"]
 
                 player.defeated = player_data["defeated"]
                 if player_data["lastLogin"] != 0:
