@@ -125,6 +125,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
             return -1;
         return ((str1 < str2) ? -1 : ((str1 > str2) ? 1 : 0));
     },
+
     'non-empty-string-desc': function (str1, str2) {
         if(str1 == '')
             return 1;

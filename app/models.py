@@ -578,7 +578,7 @@ class SyncLog(db.Model):
     # -------------
     
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
-    game = db.relationship("Game", backref=db.backref("sync_logs", lazy="dynamic"))
+    game = db.relationship("Game", backref=db.backref("sync_logs"))
 
     # Representation
     # -------------

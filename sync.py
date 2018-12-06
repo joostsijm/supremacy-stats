@@ -22,6 +22,7 @@ from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 def server_change_handler(func):
     """Add catch for exception"""
     def wrapper(game):
+        print("Running %s function" % func.__name__)
         log = SyncLog()
         log.function = func.__name__ 
         log.game_id = game.id
@@ -224,7 +225,6 @@ def update_players(game):
 @server_change_handler
 def update_relations(game):
     """Get the relations"""
-    print("Get relations")
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.relations()
@@ -272,13 +272,11 @@ def update_relations(game):
 @server_change_handler
 def update_coalitions(game):
     """Get game coalitions"""
-    print("Update coalitions")
 
 
 @server_change_handler
 def update_market(game):
     """Get market prices"""
-    print("Update market")
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.market()
