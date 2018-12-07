@@ -11,7 +11,7 @@ from sqlalchemy.sql import and_
 
 from app import db
 from app.models import Game, Map, Player, User, Relation, Day, SyncLog, Market, Order, Price
-from app.util.job import Job
+from app.util.job import Job, MarketJob
 from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
@@ -135,6 +135,10 @@ def update_game(game):
     result = supremacy.game()
 
     _update_game(game, result)
+
+    if game.track_market:
+        market_job = MarketJob(game)
+        market_job.check()
 
     job = Job(game)
     job.check()
