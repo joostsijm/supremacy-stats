@@ -3,7 +3,7 @@
 from datetime import timedelta
 from app import scheduler
 from app.models import Game
-import sync
+from app.util import sync
 
 
 class BaseJob():

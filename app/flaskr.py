@@ -14,7 +14,7 @@ from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation, Resource, Price
 from app.util.job import Job, MarketJob
-import sync
+from app.util import sync
 
 Menu(app=app)
 Breadcrumbs(app=app)
