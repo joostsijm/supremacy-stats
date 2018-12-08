@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+{% block title %}Game {{ game.game_id }} {{ game.map.name }}{% endblock %}
+{% block content %}
+{% include 'components/game/menu.html' %}
+<div class="card">
+    <div class="card-header">
+        Config
+    </div>
+    <div class="card-body">
+		<form action="{{ url_for('api_game_config', game_id=game.game_id) }}" method="post">
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_game" id="track_game" {{ 'checked' if game.track_game  }}>
+			    <label class="form-check-label" for="track_game">
+			    	Track game
+			    </label>
+			</div>
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_score" id="track_score" {{ 'checked' if game.track_score }}>
+			    <label class="form-check-label" for="track_score">
+			    	Track score
+			    </label>
+			</div>
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_players" id="track_players" {{ 'checked' if game.track_players }}>
+			    <label class="form-check-label" for="track_players">
+			    	Track players
+			    </label>
+			</div>
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_relations" id="track_relations" {{ 'checked' if game.track_relations }}>
+			    <label class="form-check-label" for="track_relations">
+			    	Track relations
+			    </label>
+			</div>
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_market" id="track_market" {{ 'checked' if game.track_market }}>
+			    <label class="form-check-label" for="track_market">
+			    	Track market
+			    </label>
+			</div>
+			<div class="form-check mb-2">
+			    <input class="form-check-input" type="checkbox" name="track_coalitions" id="track_coalitions" {{ 'checked' if game.track_coalitions }}>
+			    <label class="form-check-label" for="track_coalitions">
+			    	Track coalitions
+			    </label>
+			</div>
+        	<button type="submit" class="btn btn-primary mt-1">Submit</button>
+		</form>
+    </div>
+</div>
+{% endblock %}
