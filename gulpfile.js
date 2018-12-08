@@ -36,6 +36,12 @@ gulp.task('vendor', function() {
 	])
 		.pipe(gulp.dest('app/static/vendor/amcharts3/'));
 
+	// Amchart
+	gulp.src([
+		'node_modules/amcharts3/amcharts/images/*.svg',
+	])
+		.pipe(gulp.dest('app/static/vendor/amcharts3/images'));
+
 	// Font Awesome
 	gulp.src([
 		'node_modules/font-awesome/**/*',
