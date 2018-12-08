@@ -68,27 +68,6 @@
 		{% endfor %}
 	</tbody>
 </table>
-
-<div class="mb-0 mt-4">
-	<table class="table table-sm">
-	    <thead>
-	        <tr>
-	            <th>Function</th>
-	            <th>Date</th>
-	            <th>Succes</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-			{% for sync_log in game.sync_logs %}
-	        <tr>
-				<td>{{ sync_log.function }}</td>
-				<td>{{ sync_log.datetime }}</td>
-				<td>{{ sync_log.succes }}</td>
-	        </tr>
-			{% endfor %}
-	    </tbody>
-	</table>
-</div>
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/amcharts3/amcharts.js') }}"></script>
