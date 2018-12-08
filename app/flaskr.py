@@ -194,7 +194,8 @@ def game_market(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/market.html', game=game)
+    market_job = MarketJob(game)
+    return render_template('game/market.html', game=game, market_job=market_job)
 
 
 @app.route('/game/<int:game_id>/config')
