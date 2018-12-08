@@ -9,11 +9,11 @@
 	</div>
 	<div class="row col-xl-3 col-lg-6 mt-2">
 		<div class="col">Start date</div>
-		<div class="col">{{ game.start_at }}</div>
+		<div class="col">{{ game.start_at.strftime('%Y-%m-%d') }}</div>
 	</div>
 	<div class="row col-xl-3 col-lg-6 mt-2">
 		<div class="col">End date</div>
-		<div class="col">{{ game.end_at }}</div>
+		<div class="col">{{ game.end_at.strftime('%Y-%m-%d') if game.end_at }}</div>
 	</div>
 	<div class="row col-xl-3 col-lg-6 mt-2">
 		<div class="col">AI level</div>
