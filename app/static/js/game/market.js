@@ -35,6 +35,9 @@ function format_data(data)
 		resource_data[resource]["lineThickness"] = 2
 		resource_data[resource]["useLineColorForBulletBorder"] = true
 		resource_data[resource]["balloonText"] = "[[title]]: [[value]]"
+		if (resource_data[resource]["price_type"] == "sell") {
+			resource_data[resource]["dashLength"] = "4"
+		}
 	}
 
 	return resource_data

@@ -393,9 +393,9 @@ def api_market(game_id, resource_type):
         for price in prices:
             name = price.resource.name
             if price.buy:
-                name = "buy_%s" % name
-            else:
                 name = "sell_%s" % name
+            else:
+                name = "buy_%s" % name
             dict_[name] = str(price.value)
 
         dict_["market"] = integer
@@ -419,11 +419,13 @@ def api_market(game_id, resource_type):
             "title": "buy %s" % resource.name,
             "valueField": "buy_%s" % resource.name,
             "lineColor": resource.color,
+            "price_type": "buy",
         })
         resource_list.append({
             "title": "sell %s" % resource.name,
             "valueField": "sell_%s" % resource.name,
             "lineColor": resource.color,
+            "price_type": "sell",
         })
 
     market_prices = {
