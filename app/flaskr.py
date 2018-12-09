@@ -382,7 +382,6 @@ def api_market(game_id, resource_type):
 
     resource_id = resources.get(resource_type, None)
 
-    integer = 1
     for market in game.markets:
         dict_ = {}
         # prices = market.prices
@@ -398,8 +397,7 @@ def api_market(game_id, resource_type):
                 name = "buy_%s" % name
             dict_[name] = str(price.value)
 
-        dict_["market"] = integer
-        integer = integer + 1
+        dict_["date"] = market.datetime.strftime('%m-%d %H:%M')
         market_dict[market.datetime] = dict_
 
     market_list = []

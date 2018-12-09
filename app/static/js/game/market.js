@@ -49,7 +49,7 @@ function make_chart(resource_data, market_data)
 		"type": "serial",
 		"dataProvider": market_data,
 		"graphs": resource_data,
-		"categoryField": "market",
+		"categoryField": "date",
 		"categoryAxis": {
 			"gridPosition": "start",
 		},
