@@ -8,11 +8,10 @@ import json
 import sys
 from datetime import datetime
 from sqlalchemy.sql import and_
+from supremacy1914_wrapper import Supremacy, ServerChangeError, GameDoesNotExistError
 
 from app import db
 from app.models import Game, Map, Player, User, Relation, Day, SyncLog, Market, Order, Price
-from app.util.job import Job
-from supremacy_api import Supremacy, ServerChangeError, GameDoesNotExistError
 
 
 # with open('reference/output4.json') as file:
@@ -135,9 +134,6 @@ def update_game(game):
     result = supremacy.game()
 
     _update_game(game, result)
-
-    job = Job(game)
-    job.check()
 
     db.session.commit()
 

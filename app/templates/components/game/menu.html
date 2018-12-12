@@ -1,6 +1,45 @@
-<p>
-	<a href="{{ url_for('game_overview', game_id=game.game_id) }}" class="btn btn-light">Overview</a>
-	<a href="{{ url_for('game_players', game_id=game.game_id) }}" class="btn btn-light">Players</a>
-	<a href="{{ url_for('game_relations', game_id=game.game_id) }}" class="btn btn-light">Relations</a>
-	<a href="{{ url_for('game_market', game_id=game.game_id) }}" class="btn btn-light">Market</a>
-</p>
+<div class="row mb-3">
+	<div class="col-9">
+		<a href="{{ url_for('game_overview', game_id=game.game_id) }}" class="btn btn-light">Overview</a>
+		<a href="{{ url_for('game_players', game_id=game.game_id) }}" class="btn btn-light">Players</a>
+		<a href="{{ url_for('game_relations', game_id=game.game_id) }}" class="btn btn-light">Relations</a>
+		<a href="{{ url_for('game_market', game_id=game.game_id) }}" class="btn btn-light">Market</a>
+	</div>
+	{% if not game.end_of_game %}
+	<div class="col-3">
+		<div class="dropdown pull-right">
+			<button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+			<div class="dropdown-menu">
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="score">
+					<button type="submit" class="dropdown-item">Update score</button>
+				</form>
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="players">
+					<button type="submit" class="dropdown-item">Update players</button>
+				</form>
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="relations">
+					<button type="submit" class="dropdown-item">Update relations</button>
+				</form>
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="market">
+					<button type="submit" class="dropdown-item">Update market</button>
+				</form>
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="game">
+					<button type="submit" class="dropdown-item">Update game</button>
+				</form>
+			</div>
+		</div>
+		<div class="pull-right mr-2">
+			<a href="{{ url_for('game_config', game_id=game.game_id) }}" class="btn btn-light btn-sm"><i class="fa fa-cog"></i></a>
+		</div>
+	</div>
+	{% endif %}
+</div>

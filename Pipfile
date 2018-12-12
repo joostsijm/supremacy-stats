@@ -19,5 +19,6 @@ requests = ">=2.20.0"
 humanize = "*"
 github-webhook = "*"
 flask-apscheduler = "*"
+supremacy1914-wrapper = "*"
 
 [dev-packages]

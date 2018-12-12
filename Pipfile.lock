@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8ee7676e9875af5187860aa899f5d04c5d500c0c73700e8dc620c4ebc2533a79"
+            "sha256": "aac2e66647b417fd87d8db7ed53179d5b3a361bf37f354683ca4ebc2e1dcfb78"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -52,10 +52,10 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:339dc09518b07e2fa7eda5450740925974815557727d6bd35d319c1524a04a4c",
-                "sha256:6d58c986d22b038c8c0df30d639f23a3e6d172a05c3583e766f4c0b785c0986a"
+                "sha256:47f9c83ef4c0c621eaef743f133f09fa8a74a9b75f037e8624f83bd1b6626cb7",
+                "sha256:993f830721089fef441cdfeb4b2c8c9df86f0c63239f06bd025a76a7daddb033"
             ],
-            "version": "==2018.10.15"
+            "version": "==2018.11.29"
         },
         "cffi": {
             "hashes": [
@@ -118,10 +118,10 @@
         },
         "flask-apscheduler": {
             "hashes": [
-                "sha256:6d5939f3be53dfdb2a136c4382f85a6293d50e8664da27f53b607af0b258b69b"
+                "sha256:7911d66e449f412d92a1a6c524217f44f4c40a5c92148c60d5189c6c402f87d0"
             ],
             "index": "pypi",
-            "version": "==1.10.1"
+            "version": "==1.11.0"
         },
         "flask-argon2": {
             "hashes": [
@@ -163,11 +163,11 @@
         },
         "flask-migrate": {
             "hashes": [
-                "sha256:a25b3d2d2bb0f0724f104afbadae888a4b942e7221b451f720c69698d4863da7",
-                "sha256:cb7d7b37feb68e3a8769aaf7a3954ecbdcd9bdeef8f21cede9eaa07c813f8af9"
+                "sha256:0c42c34357b24faac63bc6e7af028c8614235f5210eded53802ced450c5392c2",
+                "sha256:8356fa6a02694da34e78da1e38cf91c944b219f4bd4b89493a3b261a305994ab"
             ],
             "index": "pypi",
-            "version": "==2.3.0"
+            "version": "==2.3.1"
         },
         "flask-sqlalchemy": {
             "hashes": [
@@ -335,6 +335,14 @@
             ],
             "index": "pypi",
             "version": "==1.2.14"
+        },
+        "supremacy1914-wrapper": {
+            "hashes": [
+                "sha256:35ab97f92a51ced37037b56a7d6efeb60442b00a550b84d8b453e75339678975",
+                "sha256:6bdcff297c2de9b200767abb7520d2b726d50744c04bc3f87d8d634446c8e2d7"
+            ],
+            "index": "pypi",
+            "version": "==0.1.0"
         },
         "tzlocal": {
             "hashes": [

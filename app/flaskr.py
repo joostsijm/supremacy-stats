@@ -13,7 +13,8 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation, Resource, Price
-import sync
+from app.util.job import Job, MarketJob
+from app.util import sync
 
 Menu(app=app)
 Breadcrumbs(app=app)
@@ -194,6 +195,39 @@ def game_market(game_id):
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
     return render_template('game/market.html', game=game)
+
+
+@app.route('/game/<int:game_id>/config')
+@register_breadcrumb(app, '.games.game_id', '',
+                     dynamic_list_constructor=game_overview_dlc)
+def game_config(game_id):
+    """Show game config"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+    return render_template('game/config.html', game=game)
+
+
+@app.route('/api/game/<int:game_id>/config', methods=['POST'])
+def api_game_config(game_id):
+    """Save game config"""
+
+    game_id = int(game_id)
+    game = Game.query.filter(Game.game_id == game_id).first()
+
+    game.track_game = True if request.form.get('track_game') == 'on' else False
+    game.track_score = True if request.form.get('track_score') == 'on' else False
+    game.track_players = True if request.form.get('track_players') == 'on' else False
+    game.track_relations = True if request.form.get('track_relations') == 'on' else False
+    game.track_market = True if request.form.get('track_market') == 'on' else False
+    game.track_coalitions = True if request.form.get('track_coalitions') == 'on' else False
+
+    MarketJob(game).check()
+    Job(game).check()
+
+    db.session.commit()
+
+    return redirect(request.referrer, code=302)
 
 
 @app.route('/api/game/<int:game_id>/score/<string:score_type>')

@@ -1,91 +1,54 @@
-<div class="card mb-3">
-	<div class="card-header">
-		<i class="fa fa-gamepad"></i> {{ game.game_id}}
-		{% if not game.end_of_game %}
-		<div class="dropdown pull-right">
-			<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
-			<div class="dropdown-menu">
-				<form action="{{ url_for('api_sync_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="sync_type" value="score">
-					<button type="submit" class="dropdown-item">Update score</button>
-				</form>
-				<form action="{{ url_for('api_sync_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="sync_type" value="players">
-					<button type="submit" class="dropdown-item">Update players</button>
-				</form>
-				<form action="{{ url_for('api_sync_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="sync_type" value="relations">
-					<button type="submit" class="dropdown-item">Update relations</button>
-				</form>
-				<form action="{{ url_for('api_sync_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="sync_type" value="market">
-					<button type="submit" class="dropdown-item">Update market</button>
-				</form>
-				<form action="{{ url_for('api_sync_game') }}" method="post">
-					<input type="hidden" name="game_id" value="{{ game.game_id }}">
-					<input type="hidden" name="sync_type" value="game">
-					<button type="submit" class="dropdown-item">Update game</button>
-				</form>
-			</div>
-		</div>
-		{% endif %}
+<div class="mb-0 mt-4">
+	<i class="fa fa-gamepad"></i> {{ game.game_id}}
+</div>
+<hr class="mt-2">
+<div class="row">
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Website ID</div>
+		<div class="col"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
 	</div>
-	<div class="card-body row">
-		<div class="col-12 col-md">
-			<div class="row mt-2">
-				<div class="col">Website ID</div>
-				<div class="col"><a href="{{ game.supremacy_url }}" target="_blank">{{ game.game_id }}</a></div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Start date</div>
-				<div class="col">{{ game.start_at }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">End date</div>
-				<div class="col">{{ game.end_at }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">AI level</div>
-				<div class="col">{{ game.ai_level }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Country selection</div>
-				<div class="col">{{ 'Yes' if game.country_selection > 0 else 'No' }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Ranked</div>
-				<div class="col">{{ 'Yes' if game.ranked > 0 else 'No' }}</div>
-			</div>
-		</div>
-		<div class="col-12 col-md">
-			<div class="row mt-2">
-				<div class="col">Victory point</div>
-				<div class="col">{{ game.victory_points }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Next day</div>
-				<div class="col">{{ game.next_day_formatted }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Day</div>
-				<div class="col">{{ game.last_day }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Map</div>
-				<div class="col">{{ game.map.name }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Total players</div>
-				<div class="col">{{ game.players.count() }}</div>
-			</div>
-			<div class="row mt-2">
-				<div class="col">Real players</div>
-				<div class="col">{{ game.active_players_count }} / {{ game.map.slots }}</div>
-			</div>
-		</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Start date</div>
+		<div class="col">{{ game.start_at.strftime('%Y-%m-%d') }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">End date</div>
+		<div class="col">{{ game.end_at.strftime('%Y-%m-%d') if game.end_at }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">AI level</div>
+		<div class="col">{{ game.ai_level }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Country selection</div>
+		<div class="col">{{ 'Yes' if game.country_selection > 0 else 'No' }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Ranked</div>
+		<div class="col">{{ 'Yes' if game.ranked > 0 else 'No' }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Victory point</div>
+		<div class="col">{{ game.victory_points }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Next day</div>
+		<div class="col">{{ game.next_day_formatted }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Day</div>
+		<div class="col">{{ game.last_day }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Map</div>
+		<div class="col">{{ game.map.name }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Total players</div>
+		<div class="col">{{ game.players.count() }}</div>
+	</div>
+	<div class="row col-xl-3 col-lg-6 mt-2">
+		<div class="col">Real players</div>
+		<div class="col">{{ game.active_players_count }} / {{ game.map.slots }}</div>
 	</div>
 </div>
