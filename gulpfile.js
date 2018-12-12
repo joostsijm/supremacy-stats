@@ -1,3 +1,4 @@
+const { series, parallel, task, src, dest } = require('gulp');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var header = require('gulp-header');
@@ -10,63 +11,68 @@ var browserSync = require('browser-sync').create();
 var exec = require('child_process').exec;
 
 // Copy third party libraries from /node_modules into /app/static/app/static/vendor
-gulp.task('vendor', function() {
-
+function vendor(cb) {
 	// Bootstrap
-	gulp.src([
+	src([
 		'node_modules/bootstrap/dist/**/*',
 		'!node_modules/bootstrap/dist/css/bootstrap-grid*',
 		'!node_modules/bootstrap/dist/css/bootstrap-reboot*'
 	])
-		.pipe(gulp.dest('app/static/vendor/bootstrap'));
+		.pipe(dest('app/static/vendor/bootstrap'));
 
 	// DataTables
-	gulp.src([
+	src([
 		'node_modules/datatables.net/js/*.js',
 		'node_modules/datatables.net-bs4/js/*.js',
 		'node_modules/datatables.net-bs4/css/*.css',
 		'node_modules/datatables.net-responsive/js/*'
 	])
-		.pipe(gulp.dest('app/static/vendor/datatables/'));
+		.pipe(dest('app/static/vendor/datatables/'));
 
 	// Amchart
-	gulp.src([
+	src([
 		'node_modules/amcharts3/amcharts/themes/*.js',
 		'node_modules/amcharts3/amcharts/*.js',
 	])
-		.pipe(gulp.dest('app/static/vendor/amcharts3/'));
+		.pipe(dest('app/static/vendor/amcharts3/'));
 
 	// Amchart
-	gulp.src([
+	src([
 		'node_modules/amcharts3/amcharts/images/*.svg',
 	])
-		.pipe(gulp.dest('app/static/vendor/amcharts3/images'));
+		.pipe(dest('app/static/vendor/amcharts3/images'));
+
+	// D3
+	src([
+		'node_modules/d3/dist/*.js',
+	])
+		.pipe(dest('app/static/vendor/d3/'));
 
 	// Font Awesome
-	gulp.src([
+	src([
 		'node_modules/font-awesome/**/*',
 		'!node_modules/font-awesome/{less,less/*}',
 		'!node_modules/font-awesome/{scss,scss/*}',
 		'!node_modules/font-awesome/.*',
 		'!node_modules/font-awesome/*.{txt,json,md}'
 	])
-		.pipe(gulp.dest('app/static/vendor/font-awesome'));
+		.pipe(dest('app/static/vendor/font-awesome'));
 
 	// jQuery
-	gulp.src([
+	src([
 		'node_modules/jquery/dist/*',
 		'!node_modules/jquery/dist/core.js'
 	])
-		.pipe(gulp.dest('app/static/vendor/jquery'));
+		.pipe(dest('app/static/vendor/jquery'));
 
 	// jQuery Easing
-	gulp.src([
+	src([
 		'node_modules/jquery.easing/*.js'
 	])
-		.pipe(gulp.dest('app/static/vendor/jquery-easing'));
+		.pipe(dest('app/static/vendor/jquery-easing'));
 
 	// Minify vendor js
-	gulp.src([
+	src([
 		'app/static/vendor/**/*.js',
 		'!app/static/vendor/**/*.min.js'
 	])
@@ -74,10 +80,10 @@ gulp.task('vendor', function() {
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest('app/static/vendor'))
+		.pipe(dest('app/static/vendor'))
 
 	// Minify vendor css
-	gulp.src([
+	src([
 		'app/static/vendor/**/*.css',
 		'!app/static/vendor/**/*.min.css'
 	])
@@ -85,24 +91,28 @@ gulp.task('vendor', function() {
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest('app/static/vendor'))
-});
+		.pipe(dest('app/static/vendor'))
 
-// Compile SASS 
-gulp.task('css:compile', function() {
-	return gulp.src('app/static/sass/**/*.sass')
+	cb()
+}
+
+// Compile SASS
+function css_compile(cb) {
+	src('app/static/sass/**/*.sass')
 		.pipe(sass.sync({
 			outputStyle: 'expanded'
 		}).on('error', sass.logError))
 		.pipe(rename({
 			suffix: '.compiled'
 		}))
-		.pipe(gulp.dest('app/static/css'));
-});
+		.pipe(dest('app/static/css'));
+
+	cb()
+}
 
 // Minify CSS
-gulp.task('css:minify', function() {
-	return gulp.src([
+function css_minify(cb) {
+	src([
 		'app/static/css/**/*.css',
 		'!app/static/css/**/*.min.css'
 	])
@@ -110,16 +120,15 @@ gulp.task('css:minify', function() {
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest('app/static/css'))
+		.pipe(dest('app/static/css'))
 		.pipe(browserSync.stream({match: 'app/static/css/**/*.css'}));
-});
 
-// CSS
-gulp.task('css', gulp.parallel('css:compile', 'css:minify'));
+	cb()
+}
 
 // Minify JavaScript
-gulp.task('js', function() {
-	return gulp.src([
+function js(cb) {
+	src([
 		'app/static/js/**/*.js',
 		'!app/static/js/**/*.min.js'
 	])
@@ -127,42 +136,48 @@ gulp.task('js', function() {
 		.pipe(rename({
 			suffix: '.min'
 		}))
-		.pipe(gulp.dest('app/static/js'))
+		.pipe(dest('app/static/js'))
 		.pipe(browserSync.stream());
-});
 
-// Default task
-gulp.task('default', gulp.parallel('vendor', 'css', 'js'));
+	cb()
+}
 
 // Configure the browserSync task
-gulp.task('browserSync', function() {
+function browser_sync() {
 	browserSync.init({
 		notify: false,
 		proxy: '127.0.0.1:5000',
 		open: false
 	});
-});
+}
 
 //Run Flask server
-gulp.task('runserver', function() {
-	exec('flask run');
-});
+function run_server() {
+	return exec('flask run');
+}
 
 // Dev task
-gulp.task('dev', gulp.series(gulp.parallel('runserver', 'browserSync'), function() {
-	gulp.watch([
+function dev() {
+	watch([
 		'app/templates/**/*.html',
 		'app/**/*.py',
 	], browserSync.reload);
-	gulp.watch([
+	watch([
 		'app/static/sass/**/*.sass',
 	], ['css:compile', browserSync.reload]);
-	gulp.watch([
+	watch([
 		'app/static/css/**/*.css',
 		'!app/static/css/**/*.min.css',
 	], ['css:minify', browserSync.reload]);
-	gulp.watch([
+	watch([
 		'app/static/js/**/*.js',
 		'!app/static/js/**/*.min.js'
 	], ['js', browserSync.reload]);
-}));
+}
+
+// Tasks
+task('vendor', vendor)
+task("css", series(css_compile, css_minify))
+task('js', js)
+task('dev', series(parallel(run_server, browser_sync), dev))
+task('default', series('vendor', parallel('css', 'js')))
