@@ -7,33 +7,28 @@
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
 {% include 'components/game/menu.html' %}
-{% include 'components/game/overview.html' %}
+<div class="mb-0 mt-4">
+	<i class="fa fa-user-o"></i> Relations
+</div>
+<hr class="mt-2">
 <div class="row">
 	<div class="col-lg-6 force_relations">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Relations
-			</div>
-			<div class="card-body">
-				<div id="force_relations"></div>
-			</div>
+		<div class="card-header">
+			<i class="fa fa-area-chart"></i> Force-directed Graph
 		</div>
+		<div id="force_relations"></div>
 	</div>
 	<div class="col-lg-6 edge_relations">
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-area-chart"></i> Relations
-				<div class="pull-right">
-					Share map <span class="legend shares_maps_with"></span></td>
-					Right of way <span class="legend shares_ways_with"></span>
-					War <span class="legend fights_against"></span>
-					Share info <span class="legend shares_info_with"></span>
-				</div>
-			</div>
-			<div class="card-body">
-				<div id="edge_relations"></div>
-			</div>
+		<div class="card-header">
+			<i class="fa fa-area-chart"></i> Hierarchical Edge Bundling
 		</div>
+		<div style="position: absolute;">
+			<span class="legend shares_maps_with"></span> Share map<br>
+			<span class="legend shares_ways_with"></span> Right of way <br>
+			<span class="legend fights_against"></span> War<br>
+			<span class="legend shares_info_with"></span> Share info<br>
+		</div>
+		<div id="edge_relations"></div>
 	</div>
 </div>
 {% include 'components/game/players.html' %}
