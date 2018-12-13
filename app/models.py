@@ -479,11 +479,34 @@ class Market(db.Model):
     # -------------
 
     game_id = db.Column(db.Integer, db.ForeignKey("sp_games.id"))
-    game = db.relationship("Game", backref=db.backref("markets"))
+    game = db.relationship("Game", backref=db.backref("markets", lazy="dynamic"))
 
+    # Attributes
+    # -------------
+
+    @hybrid_property
+    def previous(self):
+        """Return current day of game"""
+        return self.game.markets.filter(Market.datetime < self.datetime) \
+            .order_by(Market.datetime.desc()).first()
+
+    @hybrid_property
+    def price_list(self):
+        """Return list of prices"""
+        prices = {}
+        for price in self.prices:
+            prices[price.resource_id] = price
+        return prices
+
+
+    # Representation
+    # -------------
+
+    def __repr__(self):
+        return "<Market(%s)>" % (self.id)
 
 class Order(db.Model):
-    """Model for ResourcePrice"""
+    """Model for Order"""
 
     __tablename__ = "sp_orders"
 
@@ -515,7 +538,7 @@ class Order(db.Model):
         return "<Order(%s)>" % (self.id)
 
 class Price(db.Model):
-    """Model for ResourcePrice"""
+    """Model for Price"""
 
     __tablename__ = "sp_prices"
 
@@ -534,6 +557,17 @@ class Price(db.Model):
 
     resource_id = db.Column(db.Integer, db.ForeignKey("sp_resource.id"))
     resource = db.relationship("Resource", backref=db.backref("prices"))
+
+    previous_id = db.Column(db.Integer, db.ForeignKey("sp_prices.id"))
+    previous = db.relationship("Price", backref=db.backref("Next"))
+
+    # Attributes
+    # -------------
+
+    @hybrid_property
+    def previous(self):
+        """Return current day of game"""
+        return self.market.previous.resources.filter(Resource.resource_id == self.resource_id).first()
 
     # Representation
     # -------------

@@ -277,13 +277,17 @@ def update_coalitions(game):
 def update_market(game):
     """Get market prices"""
 
-    supremacy = Supremacy(game.game_id, game.game_host)
-    result = supremacy.market()
+#    supremacy = Supremacy(game.game_id, game.game_host)
+#    result = supremacy.market()
+    with open('reference/output4.json') as file:
+        result = json.load(file)
     orders = result["asks"][1] + result["bids"][1]
 
     market = Market()
     market.game_id = game.id
+    market.datetime = datetime.now()
     db.session.add(market)
+    prices = {}
 
     for resource in orders:
         if resource[1]:
@@ -293,7 +297,7 @@ def update_market(game):
             price.buy = lowest_order["buy"]
             price.resource_id = lowest_order["resourceType"]
             market.prices.append(price)
-            db.session.add(price)
+            prices[price.resource_id] = price
 
         for order_json in resource[1]:
             player = game.players.filter(Player.player_id == order_json["playerID"]).first()
@@ -309,6 +313,26 @@ def update_market(game):
                 player.orders.append(order)
 
             db.session.add(order)
+
+    db.session.commit()
+
+    prev_market = market.previous
+    if prev_market:
+        prev_prices = prev_market.price_list
+        prev_prev_market = prev_market.previous
+        if prev_prev_market:
+            prev_prev_prices = prev_prev_market.price_list
+
+            for resource, price in prices.items():
+                print(prev_prices)
+                if prev_prices[resource] and \
+                        prev_prev_prices[resource]:
+                    print(price.value)
+                    print(prices[resource].value)
+                    if prev_prev_prices[resource].value == price.value and \
+                            price.value == prices[resource].value:
+                        print("the same")
+                        db.session.delete(price)
 
     db.session.commit()
 
