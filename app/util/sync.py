@@ -5,7 +5,6 @@ Supremacy1914 ranking index retriever
 """
 
 import json
-import sys
 from datetime import datetime
 from sqlalchemy.sql import and_
 from supremacy1914_wrapper import Supremacy, ServerChangeError, GameDoesNotExistError
@@ -23,7 +22,7 @@ def server_change_handler(func):
     def wrapper(game):
         print("Running %s function" % func.__name__)
         log = SyncLog()
-        log.function = func.__name__ 
+        log.function = func.__name__
         log.game_id = game.id
         db.session.add(log)
         db.session.commit()
@@ -34,6 +33,10 @@ def server_change_handler(func):
             game.game_host = str(exception)
             db.session.commit()
             func(game)
+        except GameDoesNotExistError:
+            game.end_of_game = True
+            game.end_at = datetime.now()
+            db.session.commit()
 
         log.succes = True
         db.session.commit()
@@ -317,26 +320,3 @@ def print_json(json_text):
 
 if __name__ == "__main__":
     update_score.__module__ = "sync"
-
-    # random game
-    GAME_ID = 2527307
-    if sys.argv[1]:
-        GAME = Game.query.filter(Game.game_id == sys.argv[1]).first()
-    else:
-        GAMES = Game.query.filter(Game.end_of_game == False).all()
-        GAME = GAMES[0]
-    try:
-        update_market(GAME)
-    except GameDoesNotExistError:
-        GAME.end_of_game = True
-        GAME.end_at = datetime.now()
-        db.session.commit()
-
-#    for GAME in GAMES:
-#        try:
-#            update_game_results(GAME.game_id)
-#        except GameDoesNotExistError as error:
-#            print()
-
-    # get_game(GAME_ID)
-    print("\ndone!")
