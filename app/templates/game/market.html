@@ -12,6 +12,13 @@
 		<div class="col">
 			<i class="fa fa-area-chart"></i> Graph
 		</div>
+		{% if market_job.job %}
+		<div class="col">
+			<div class="pull-right">
+				next run at {{ market_job.job.next_run_time.strftime('%H:%M') }}
+			</div>
+		</div>
+		{% endif %}
 	</div>
 	<hr class="mt-2">
 	<div id="market_index"></div>

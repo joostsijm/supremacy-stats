@@ -35,6 +35,9 @@ function format_data(data)
 		resource_data[resource]["lineThickness"] = 2
 		resource_data[resource]["useLineColorForBulletBorder"] = true
 		resource_data[resource]["balloonText"] = "[[title]]: [[value]]"
+		if (resource_data[resource]["price_type"] == "sell") {
+			resource_data[resource]["dashLength"] = "4"
+		}
 	}
 
 	return resource_data
@@ -46,7 +49,7 @@ function make_chart(resource_data, market_data)
 		"type": "serial",
 		"dataProvider": market_data,
 		"graphs": resource_data,
-		"categoryField": "market",
+		"categoryField": "date",
 		"categoryAxis": {
 			"gridPosition": "start",
 		},

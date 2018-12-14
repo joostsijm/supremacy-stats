@@ -194,7 +194,8 @@ def game_market(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
-    return render_template('game/market.html', game=game)
+    market_job = MarketJob(game)
+    return render_template('game/market.html', game=game, market_job=market_job)
 
 
 @app.route('/game/<int:game_id>/config')
@@ -381,7 +382,6 @@ def api_market(game_id, resource_type):
 
     resource_id = resources.get(resource_type, None)
 
-    integer = 1
     for market in game.markets:
         dict_ = {}
         # prices = market.prices
@@ -392,13 +392,12 @@ def api_market(game_id, resource_type):
         for price in prices:
             name = price.resource.name
             if price.buy:
-                name = "buy_%s" % name
-            else:
                 name = "sell_%s" % name
+            else:
+                name = "buy_%s" % name
             dict_[name] = str(price.value)
 
-        dict_["market"] = integer
-        integer = integer + 1
+        dict_["date"] = market.datetime.strftime('%m-%d %H:%M')
         market_dict[market.datetime] = dict_
 
     market_list = []
@@ -418,11 +417,13 @@ def api_market(game_id, resource_type):
             "title": "buy %s" % resource.name,
             "valueField": "buy_%s" % resource.name,
             "lineColor": resource.color,
+            "price_type": "buy",
         })
         resource_list.append({
             "title": "sell %s" % resource.name,
             "valueField": "sell_%s" % resource.name,
             "lineColor": resource.color,
+            "price_type": "sell",
         })
 
     market_prices = {
