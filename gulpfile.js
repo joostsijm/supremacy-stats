@@ -11,7 +11,7 @@ var browserSync = require('browser-sync').create();
 var exec = require('child_process').exec;
 
 // Copy third party libraries from /node_modules into /app/static/app/static/vendor
-function vendor(cb) {
+function vendor_export(cb) {
 	// Bootstrap
 	src([
 		'node_modules/bootstrap/dist/**/*',
@@ -44,7 +44,7 @@ function vendor(cb) {
 
 	// D3
 	src([
-		'node_modules/d3/dist/*.js',
+		'node_modules/d3/*.js',
 	])
 		.pipe(dest('app/static/vendor/d3/'));
 
@@ -71,7 +71,10 @@ function vendor(cb) {
 	])
 		.pipe(dest('app/static/vendor/jquery-easing'));
 
-	// Minify vendor js
+	cb()
+}
+
+function vendor_minify_js(cb) {
 	src([
 		'app/static/vendor/**/*.js',
 		'!app/static/vendor/**/*.min.js'
@@ -82,7 +85,10 @@ function vendor(cb) {
 		}))
 		.pipe(dest('app/static/vendor'))
 
-	// Minify vendor css
+	cb()
+}
+
+function vendor_minify_css(cb) {
 	src([
 		'app/static/vendor/**/*.css',
 		'!app/static/vendor/**/*.min.css'
@@ -176,7 +182,7 @@ function dev() {
 }
 
 // Tasks
-task('vendor', vendor)
+task('vendor', series(vendor_export, parallel(vendor_minify_js, vendor_minify_css)))
 task("css", series(css_compile, css_minify))
 task('js', js)
 task('dev', series(parallel(run_server, browser_sync), dev))
