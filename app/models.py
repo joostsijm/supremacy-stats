@@ -559,15 +559,7 @@ class Price(db.Model):
     resource = db.relationship("Resource", backref=db.backref("prices"))
 
     previous_id = db.Column(db.Integer, db.ForeignKey("sp_prices.id"))
-    previous = db.relationship("Price", backref=db.backref("Next"))
-
-    # Attributes
-    # -------------
-
-    @hybrid_property
-    def previous(self):
-        """Return current day of game"""
-        return self.market.previous.resources.filter(Resource.resource_id == self.resource_id).first()
+    previous = db.relationship("Price", backref=db.backref("next"), uselist=False, remote_side=[id])
 
     # Representation
     # -------------

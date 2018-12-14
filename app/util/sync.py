@@ -319,20 +319,21 @@ def update_market(game):
     prev_market = market.previous
     if prev_market:
         prev_prices = prev_market.price_list
-        prev_prev_market = prev_market.previous
-        if prev_prev_market:
-            prev_prev_prices = prev_prev_market.price_list
-
+        if prev_prices:
             for resource, price in prices.items():
-                print(prev_prices)
-                if prev_prices[resource] and \
-                        prev_prev_prices[resource]:
-                    print(price.value)
-                    print(prices[resource].value)
-                    if prev_prev_prices[resource].value == price.value and \
-                            price.value == prices[resource].value:
-                        print("the same")
-                        db.session.delete(price)
+                if prev_prices[resource]:
+                    price.previous_id = prev_prices[resource].id
+
+    for resource, price in prices.items():
+        prev_price = price.previous
+        if prev_price:
+            prev_prev_price = prev_price.previous
+            if prev_prev_price:
+                if prev_prev_price.value == prev_price.value and \
+                        prev_price.value == price.value:
+                    price.previous_id = prev_prev_price.id
+                    db.session.commit()
+                    db.session.delete(prev_price)
 
     db.session.commit()
 
