@@ -277,10 +277,8 @@ def update_coalitions(game):
 def update_market(game):
     """Get market prices"""
 
-#    supremacy = Supremacy(game.game_id, game.game_host)
-#    result = supremacy.market()
-    with open('reference/output4.json') as file:
-        result = json.load(file)
+    supremacy = Supremacy(game.game_id, game.game_host)
+    result = supremacy.market()
     orders = result["asks"][1] + result["bids"][1]
 
     market = Market()
