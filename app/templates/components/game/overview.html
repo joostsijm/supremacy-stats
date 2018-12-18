@@ -9,7 +9,7 @@
 	</div>
 	<div class="row col-xl-3 col-lg-6 mt-2">
 		<div class="col">Start date</div>
-		<div class="col">{{ game.start_at.strftime('%Y-%m-%d') }}</div>
+		<div class="col">{{ game.start_at.strftime('%Y-%m-%d') if game.start_at }}</div>
 	</div>
 	<div class="row col-xl-3 col-lg-6 mt-2">
 		<div class="col">End date</div>

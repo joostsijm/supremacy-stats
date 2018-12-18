@@ -20,7 +20,7 @@
 			{% for game in games %}
 			<tr>
 				<td><a href="{{ url_for('game_overview', game_id=game.game_id) }}">{{ game.game_id }}</a></td>
-				<td>{{ game.start_at.strftime("%Y-%m-%d") }}</td>
+				<td>{{ game.start_at.strftime("%Y-%m-%d") if game.start_at }}</td>
 				<td>{{ game.last_day }}</td>
 				<td>{{ "no" if game.end_of_game else "yes" }}</td>
 				<td>{{ game.map.name }}</td>

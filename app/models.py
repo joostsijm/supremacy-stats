@@ -61,8 +61,10 @@ class Game(db.Model):
     @hybrid_property
     def day(self):
         """Return current day of game"""
-        delta = datetime.today() - self.start_at
-        return delta.days + 2
+        if self.start_at:
+            delta = datetime.today() - self.start_at
+            return delta.days + 2
+        return 0
 
     @hybrid_property
     def last_day(self):
@@ -86,11 +88,6 @@ class Game(db.Model):
             if player is not None:
                 return url + "&uid=" + str(current_user.site_id)
         return url + "&mode=guest"
-
-    @hybrid_property
-    def start_at_formatted(self):
-        """Give natural start date"""
-        return humanize.naturaldate(self.start_at)
 
     @hybrid_property
     def next_day_formatted(self):

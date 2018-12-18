@@ -97,7 +97,6 @@ def new_game(game_id):
         break
 
     _update_game(game, result)
-    game.start_at = datetime.fromtimestamp(result["startOfGame"])
     game.password = result["password"]
     game.scenario = result["scenarioID"]
     game.ranked = result["ranked"]
@@ -146,6 +145,10 @@ def update_game(game):
 def _update_game(game, result):
     """Update game stats that change"""
 
+    if result["startOfGame"] != 0:
+        game.start_at = datetime.fromtimestamp(result["startOfGame"])
+    else:
+        game.start_at = None
     game.number_of_players = result["numberOfPlayers"] - result["openSlots"]
     game.end_of_game = result["endOfGame"]
     game.day_of_game = result["dayOfGame"]
