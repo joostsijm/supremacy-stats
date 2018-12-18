@@ -456,7 +456,8 @@ def api_sync_game():
             elif sync_type == 'game':
                 sync.update_game(game)
         else:
-            sync.new_game(game_id)
+            game = sync.new_game(game_id)
+            sync.update_players(game)
     except sync.GameDoesNotExistError:
         flash('Game %s doesn\'t exist anymore.' % game_id, 'danger')
     except requests.exceptions.ConnectionError:
