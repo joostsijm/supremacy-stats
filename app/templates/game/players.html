@@ -2,7 +2,6 @@
 {% block title %}Game {{ game.game_id }}{% endblock %}
 {% block css %}
 <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/game/relations.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <input type="hidden" name="game_id" value="{{ game.game_id }}"</input>
@@ -13,6 +12,5 @@
 {% block javascript %}
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
 <script type='text/javascript' src="{{ url_for('static', filename='js/game/players.min.js') }}"></script>
 {% endblock %}
