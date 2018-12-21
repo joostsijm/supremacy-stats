@@ -17,7 +17,7 @@ from app.models import Game, Map, Player, User, Relation, Day, SyncLog, Market, 
 #     result = json.load(file)
 
 
-def server_change_handler(func):
+def server_exception_handler(func):
     """Add catch for exception"""
     def wrapper(game):
         print("Running %s function" % func.__name__)
@@ -42,7 +42,7 @@ def server_change_handler(func):
         db.session.commit()
     return wrapper
 
-@server_change_handler
+@server_exception_handler
 def update_combined(game):
     """Combine Players, Relations and market in one API call"""
 
@@ -54,7 +54,7 @@ def update_combined(game):
     _update_market(game, result["result"]["states"]["1"]["asks"][1] + \
         result["result"]["states"]["1"]["bids"][1])
 
-@server_change_handler
+@server_exception_handler
 def update_score(game):
     """Update result to current day"""
 
@@ -139,7 +139,7 @@ def new_game(game_id):
     return game
 
 
-@server_change_handler
+@server_exception_handler
 def update_game(game):
     """Update game to database"""
 
@@ -169,7 +169,7 @@ def _update_game(game, result):
 
     return game
 
-@server_change_handler
+@server_exception_handler
 def update_players(game):
     """Get players from Supremacy API"""
 
@@ -238,7 +238,7 @@ def _update_players(game, result):
                 db.session.commit()
 
 
-@server_change_handler
+@server_exception_handler
 def update_relations(game):
     """Get relations from Supremacy API"""
 
@@ -288,12 +288,12 @@ def _update_relations(game, result):
     db.session.commit()
 
 
-@server_change_handler
+@server_exception_handler
 def update_coalitions(game):
     """Get game coalitions"""
 
 
-@server_change_handler
+@server_exception_handler
 def update_market(game):
     """Get market from Supremacy API"""
 
