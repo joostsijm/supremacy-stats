@@ -42,6 +42,17 @@ def server_change_handler(func):
         db.session.commit()
     return wrapper
 
+@server_change_handler
+def update_combined(game):
+    """Combine Players, Relations and market in one API call"""
+
+    supremacy = Supremacy(game.game_id, game.game_host)
+    result = supremacy.all()
+
+    _update_players(game, result["result"]["states"]["1"]["players"])
+    _update_relations(game, result["result"]["states"]["1"]["relations"]["neighborRelations"])
+    _update_market(game, result["result"]["states"]["1"]["asks"][1] + \
+        result["result"]["states"]["1"]["bids"][1])
 
 @server_change_handler
 def update_score(game):
@@ -160,11 +171,14 @@ def _update_game(game, result):
 
 @server_change_handler
 def update_players(game):
-    """Update players to database"""
+    """Get players from Supremacy API"""
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.players()
-    result = result["players"]
+    _update_players(game, result["players"])
+
+def _update_players(game, result):
+    """Update players to database"""
 
     for player_id in result:
         player_data = result[player_id]
@@ -226,11 +240,14 @@ def update_players(game):
 
 @server_change_handler
 def update_relations(game):
-    """Get the relations"""
+    """Get relations from Supremacy API"""
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.relations()
-    result = result["relations"]["neighborRelations"]
+    _update_relations(game, result["relations"]["neighborRelations"])
+
+def _update_relations(game, result):
+    """Update relations to database"""
 
     game.relations.update({Relation.end_day: game.last_day})
 
@@ -278,11 +295,14 @@ def update_coalitions(game):
 
 @server_change_handler
 def update_market(game):
-    """Get market prices"""
+    """Get market from Supremacy API"""
 
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.market()
-    orders = result["asks"][1] + result["bids"][1]
+    _update_market(game, result["asks"][1] + result["bids"][1])
+
+def _update_market(game, result):
+    """Update market to database"""
 
     market = Market()
     market.game_id = game.id
@@ -290,7 +310,7 @@ def update_market(game):
     db.session.add(market)
     prices = {}
 
-    for resource in orders:
+    for resource in result:
         if resource[1]:
             lowest_order = resource[1][0]
             price = Price()
@@ -342,7 +362,3 @@ def update_market(game):
 def print_json(json_text):
     """Print data to console"""
     print(json.dumps(json_text, sort_keys=True, indent=4))
-
-
-if __name__ == "__main__":
-    update_score.__module__ = "sync"
