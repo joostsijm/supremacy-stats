@@ -455,6 +455,8 @@ def api_sync_game():
                 sync.update_market(game)
             elif sync_type == 'game':
                 sync.update_game(game)
+            elif sync_type == 'combined':
+                sync.update_combined(game)
         else:
             game = sync.new_game(game_id)
             sync.update_players(game)

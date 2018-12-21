@@ -32,6 +32,11 @@
 				</form>
 				<form action="{{ url_for('api_sync_game') }}" method="post">
 					<input type="hidden" name="game_id" value="{{ game.game_id }}">
+					<input type="hidden" name="sync_type" value="combined">
+					<button type="submit" class="dropdown-item">Update combined</button>
+				</form>
+				<form action="{{ url_for('api_sync_game') }}" method="post">
+					<input type="hidden" name="game_id" value="{{ game.game_id }}">
 					<input type="hidden" name="sync_type" value="game">
 					<button type="submit" class="dropdown-item">Update game</button>
 				</form>
