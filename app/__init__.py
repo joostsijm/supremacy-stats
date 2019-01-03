@@ -5,12 +5,14 @@ Website for Supremacy-stats
 
 from datetime import datetime
 from flask import Flask
+from flask_breadcrumbs import Breadcrumbs
 from flask_sqlalchemy import SQLAlchemy
 from github_webhook import Webhook
 from flask_migrate import Migrate
-from flask_login import LoginManager
-from flask_compress import Compress
 from flask_argon2 import Argon2
+from flask_login import LoginManager
+from flask_menu import Menu
+from flask_compress import Compress
 from flask_apscheduler import APScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
@@ -45,10 +47,13 @@ COMPRESS_LEVEL = 6
 COMPRESS_MIN_SIZE = 500
 Compress(app)
 
+argon2 = Argon2(app)
+Menu(app=app)
+
 db = SQLAlchemy(app)
 webhook = Webhook(app)
 migrate = Migrate(app, db)
-argon2 = Argon2(app)
+Breadcrumbs(app=app)
 
 scheduler = APScheduler()
 scheduler.init_app(app)

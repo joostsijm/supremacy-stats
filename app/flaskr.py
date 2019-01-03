@@ -7,17 +7,14 @@ import requests
 from subprocess import call
 from datetime import datetime, timedelta
 from flask import render_template, jsonify, request, redirect, url_for, flash
-from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
-from flask_menu import Menu, register_menu
+from flask_breadcrumbs import register_breadcrumb
+from flask_menu import register_menu
 from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.sql.expression import false, true
 from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation, Resource, Price
 from app.util.job import Job, MarketJob
 from app.util import sync
-
-Menu(app=app)
-Breadcrumbs(app=app)
 
 
 @login_manager.user_loader
