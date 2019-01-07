@@ -18,6 +18,7 @@ else:
     GAME = random.choice(GAMES)
 
 SYNC_FUNCTIONS = {
+    "combined": sync.update_combined,
     "game": sync.update_game,
     "players": sync.update_players,
     "score": sync.update_score,

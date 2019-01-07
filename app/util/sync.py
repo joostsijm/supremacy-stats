@@ -49,10 +49,12 @@ def update_combined(game):
     supremacy = Supremacy(game.game_id, game.game_host)
     result = supremacy.all()
 
-    _update_players(game, result["result"]["states"]["1"]["players"])
-    _update_relations(game, result["result"]["states"]["1"]["relations"]["neighborRelations"])
-    _update_market(game, result["result"]["states"]["1"]["asks"][1] + \
-        result["result"]["states"]["1"]["bids"][1])
+    print_json(result)
+    _update_game(game, result["states"]["12"])
+    _update_players(game, result["states"]["1"]["players"])
+    _update_relations(game, result["states"]["5"]["relations"]["neighborRelations"])
+    _update_market(game, result["states"]["4"]["asks"][1] + \
+        result["states"]["4"]["bids"][1])
 
 @server_exception_handler
 def update_score(game):
