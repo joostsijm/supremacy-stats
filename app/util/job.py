@@ -93,8 +93,10 @@ def run(game_id, job_type=None):
     game = Game.query.filter(Game.game_id == game_id).first()
 
     if job_type == "market":
+        MarketJob(game).check()
         sync.update_market(game)
     else:
+        Job(game).check()
         if game.track_game:
             sync.update_game(game)
         if game.track_players:
