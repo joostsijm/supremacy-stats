@@ -105,7 +105,7 @@ def new_game(game_id):
     game.ai_level = result["aiLevel"]
     game.country_selection = result["countrySelection"]
     game.time_scale = result["timeScale"]
-    game.team_setting = result["teamSettings"]
+    # game.team_setting = result["teamSettings"]
     game.victory_points = result["victoryPoints"]
     game.research_days_offset = result["researchDaysOffset"]
     game.research_time_scale = result["researchTimeScale"]

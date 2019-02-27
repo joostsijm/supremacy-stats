@@ -454,6 +454,7 @@ def api_sync_game():
                 sync.update_game(game)
         else:
             sync.new_game(game_id)
+            sync.update_players(game)
     except sync.GameDoesNotExistError:
         flash('Game %s doesn\'t exist anymore.' % game_id, 'danger')
     except requests.exceptions.ConnectionError:
@@ -461,7 +462,7 @@ def api_sync_game():
 
 
     if "games" in request.referrer:
-        return redirect(game.url, code=302)
+        return redirect(url_for("game_overview", game_id=game_id), code=302)
     return redirect(request.referrer, code=302)
 
 
