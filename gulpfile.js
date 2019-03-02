@@ -10,45 +10,53 @@ var pkg = require('./package.json');
 var browserSync = require('browser-sync').create();
 var exec = require('child_process').exec;
 
-// Copy third party libraries from /node_modules into /app/static/app/static/vendor
-function vendor_export(cb) {
-	// Bootstrap
+function vendor_export_bootstrap(cb) {
 	src([
 		'node_modules/bootstrap/dist/**/*',
 		'!node_modules/bootstrap/dist/css/bootstrap-grid*',
 		'!node_modules/bootstrap/dist/css/bootstrap-reboot*'
 	])
-		.pipe(dest('app/static/vendor/bootstrap'));
+		.pipe(dest('app/static/vendor/bootstrap'))
+		.on('end', cb);
+}
 
-	// DataTables
+function vendor_export_datatables(cb) {
 	src([
 		'node_modules/datatables.net/js/*.js',
 		'node_modules/datatables.net-bs4/js/*.js',
 		'node_modules/datatables.net-bs4/css/*.css',
 		'node_modules/datatables.net-responsive/js/*'
 	])
-		.pipe(dest('app/static/vendor/datatables/'));
+		.pipe(dest('app/static/vendor/datatables/'))
+		.on('end', cb);
+}
 
-	// Amchart
+function vendor_export_amchart(cb) {
 	src([
 		'node_modules/amcharts3/amcharts/themes/*.js',
 		'node_modules/amcharts3/amcharts/*.js',
 	])
-		.pipe(dest('app/static/vendor/amcharts3/'));
+		.pipe(dest('app/static/vendor/amcharts3/'))
+		.on('end', cb);
+}
 
-	// Amchart
+function vendor_export_amchart_images(cb) {
 	src([
 		'node_modules/amcharts3/amcharts/images/*.svg',
 	])
-		.pipe(dest('app/static/vendor/amcharts3/images'));
+		.pipe(dest('app/static/vendor/amcharts3/images'))
+		.on('end', cb);
+}
 
-	// D3
+function vendor_export_d3(cb) {
 	src([
 		'node_modules/d3/*.js',
 	])
-		.pipe(dest('app/static/vendor/d3/'));
+		.pipe(dest('app/static/vendor/d3/'))
+		.on('end', cb);
+}
 
-	// Font Awesome
+function vendor_export_font_awesome(cb) {
 	src([
 		'node_modules/font-awesome/**/*',
 		'!node_modules/font-awesome/{less,less/*}',
@@ -56,22 +64,25 @@ function vendor_export(cb) {
 		'!node_modules/font-awesome/.*',
 		'!node_modules/font-awesome/*.{txt,json,md}'
 	])
-		.pipe(dest('app/static/vendor/font-awesome'));
+		.pipe(dest('app/static/vendor/font-awesome'))
+		.on('end', cb);
+}
 
-	// jQuery
+function vendor_export_jquery(cb) {
 	src([
 		'node_modules/jquery/dist/*',
 		'!node_modules/jquery/dist/core.js'
 	])
-		.pipe(dest('app/static/vendor/jquery'));
+		.pipe(dest('app/static/vendor/jquery'))
+		.on('end', cb);
+}
 
-	// jQuery Easing
+function vendor_export_jqurey_easing(cb) {
 	src([
 		'node_modules/jquery.easing/*.js'
 	])
-		.pipe(dest('app/static/vendor/jquery-easing'));
-
-	cb()
+		.pipe(dest('app/static/vendor/jquery-easing'))
+		.on('end', cb);
 }
 
 function vendor_minify_js(cb) {
@@ -84,8 +95,7 @@ function vendor_minify_js(cb) {
 			suffix: '.min'
 		}))
 		.pipe(dest('app/static/vendor'))
-
-	cb()
+		.on('end', cb);
 }
 
 function vendor_minify_css(cb) {
@@ -98,8 +108,7 @@ function vendor_minify_css(cb) {
 			suffix: '.min'
 		}))
 		.pipe(dest('app/static/vendor'))
-
-	cb()
+		.on('end', cb);
 }
 
 // Compile SASS
@@ -111,9 +120,8 @@ function css_compile(cb) {
 		.pipe(rename({
 			suffix: '.compiled'
 		}))
-		.pipe(dest('app/static/css'));
-
-	cb()
+		.pipe(dest('app/static/css'))
+		.on('end', cb);
 }
 
 // Minify CSS
@@ -127,9 +135,8 @@ function css_minify(cb) {
 			suffix: '.min'
 		}))
 		.pipe(dest('app/static/css'))
+		.on('end', cb)
 		.pipe(browserSync.stream({match: 'app/static/css/**/*.css'}));
-
-	cb()
 }
 
 // Minify JavaScript
@@ -143,9 +150,8 @@ function js(cb) {
 			suffix: '.min'
 		}))
 		.pipe(dest('app/static/js'))
+		.on('end', cb)
 		.pipe(browserSync.stream());
-
-	cb()
 }
 
 // Configure the browserSync task
@@ -182,7 +188,18 @@ function dev() {
 }
 
 // Tasks
-task('vendor', series(vendor_export, parallel(vendor_minify_js, vendor_minify_css)))
+task('vendor_export', parallel(
+	vendor_export_bootstrap,
+	vendor_export_datatables,
+	vendor_export_datatables,
+	vendor_export_amchart,
+	vendor_export_amchart_images,
+	vendor_export_d3,
+	vendor_export_font_awesome,
+	vendor_export_jquery,
+	vendor_export_jqurey_easing
+))
+task('vendor', series('vendor_export', parallel(vendor_minify_js, vendor_minify_css)))
 task("css", series(css_compile, css_minify))
 task('js', js)
 task('dev', series(parallel(run_server, browser_sync), dev))
