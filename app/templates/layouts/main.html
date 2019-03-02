@@ -28,7 +28,7 @@
 			<div class="collapse navbar-collapse" id="navbarsDefault">
 				<ul class="navbar-nav mr-auto">
 					{%- for item in current_menu.children recursive -%}
-					<li class="nav-item {{ 'active' if item.active }}" data-toggle="tooltip" data-placement="right" title="{{ item.text }}">
+					<li class="nav-item {{ 'active' if item.active }}" data-placement="right" title="{{ item.text }}">
 						<a class="nav-link" href="{{ item.url}}">
 							<span class="nav-link-text">{{ item.text }}</span>
 						</a>
