@@ -108,7 +108,10 @@ def new_game(game_id):
     # game.team_setting = result["teamSettings"]
     game.victory_points = result["victoryPoints"]
     game.research_days_offset = result["researchDaysOffset"]
-    game.research_time_scale = result["researchTimeScale"]
+    if "researchTimeScale" in result:
+        game.research_time_scale = result["researchTimeScale"]
+    else:
+        game.research_time_scale = 1.0
     game.team_victory_points = result["teamVictoryPoints"]
 
     game_map = Map.query.filter(Map.map_id == result["mapID"]).first()
