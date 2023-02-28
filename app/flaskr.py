@@ -6,7 +6,7 @@ Simple flask thing
 import requests
 from subprocess import call
 from datetime import datetime, timedelta
-from flask import render_template, jsonify, request, redirect, url_for, flash
+from flask import render_template, jsonify, request, redirect, url_for, flash, abort
 from flask_breadcrumbs import register_breadcrumb
 from flask_menu import register_menu
 from flask_login import login_required, login_user, logout_user, current_user
@@ -15,6 +15,16 @@ from app import app, login_manager, webhook, db
 from app.models import Game, User, Player, Relation, Resource, Price
 from app.util.job import Job, MarketJob
 from app.util import sync
+
+
+@app.errorhandler(404)
+def resource_not_found(e):
+    return jsonify(error=str(e)), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('site/500.html'), 500
 
 
 @login_manager.user_loader
@@ -144,6 +154,8 @@ def game_overview_dlc(*args, **kwargs):
     """Generate dynamic_list for games"""
     game_id = request.view_args['game_id']
     game = Game.query.filter(Game.game_id == game_id).first()
+    if not game:
+        abort(404)
     return [{'text': game.game_id, 'url': game.url}]
 
 
@@ -155,6 +167,8 @@ def game_overview(game_id):
 
     game_id = int(game_id)
     game = Game.query.filter(Game.game_id == game_id).first()
+    if not game:
+        abort(404)
     players = game.active_players()
     return render_template('game/overview.html', game=game, players=players)
 
@@ -453,13 +467,15 @@ def api_sync_game():
             elif sync_type == 'game':
                 sync.update_game(game)
         else:
+            print('new game')
             game = sync.new_game(game_id)
             sync.update_players(game)
     except sync.GameDoesNotExistError:
+        print('{}: game does not exist'.format(game_id))
         flash('Game %s doesn\'t exist anymore.' % game_id, 'danger')
     except requests.exceptions.ConnectionError:
+        print('{}: Supremacy server connection error'.format(game_id))
         flash('Supremacy server connection error.', 'warning')
-
 
     if "games" in request.referrer:
         return redirect(url_for("game_overview", game_id=game_id), code=302)
@@ -501,16 +517,6 @@ def user_claim():
             name=request.form['name'],
         )
     return redirect(url_for('login'))
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('site/404.html'), 404
-
-
-@app.errorhandler(500)
-def internal_server_error(error):
-    return render_template('site/500.html'), 500
 
 
 @webhook.hook()

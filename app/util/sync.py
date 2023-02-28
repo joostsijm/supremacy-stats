@@ -82,9 +82,9 @@ def new_game(game_id):
 
     game = Game()
     game.game_id = game_id
-    game.game_host = 'https://xgs8.c.bytro.com/'
+    game.game_host = 'https://xgs-as-z961.supremacy1914.com/'
 
-    supremacy = Supremacy(game.game_id, game.game_host)
+    supremacy = Supremacy(game.game_id, game.game_host, True)
 
     while True:
         try:
